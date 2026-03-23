@@ -319,8 +319,11 @@ header {
 footer {
     text-align: center;
     padding: 40px;
-    background: var(--chocolate);
-    color: var(--branco);
+    background-color: var(--pink-pill); /* Alterado de chocolate para pink-pill */
+    color: var(--branco); /* Garante que o texto fique legível sobre o rosa */
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-top: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 /* --- RESPONSIVIDADE --- */
