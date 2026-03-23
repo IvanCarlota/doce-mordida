@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <header>
+<header>
     <div class="header-container">
         <div class="logo-wrapper">
             <img src="images/brigadeiro.png" alt="Logo Tudo Caseirinho">
@@ -20,7 +20,7 @@
             </div>
         </div>
         
-        <button class="menu-toggle" id="menu-toggle">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
             <i class="fas fa-bars"></i>
         </button>
 
@@ -37,187 +37,203 @@
     </div>
 </header>
 
-    <section id="hero" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <p class="hero-subtitle">SEU DOCE FAVORITO</p>
-                <h1>Menu de Páscoa</h1>
-                <p class="hero-description">
-                    Delícias artesanais feitas com chocolate nobre e recheios cremosos. 
-                    Reserve sua doçura até o dia 30.03 para garantir uma Páscoa inesquecível.
-                </p>
-                <a href="https://wa.me/5541998026260?text=Quero%20fazer%20um%20pedido." target="_blank" class="btn-cta">
-                    <i class="fab fa-whatsapp"></i> Fazer meu pedido
-                </a>
+<section id="hero" class="hero">
+    <div class="hero-container">
+        <div class="hero-content">
+            <p class="hero-subtitle">SEU DOCE FAVORITO</p>
+            <h1>Menu de Páscoa</h1>
+            <p class="hero-description">
+                Delícias artesanais feitas com chocolate nobre e recheios cremosos. 
+                Reserve sua doçura até o dia 30.03 para garantir uma Páscoa inesquecível.
+            </p>
+            <a href="https://wa.me/5541998026260?text=Quero%20fazer%20um%20pedido." target="_blank" class="btn-cta">
+                <i class="fab fa-whatsapp"></i> FAZER MEU PEDIDO
+            </a>
+        </div>
+
+        <div class="hero-image">
+            <img src="images/brigadeiro.png" alt="Brigadeiro Gourmet">
+        </div>
+    </div>
+    <div class="blob-shape"></div>
+</section>
+
+<main>
+    <section id="ovos" class="products">
+        <h2>Ovos de Colher (150g)</h2>
+        
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev" onclick="scrollCarousel('ovos-track', -1)" aria-label="Voltar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="grid carousel-track" id="ovos-track">
+                <div class="card">
+                    <img src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro">
+                    <div class="price-tag">R$ 57,00</div>
+                    <h3>Brigadeiro</h3>
+                    <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella">
+                    <div class="price-tag">R$ 65,00</div>
+                    <h3>Ninho com Nutella</h3>
+                    <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva">
+                    <div class="price-tag">R$ 62,00</div>
+                    <h3>Surpresinha de Uva</h3>
+                    <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie">
+                    <div class="price-tag">R$ 65,00</div>
+                    <h3>Escondidinho de Brownie</h3>
+                    <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá">
+                    <div class="price-tag">R$ 62,00</div>
+                    <h3>Maracujá</h3>
+                    <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
+                </div>
             </div>
 
-            <div class="hero-image">
-                <img src="images/brigadeiro.png" alt="Brigadeiro Gourmet">
-            </div>
+            <button class="carousel-btn next" onclick="scrollCarousel('ovos-track', 1)" aria-label="Avançar">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
-        <div class="blob-shape"></div>
     </section>
 
-    <main>
-        <section id="ovos" class="products">
-            <h2>Ovos de Colher (150g)</h2>
+    <section id="presentes" class="products bg-alt">
+        <h2>Kits & Presentáveis</h2>
+        
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev" onclick="scrollCarousel('presentes-track', -1)" aria-label="Voltar">
+                <i class="fas fa-chevron-left"></i>
+            </button>
             
-            <div class="carousel-wrapper">
-                <button class="carousel-btn prev" onclick="scrollCarousel('ovos-track', -1)">&#10094;</button>
-                
-                <div class="grid carousel-track" id="ovos-track">
-                    <div class="card">
-                        <img src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro">
-                        <div class="price-tag">R$ 57,00</div>
-                        <h3>Brigadeiro</h3>
-                        <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella">
-                        <div class="price-tag">R$ 65,00</div>
-                        <h3>Ninho com Nutella</h3>
-                        <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva">
-                        <div class="price-tag">R$ 62,00</div>
-                        <h3>Surpresinha de Uva</h3>
-                        <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie">
-                        <div class="price-tag">R$ 65,00</div>
-                        <h3>Escondidinho de Brownie</h3>
-                        <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá">
-                        <div class="price-tag">R$ 62,00</div>
-                        <h3>Maracujá</h3>
-                        <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
-                    </div>
+            <div class="grid carousel-track" id="presentes-track">
+                <div class="card">
+                    <img src="images/dupla_ovos.jpg" alt="Dupla de Ovos">
+                    <div class="price-tag">R$ 79,00</div>
+                    <h3>Dupla de Ovos</h3>
+                    <p>Escolha 2 sabores do menu. (180g cada)</p>
                 </div>
 
-                <button class="carousel-btn next" onclick="scrollCarousel('ovos-track', 1)">&#10095;</button>
-            </div>
-        </section>
+                <div class="card">
+                    <img src="images/kit_degustacao.jpg" alt="Kit Degustação">
+                    <div class="price-tag">R$ 48,00</div>
+                    <h3>Kit Degustação</h3>
+                    <p>4 mini ovos de 50g cada com os sabores do menu.</p>
+                </div>
 
-        <section id="presentes" class="products bg-alt">
-            <h2>Kits & Presentáveis</h2>
+                <div class="card">
+                    <img src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros">
+                    <div class="price-tag">R$ 25,00</div>
+                    <h3>Caixa com 6 Brigadeiros</h3>
+                    <p>3 tradicionais e 3 de ninho colorido temático.</p>
+                </div>
+
+                <div class="card">
+                    <img src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades">
+                    <div class="price-tag">R$ 17,00</div>
+                    <h3>Caixa Livro (4 un.)</h3>
+                    <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
+                </div>
+                
+                <div class="card">
+                    <img src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades">
+                    <div class="price-tag">R$ 8,00</div>
+                    <h3>Caixa com 2 un.</h3>
+                    <p>2 unidades de brigadeiro de 23g cada.</p>
+                </div>
+            </div>
+
+            <button class="carousel-btn next" onclick="scrollCarousel('presentes-track', 1)" aria-label="Avançar">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </section>
+
+    <section id="info" class="info-section">
+        <h2>Como fazer seu pedido</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <h4>Pagamento</h4>
+                <p>Dinheiro, Pix ou Crédito (com taxa).</p>
+                <p><strong>Sinal de 50%</strong> para confirmar o pedido.</p>
+            </div>
+            <div class="info-item">
+                <h4>Retirada</h4>
+                <p>Não fazemos entrega.</p>
+                <p>Retirada com hora marcada ou Uber.</p>
+            </div>
+            <div class="info-item">
+                <h4>Prazos</h4>
+                <p>Pedidos até 30.03.</p>
+                <p>Produtos acompanham embalagem e tag.</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://wa.me/5541998026260?text=Quero%20fazer%20um%20pedido." target="_blank" class="btn-cta">
+                <i class="fab fa-whatsapp"></i> FAZER MEU PEDIDO
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 - Tudo Caseirinho | Doces Artesanais de Páscoa</p>
+</footer>
+
+<script>
+    // Função do Carrossel Dinâmico
+    function scrollCarousel(trackId, direction) {
+        const track = document.getElementById(trackId);
+        const card = track.querySelector('.card');
+        if (card) {
+            // Calcula a largura de um card + o gap (espaço entre eles)
+            const style = window.getComputedStyle(track);
+            const gap = parseInt(style.columnGap) || 20;
+            const scrollAmount = (card.offsetWidth + gap) * direction;
             
-            <div class="carousel-wrapper">
-                <button class="carousel-btn prev" onclick="scrollCarousel('presentes-track', -1)">&#10094;</button>
-                
-                <div class="grid carousel-track" id="presentes-track">
-                    <div class="card">
-                        <img src="images/dupla_ovos.jpg" alt="Dupla de Ovos">
-                        <div class="price-tag">R$ 79,00</div>
-                        <h3>Dupla de Ovos</h3>
-                        <p>Escolha 2 sabores do menu. (180g cada)</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/kit_degustacao.jpg" alt="Kit Degustação">
-                        <div class="price-tag">R$ 48,00</div>
-                        <h3>Kit Degustação</h3>
-                        <p>4 mini ovos de 50g cada com os sabores do menu.</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros">
-                        <div class="price-tag">R$ 25,00</div>
-                        <h3>Caixa com 6 Brigadeiros</h3>
-                        <p>3 tradicionais e 3 de ninho colorido temático.</p>
-                    </div>
-
-                    <div class="card">
-                        <img src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades">
-                        <div class="price-tag">R$ 17,00</div>
-                        <h3>Caixa Livro (4 un.)</h3>
-                        <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
-                    </div>
-                    
-                    <div class="card">
-                        <img src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades">
-                        <div class="price-tag">R$ 8,00</div>
-                        <h3>Caixa com 2 un.</h3>
-                        <p>2 unidades de brigadeiro de 23g cada.</p>
-                    </div>
-                </div>
-
-                <button class="carousel-btn next" onclick="scrollCarousel('presentes-track', 1)">&#10095;</button>
-            </div>
-        </section>
-
-        <section id="info" class="info-section">
-            <h2>Como fazer seu pedido</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <h4>Pagamento</h4>
-                    <p>Dinheiro, Pix ou Crédito (com taxa).</p>
-                    <p><strong>Sinal de 50%</strong> para confirmar o pedido.</p>
-                </div>
-                <div class="info-item">
-                    <h4>Retirada</h4>
-                    <p>Não fazemos entrega.</p>
-                    <p>Retirada com hora marcada ou Uber.</p>
-                </div>
-                <div class="info-item">
-                    <h4>Prazos</h4>
-                    <p>Pedidos até 30.03.</p>
-                    <p>Produtos acompanham embalagem e tag.</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="https://wa.me/5541998026260?text=Quero%20fazer%20um%20pedido." target="_blank" class="btn-cta">
-                    <i class="fab fa-whatsapp"></i> Fazer meu pedido
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2026 - Tudo Caseirinho | Doces Artesanais de Páscoa</p>
-    </footer>
-
-    <script>
-        function scrollCarousel(trackId, direction) {
-            const track = document.getElementById(trackId);
-            const scrollAmount = 350; // Ajuste baseado na largura do card + gap
             track.scrollBy({
-                left: direction * scrollAmount,
+                left: scrollAmount,
                 behavior: 'smooth'
             });
         }
-        
+    }
+    
+    // Menu Mobile
     const menuToggle = document.getElementById('menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const body = document.body;
 
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
-        body.classList.toggle('menu-open'); // Adiciona/remove trava de scroll
-        
+        body.classList.toggle('menu-open');
         const icon = menuToggle.querySelector('i');
         icon.classList.toggle('fa-bars');
         icon.classList.toggle('fa-times');
     });
 
-    // Fecha ao clicar em um link
+    // Fechar menu ao clicar nos links
     document.querySelectorAll('.nav-pill a').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
             body.classList.remove('menu-open');
-            menuToggle.querySelector('i').classList.add('fa-bars');
-            menuToggle.querySelector('i').classList.remove('fa-times');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-times');
         });
     });
-
-    </script>
+</script>
 
 </body>
 </html>

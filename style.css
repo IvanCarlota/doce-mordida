@@ -29,24 +29,24 @@ body.menu-open {
     overflow: hidden;
 }
 
-/* --- Header Estático (Não segue o scroll) --- */
+/* --- Header Estático --- */
 header {
     padding: 20px 5%;
-    position: absolute; /* Estático no topo da página */
+    position: absolute; 
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1100;
-    background-color: transparent; /* Deixa o fundo do body aparecer */
+    background-color: transparent; 
 }
 
 .header-container {
     display: flex;
-    justify-content: space-between; /* Logo na esquerda, Spacer na direita */
+    justify-content: space-between;
     align-items: center;
     max-width: 1400px;
     margin: 0 auto;
-    position: relative; /* Base para o posicionamento absoluto da pílula */
+    position: relative;
 }
 
 .logo-wrapper {
@@ -54,7 +54,7 @@ header {
     display: flex;
     align-items: center;
     gap: 15px;
-    z-index: 1200; /* Garante que fique acima de outros elementos */
+    z-index: 1200;
 }
 
 .logo-wrapper img {
@@ -79,14 +79,12 @@ header {
     display: block;
 }
 
-/* --- Navegação Desktop (Centralizada Absolutamente) --- */
+/* --- Navegação Desktop (Sem Sombra e Centralizada) --- */
 .nav-pill {
     background-color: var(--pink-pill);
     padding: 12px 45px;
     border-radius: 50px;
-    box-shadow: 0 4px 15px rgba(240, 183, 197, 0.3);
-    
-    /* Centralização perfeita independente do tamanho do logo */
+    box-shadow: none; 
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -112,15 +110,13 @@ header {
     opacity: 0.8;
 }
 
-/* Spacer para manter o equilíbrio do Flexbox */
 .header-spacer {
     flex: 0 1 auto;
-    width: 200px; /* Ajuste conforme o tamanho do seu logo para equilibrar */
+    width: 200px;
     display: flex;
     justify-content: flex-end;
 }
 
-/* Botão Menu Sanduíche (Invisível no Desktop) */
 .menu-toggle {
     display: none;
     background: none;
@@ -131,13 +127,13 @@ header {
     z-index: 1300;
 }
 
-/* --- Hero Section (Ajustada para o Header Absolute) --- */
+/* --- Hero Section --- */
 .hero {
     position: relative;
     min-height: 80vh;
     display: flex;
     align-items: center;
-    padding: 120px 10% 40px 10%; /* Padding superior maior para não cobrir o texto */
+    padding: 140px 10% 40px 10%; 
     z-index: 1;
 }
 
@@ -192,7 +188,7 @@ header {
     50% { transform: translateY(-20px); }
 }
 
-/* --- Carrossel --- */
+/* --- CARROSSEL DINÂMICO --- */
 .products {
     padding: 60px 5%;
     text-align: center;
@@ -200,15 +196,17 @@ header {
 
 .carousel-wrapper {
     position: relative;
-    max-width: 1300px;
+    max-width: 1250px;
     margin: 40px auto 0;
-    display: flex;
-    align-items: center;
+    padding: 0 60px; /* Espaço lateral para os botões */
 }
 
-.grid {
-    display: flex;
-    gap: 25px;
+.carousel-track {
+    display: grid;
+    /* Desktop: 4 cards. Cálculo: (100% - total de gaps) / 4 */
+    grid-auto-columns: calc((100% - (3 * 20px)) / 4);
+    grid-auto-flow: column;
+    gap: 20px;
     overflow-x: auto;
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
@@ -216,11 +214,11 @@ header {
     scrollbar-width: none;
 }
 
-.grid::-webkit-scrollbar { display: none; }
+.carousel-track::-webkit-scrollbar { display: none; }
 
 .card {
-    flex: 0 0 300px;
-    scroll-snap-align: center;
+    width: 100%;
+    scroll-snap-align: start;
     background: var(--branco);
     border-radius: 30px;
     padding-bottom: 25px;
@@ -233,12 +231,27 @@ header {
 
 .card img {
     width: 100%;
-    height: 300px; 
+    height: 250px; 
     object-fit: cover; 
     border-radius: 30px 30px 20px 20px;
     margin-bottom: 20px;
 }
 
+.card h3 {
+    font-family: 'Playfair Display', serif;
+    padding: 0 15px;
+    font-size: 1.2rem;
+}
+
+.card p {
+    font-size: 0.85rem;
+    padding: 0 15px;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+/* Botões do Carrossel (Visíveis em todos os estados) */
 .carousel-btn {
     background: var(--pink-pill);
     color: white;
@@ -248,15 +261,22 @@ header {
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: 0.3s;
 }
 
-.carousel-btn.prev { left: -10px; }
-.carousel-btn.next { right: -10px; }
+.carousel-btn:hover {
+    background: var(--pink-dark);
+}
+
+.carousel-btn.prev { left: 5px; }
+.carousel-btn.next { right: 5px; }
 
 /* --- Botão WhatsApp --- */
 .btn-cta {
@@ -274,9 +294,7 @@ header {
     transition: transform 0.3s;
 }
 
-.btn-cta:hover {
-    transform: scale(1.05);
-}
+.btn-cta:hover { transform: scale(1.05); }
 
 /* --- Info Section --- */
 .info-section {
@@ -306,33 +324,37 @@ footer {
 }
 
 /* --- RESPONSIVIDADE --- */
+
+/* Tablet (2 Cards) */
+@media (max-width: 1024px) {
+    .carousel-track {
+        grid-auto-columns: calc((100% - (1 * 20px)) / 2);
+    }
+    .carousel-wrapper {
+        padding: 0 50px;
+    }
+}
+
+/* Mobile & Menu Ajustes */
 @media (max-width: 900px) {
-    header {
-        position: absolute; /* Estático no mobile também */
-    }
-
-    .header-container {
-        justify-content: space-between;
-    }
-
+    .header-container { justify-content: space-between; }
     .header-spacer { display: none; }
-
-    .menu-toggle {
-        display: block; /* Sanduíche aparece no mobile */
-    }
+    .menu-toggle { display: block; }
 
     .nav-pill {
-        display: none; /* Pílula original some */
-        position: fixed; /* Menu aberto fica fixo para o usuário clicar */
+        display: none;
+        position: fixed;
         top: 80px;
         left: 5%;
         right: 5%;
         width: 90%;
-        transform: none; /* Remove a centralização de desktop */
+        transform: none;
         background-color: var(--pink-pill);
         border-radius: 20px;
         padding: 30px;
         z-index: 1150;
+        box-shadow: none;
+        border: 2px solid rgba(255,255,255,0.2);
     }
 
     .nav-pill.active {
@@ -352,20 +374,21 @@ footer {
         gap: 40px;
     }
 
-    .hero-content {
-        align-items: center;
-    }
+    .hero-content { align-items: center; }
+    .hero h1 { font-size: 2.5rem; }
+}
 
-    .hero h1 {
-        font-size: 2.5rem;
+/* Mobile Carrossel (1 Card) */
+@media (max-width: 600px) {
+    .carousel-track {
+        grid-auto-columns: 100%;
     }
-
-    .hero-description {
-        margin-bottom: 40px;
+    .carousel-wrapper {
+        padding: 0 45px;
     }
-
     .carousel-btn {
-        display: none;
+        width: 35px;
+        height: 35px;
     }
 }
 
