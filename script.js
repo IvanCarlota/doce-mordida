@@ -74,3 +74,39 @@ if (modal && modalImg) {
         }
     };
 }
+
+/**
+ * Lógica do Pop-up de Aviso
+ */
+const popup = document.getElementById('popup-aviso');
+const btnFecharPopup = document.getElementById('fechar-popup');
+const btnEntendido = document.getElementById('btn-entendido');
+
+// Mostra o pop-up 1 segundo após o carregamento da página
+window.addEventListener('load', () => {
+    // Verifica se o usuário já fechou o pop-up nesta sessão
+    if (popup && !sessionStorage.getItem('popupFechado')) {
+        setTimeout(() => {
+            popup.style.display = 'flex';
+        }, 1000);
+    }
+});
+
+// Função para fechar o pop-up
+const fecharPopup = () => {
+    if (popup) {
+        popup.style.display = 'none';
+        // Salva que o usuário já viu o aviso nesta sessão
+        sessionStorage.setItem('popupFechado', 'true');
+    }
+};
+
+if (btnFecharPopup) btnFecharPopup.onclick = fecharPopup;
+if (btnEntendido) btnEntendido.onclick = fecharPopup;
+
+// Fecha ao clicar fora do conteúdo do pop-up
+window.addEventListener('click', (event) => {
+    if (event.target === popup) {
+        fecharPopup();
+    }
+});
