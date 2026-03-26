@@ -104,9 +104,64 @@ const fecharPopup = () => {
 if (btnFecharPopup) btnFecharPopup.onclick = fecharPopup;
 if (btnEntendido) btnEntendido.onclick = fecharPopup;
 
-// Fecha ao clicar fora do conteúdo do pop-up
+/**
+ * Lógica do Pop-up de Pedido Personalizado
+ */
+const modalPedido = document.getElementById('modal-pedido');
+
+// Função para abrir o modal de pedido
+function abrirModalPedido() {
+    if (modalPedido) {
+        modalPedido.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+// Função para fechar o modal de pedido
+function fecharModalPedido() {
+    if (modalPedido) {
+        modalPedido.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Função para processar os itens e enviar para o WhatsApp
+function enviarPedidoWhatsApp() {
+    const inputs = document.querySelectorAll('#lista-itens-pedido input');
+    let mensagem = "Olá! Gostaria de fazer um pedido:\n\n";
+    let temItens = false;
+
+    inputs.forEach(input => {
+        const qtd = parseInt(input.value);
+        if (qtd > 0) {
+            mensagem += `*${qtd}x* ${input.getAttribute('data-nome')}\n`;
+            temItens = true;
+        }
+    });
+
+    if (!temItens) {
+        alert("Por favor, selecione pelo menos uma quantidade em algum item.");
+        return;
+    }
+
+    mensagem += "\nTotal a combinar. Retirada em Colombo - PR.";
+    
+    // Codifica a mensagem para URL e redireciona para o WhatsApp
+    const url = `https://wa.me/5541996309958?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+    fecharModalPedido();
+}
+
+/**
+ * Listener Global para Cliques Fora dos Modais
+ */
 window.addEventListener('click', (event) => {
+    // Fecha o pop-up de aviso se clicar fora dele
     if (event.target === popup) {
         fecharPopup();
+    }
+    // Fecha o modal de pedido se clicar fora dele
+    if (event.target === modalPedido) {
+        fecharModalPedido();
     }
 });
