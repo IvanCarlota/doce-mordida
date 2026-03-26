@@ -166,7 +166,12 @@ header {
 /* --- Seções --- */
 section { padding: 40px 5%; text-align: center; }
 #ovos { background: var(--pink-pill); }
-#presentes { background: var(--branco); }
+
+/* Seção Presentes e Footer com a mesma cor de fundo do Hero */
+#presentes, footer { 
+    background-color: var(--bg-cream); 
+}
+
 .info-section { background: var(--pink-pill); padding-bottom: 80px; }
 
 h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 40px; color: var(--chocolate); }
@@ -298,7 +303,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 4
 }
 
 /* --- Footer --- */
-footer { padding: 40px; background: var(--branco); color: var(--chocolate); text-align: center; font-size: 0.8rem; }
+footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 0.8rem; }
 
 /* --- Modais e Pop-ups --- */
 .popup-overlay, .modal {
