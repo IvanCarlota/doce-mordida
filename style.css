@@ -204,6 +204,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 4
     object-fit: cover; 
     border-radius: 20px 20px 20px 20px; 
     margin-bottom: 20px;
+    cursor: zoom-in;
 }
 
 .card h3 { 
@@ -305,6 +306,50 @@ h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 4
 /* --- Footer --- */
 footer { padding: 40px; background: var(--branco); color: var(--chocolate); text-align: center; font-size: 0.8rem; }
 
+/* --- Modal de Imagem (Lightbox) --- */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 5000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    cursor: zoom-out;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #ffffff;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    line-height: 1;
+}
+
+.close-modal:hover {
+    color: var(--pink-pill);
+}
+
 /* --- Responsividade --- */
 @media (max-width: 900px) {
     header { 
@@ -398,5 +443,18 @@ footer { padding: 40px; background: var(--branco); color: var(--chocolate); text
 
     .onda.invertida svg {
         margin-top: -1px; 
+    }
+
+    /* Modal Mobile: 80% da tela */
+    .modal-content {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+    }
+    
+    .close-modal {
+        top: 20px;
+        right: 25px;
+        font-size: 40px;
     }
 }
