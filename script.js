@@ -122,12 +122,17 @@ function fecharModalPedido() {
     if (modalPedido) {
         modalPedido.style.display = 'none';
         document.body.style.overflow = 'auto';
+        
+        // Resetar a mensagem de erro ao fechar
+        const erroVisual = document.getElementById('mensagem-erro-vazio');
+        if (erroVisual) erroVisual.style.display = 'none';
     }
 }
 
 // Função para processar os itens e enviar para o WhatsApp
 function enviarPedidoWhatsApp() {
     const inputs = document.querySelectorAll('#lista-itens-pedido input');
+    const erroVisual = document.getElementById('mensagem-erro-vazio');
     let mensagem = "Olá! Gostaria de fazer um pedido:\n\n";
     let temItens = false;
 
@@ -140,11 +145,17 @@ function enviarPedidoWhatsApp() {
     });
 
     if (!temItens) {
-        alert("Por favor, selecione pelo menos uma quantidade em algum item.");
+        // Exibe o erro estilizado em vez do alert nativo
+        if (erroVisual) {
+            erroVisual.style.display = 'block';
+        }
         return;
     }
 
-    mensagem += "\nTotal a combinar. Retirada em Colombo - PR.";
+    // Esconde o erro se itens forem selecionados
+    if (erroVisual) erroVisual.style.display = 'none';
+
+    mensagem += "\nRetirada em Colombo - PR.";
     
     // Codifica a mensagem para URL e redireciona para o WhatsApp
     const url = `https://wa.me/5541996309958?text=${encodeURIComponent(mensagem)}`;

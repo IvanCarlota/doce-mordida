@@ -417,6 +417,18 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 .item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
 .item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--pink-pill); text-align: center; }
 
+/* Mensagem de erro para pedido vazio */
+.erro-pedido {
+    background-color: #ffcccc; /* Vermelho claro */
+    color: #cc0000; /* Texto em vermelho escuro para contraste */
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none; /* Escondido por padrão */
+}
+
 /* --- Responsividade --- */
 @media (max-width: 900px) {
     header { padding: 10px 5%; }
