@@ -27,10 +27,10 @@
 
 
 
-    <div id="modal-pedido" class="popup-overlay">
+    <div id="modal-pedido" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-pedido">
         <div class="popup-content form-pedido">
-            <span class="close-popup" onclick="fecharModalPedido()">&times;</span>
-            <h3>Monte seu Pedido</h3>
+            <span class="close-popup" role="button" tabindex="0" aria-label="Fechar">&times;</span>
+            <h3 id="titulo-pedido">Monte seu Pedido</h3>
             <p>Selecione os itens e a quantidade:</p>
             
             <div id="lista-itens-pedido">
@@ -91,7 +91,7 @@
                 <div class="total-pedido"><span>Total:</span><strong id="valor-total">R$ 0,00</strong></div>
             </div>
 
-            <div id="mensagem-erro-vazio" class="erro-pedido">Por favor, selecione pelo menos uma quantidade em algum item.</div>
+            <div id="mensagem-erro-vazio" class="erro-pedido" role="alert">Por favor, selecione pelo menos uma quantidade em algum item.</div>
             
             <button class="btn-popup btn-enviar" onclick="enviarPedidoWhatsApp()">ENVIAR PEDIDO</button>
         </div>
@@ -295,8 +295,8 @@
     <p>© 2026 - Doce Mordida | Doces Artesanais de Páscoa</p>
 </footer>
 
-    <div id="image-modal" class="modal">
-        <span class="close-modal">&times;</span>
+    <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Visualização da imagem">
+        <span class="close-modal" role="button" tabindex="0" aria-label="Fechar imagem">&times;</span>
         <img class="modal-content" id="img-expanded">
     </div>
 

@@ -1,5 +1,59 @@
 const { test, expect } = require('@playwright/test');
 
+test('modal pedido: semântica de diálogo e erro como alert', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
+  const modal = page.locator('#modal-pedido');
+  await expect(modal).toHaveAttribute('role', 'dialog');
+  await expect(modal).toHaveAttribute('aria-modal', 'true');
+  await expect(modal).toHaveAttribute('aria-labelledby', 'titulo-pedido');
+  await expect(modal.locator('#mensagem-erro-vazio')).toHaveAttribute('role', 'alert');
+  await page.keyboard.press('Escape');
+  await expect(modal).toBeHidden();
+});
+
+test('modal pedido: ESC fecha, foco preso e restaurado', async ({ page }) => {
+  await page.goto('/');
+  const abrir = page.getByRole('button', { name: /fazer meu pedido/i }).first();
+  await abrir.click();
+  const modal = page.locator('#modal-pedido');
+  await expect(modal.locator('#lista-itens-pedido input').first()).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(modal.locator('#lista-itens-pedido input').nth(1)).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(modal.locator('#lista-itens-pedido input').first()).toBeFocused();
+  const inputs = await modal.locator('#lista-itens-pedido input').count();
+  const btnEnviar = modal.locator('.btn-enviar');
+  await modal.locator('#lista-itens-pedido input').nth(inputs - 1).focus();
+  await page.keyboard.press('Tab');
+  await expect(btnEnviar).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(modal.locator('.close-popup')).toBeFocused();
+  await page.keyboard.press('Tab');
+  await expect(modal.locator('#lista-itens-pedido input').first()).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(modal).toBeHidden();
+  await expect(abrir).toBeFocused();
+});
+
+test('lightbox: diálogo, ESC e Enter no fechar restauram foco', async ({ page }) => {
+  await page.goto('/');
+  const img = page.locator('.card img').first();
+  await img.click();
+  const lightbox = page.locator('#image-modal');
+  await expect(lightbox).toBeVisible();
+  await expect(lightbox).toHaveAttribute('role', 'dialog');
+  await expect(lightbox.locator('.close-modal')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(lightbox).toBeHidden();
+  await expect(img).toBeFocused();
+  await img.click();
+  await expect(lightbox).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(lightbox).toBeHidden();
+  await expect(img).toBeFocused();
+});
+
 test('modal pedido: preços exibidos e subtotal em tempo real', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();

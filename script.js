@@ -48,29 +48,44 @@ document.querySelectorAll('.nav-pill a').forEach(link => {
 const modal = document.getElementById("image-modal");
 const modalImg = document.getElementById("img-expanded");
 const spanClose = document.querySelector(".close-modal");
+const spanClosePopup = document.querySelector(".close-popup");
+let ultimoFoco = null;
+
+function fecharModalImagem() {
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+        if (ultimoFoco) ultimoFoco.focus();
+    }
+}
 
 if (modal && modalImg) {
     document.querySelectorAll('.card img').forEach(img => {
+        img.tabIndex = 0;
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', `Ampliar imagem de ${img.alt || 'produto'}`);
         img.onclick = function() {
+            ultimoFoco = document.activeElement;
             modal.style.display = "flex";
             modalImg.src = this.src;
             document.body.style.overflow = "hidden"; // Trava o scroll da página
+            if (spanClose) spanClose.focus();
         }
+        img.onkeydown = (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                img.onclick();
+            }
+        };
     });
 
     // Fecha ao clicar no X
-    if (spanClose) {
-        spanClose.onclick = function() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        };
-    }
+    if (spanClose) spanClose.onclick = fecharModalImagem;
 
     // Fecha ao clicar na área escura fora da imagem
     modal.onclick = function(event) {
         if (event.target === modal) {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
+            fecharModalImagem();
         }
     };
 }
@@ -110,12 +125,62 @@ document.querySelectorAll('#lista-itens-pedido input').forEach(inp => {
     inp.addEventListener('input', atualizarSubtotal);
 });
 
+/**
+ * Acessibilidade dos modais: ESC fecha, Tab fica preso no diálogo
+ */
+function elementosFocaveis(dialog) {
+    return Array.from(dialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+        .filter(el => !el.disabled && el.offsetParent !== null);
+}
+
+function armadilhaDeFoco(dialog, fechar) {
+    dialog.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            fechar();
+            return;
+        }
+        if (e.key !== 'Tab') return;
+        const focaveis = elementosFocaveis(dialog);
+        if (focaveis.length === 0) return;
+        const primeiro = focaveis[0];
+        const ultimo = focaveis[focaveis.length - 1];
+        if (e.shiftKey && document.activeElement === primeiro) {
+            e.preventDefault();
+            ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+            e.preventDefault();
+            primeiro.focus();
+        }
+    });
+}
+
+function fecharPorTeclado(fechar) {
+    return (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            fechar();
+        }
+    };
+}
+
+if (modal) armadilhaDeFoco(modal, fecharModalImagem);
+if (spanClose) spanClose.addEventListener('keydown', fecharPorTeclado(fecharModalImagem));
+if (spanClosePopup) {
+    spanClosePopup.addEventListener('click', fecharModalPedido);
+    spanClosePopup.addEventListener('keydown', fecharPorTeclado(fecharModalPedido));
+}
+if (modalPedido) armadilhaDeFoco(modalPedido, fecharModalPedido);
+
 // Função para abrir o modal de pedido
 function abrirModalPedido() {
     if (modalPedido) {
+        ultimoFoco = document.activeElement;
         modalPedido.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         atualizarSubtotal();
+        const primeiroInput = modalPedido.querySelector('#lista-itens-pedido input');
+        if (primeiroInput) primeiroInput.focus();
     }
 }
 
@@ -128,6 +193,8 @@ function fecharModalPedido() {
         // Resetar a mensagem de erro ao fechar
         const erroVisual = document.getElementById('mensagem-erro-vazio');
         if (erroVisual) erroVisual.style.display = 'none';
+
+        if (ultimoFoco) ultimoFoco.focus();
     }
 }
 
