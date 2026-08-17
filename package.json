@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/IvanCarlota/doce-mordida#readme",
   "devDependencies": {
-    "@playwright/test": "^1.62.1"
+    "@playwright/test": "^1.62.1",
+    "lighthouse": "^13.4.1"
   }
 }
