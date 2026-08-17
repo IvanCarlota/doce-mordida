@@ -23,7 +23,7 @@ body {
 
 /* --- Header e Nav FIXOS --- */
 header {
-    padding: 15px 5%;
+    padding: 10px 5%;
     position: fixed; 
     top: 0;
     left: 0;
@@ -41,6 +41,20 @@ header {
     max-width: 1400px; 
     margin: 0 auto; 
     position: relative;
+}
+
+.menu-toggle { 
+    display: block; 
+    background: none; 
+    border: none; 
+    font-size: 1.8rem; 
+    color: var(--chocolate); 
+    z-index: 3200; 
+    cursor: pointer; 
+    margin-left: auto; 
+    padding: 5px;
+    min-width: 44px; 
+    min-height: 44px; 
 }
 
 .logo-wrapper { display: flex; align-items: center; gap: 10px; }
@@ -65,13 +79,17 @@ header {
 }
 
 .nav-pill { 
-    background: var(--azul-claro); 
-    padding: 10px 35px; 
-    border-radius: 50px; 
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2100;
+    display: none;
+    background-color: var(--azul-claro); 
+    padding: 20px; 
+    border-radius: 20px; 
+    position: fixed;
+    top: 65px;
+    left: 5%;
+    width: 90%;
+    transform: none;
+    z-index: 3100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .nav-pill ul { display: flex; list-style: none; gap: 20px; }
@@ -87,7 +105,7 @@ header {
 
 .onda svg { 
     width: 100%; 
-    height: 80px; 
+    height: clamp(40px, 8vw, 80px); 
     display: block; 
 }
 
@@ -107,22 +125,24 @@ header {
 /* --- Hero --- */
 .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: auto;
     display: flex;
     align-items: center;
-    padding: 180px 10% 40px 10%; 
+    padding: clamp(100px, 15vh, 180px) 5% 40px; 
     z-index: 1;
     background-color: var(--branco); 
 }
 
 .hero-container {
     display: flex;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 60px;
+    gap: 30px;
 }
 
 .hero-content {
@@ -130,15 +150,25 @@ header {
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items: center; 
+    order: 1;
 }
 
 .hero h1 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 4rem;
+    font-size: clamp(2.2rem, 9vw, 4rem);
     color: var(--chocolate);
     line-height: 1.1;
     margin: 15px 0 25px 0;
+}
+
+.hero-subtitle {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
 }
 
 .hero-description {
@@ -152,10 +182,11 @@ header {
     flex: 1;
     display: flex;
     justify-content: center;
+    order: 2;
 }
 
 .hero-image img {
-    max-width: 100%;
+    max-width: min(80%, 420px);
     height: auto;
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
     animation: float 4s ease-in-out infinite;
@@ -177,7 +208,7 @@ section { padding: 40px 5%; text-align: center; }
 
 .info-section { background: var(--azul-claro); padding-bottom: 80px; }
 
-h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.8rem; margin-bottom: 40px; color: var(--chocolate); }
+h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6vw, 2.8rem); margin-bottom: 40px; color: var(--chocolate); }
 #ovos h2, .info-section h2 { color: var(--chocolate); }
 
 /* --- Cards --- */
@@ -192,7 +223,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.8rem; margin-
 .carousel-track::-webkit-scrollbar { display: none; }
 
 .card { 
-    flex: 0 0 300px; 
+    flex: 0 0 280px; 
     background: var(--branco); 
     border-radius: 20px; 
     overflow: hidden; 
@@ -247,7 +278,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: 2.8rem; margin-
     background: var(--chocolate);
     color: var(--branco);
     border: none;
-    width: 45px; height: 45px;
+    width: 44px; height: 44px;
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
@@ -337,6 +368,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 .modal-content {
+    width: 85%;
     max-width: 90%;
     max-height: 90%;
     border-radius: 15px;
@@ -360,10 +392,10 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 /* Botão de fechar do Modal de Imagem (Ajustado) */
 .close-modal {
     position: absolute;
-    top: 20px;
-    right: 30px;
+    top: 15px;
+    right: 20px;
     color: #ffffff; /* Força cor branca para contraste */
-    font-size: 60px; /* Tamanho maior para visibilidade */
+    font-size: 45px; /* Tamanho maior para visibilidade */
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
@@ -432,35 +464,19 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     display: none; /* Escondido por padrão */
 }
 
-/* --- Responsividade --- */
-@media (max-width: 900px) {
-    header { padding: 10px 5%; }
-    .header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-    .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
-    .hero-container { flex-direction: column; text-align: center; gap: 30px; }
-    .hero { padding-top: 120px; }
-    .hero-content { order: 1; align-items: center; }
-    .hero-image { order: 2; }
-    .hero h1 { font-size: 2.5rem; }
-    .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--azul-claro); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    .nav-pill.active { display: block; }
-    .nav-pill ul { flex-direction: column; gap: 15px; }
-    .card { flex: 0 0 280px; }
-    .carousel-btn { width: 35px; height: 35px; }
-    .onda svg { height: 50px; }
-    #presentes, .info-section, footer { margin-top: -1px; position: relative; z-index: 10; }
-    .onda.invertida svg { margin-top: -1px; }
-    
-    .modal-content { 
-        width: 85%; 
-        height: auto; 
-    }
-    
-    .close-modal { 
-        top: 15px; 
-        right: 20px; 
-        font-size: 45px; 
-    }
+/* --- Responsividade: Desktop --- */
+@media (min-width: 1024px) {
+    .hero { min-height: 80vh; padding: 180px 10% 40px; }
+    .hero-container { flex-direction: row; text-align: left; gap: 60px; }
+    .hero-content { align-items: flex-start; order: 0; }
+    .hero-image { order: 0; }
+    .hero-image img { max-width: 100%; }
+    .nav-pill { display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 35px; border-radius: 50px; box-shadow: none; z-index: 2100; }
+    .menu-toggle { display: none; }
+    .card { flex: 0 0 300px; }
+    .onda svg { height: 80px; }
+    .modal-content { width: auto; max-width: 90%; }
+    .close-modal { top: 20px; right: 30px; font-size: 60px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
