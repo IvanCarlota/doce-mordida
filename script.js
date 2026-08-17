@@ -137,11 +137,15 @@ function enviarPedidoWhatsApp() {
     const erroVisual = document.getElementById('mensagem-erro-vazio');
     let mensagem = "Olá! Gostaria de fazer um pedido:\n\n";
     let temItens = false;
+    let total = 0;
 
     inputs.forEach(input => {
         const qtd = parseInt(input.value);
         if (qtd > 0) {
-            mensagem += `*${qtd}x* ${input.getAttribute('data-nome')}\n`;
+            const nome = input.getAttribute('data-nome');
+            const preco = CATALOGO[nome] || 0;
+            total += qtd * preco;
+            mensagem += `*${qtd}x* ${nome} — R$ ${preco.toFixed(2).replace('.', ',')}\n`;
             temItens = true;
         }
     });
@@ -157,7 +161,7 @@ function enviarPedidoWhatsApp() {
     // Esconde o erro se itens forem selecionados
     if (erroVisual) erroVisual.style.display = 'none';
 
-    mensagem += "\nRetirada em Colombo - PR.";
+    mensagem += `\n*Total: R$ ${total.toFixed(2).replace('.', ',')}*\n\nRetirada em Colombo - PR.`;
     
     // Codifica a mensagem para URL e redireciona para o WhatsApp
     const url = `https://wa.me/5541996309958?text=${encodeURIComponent(mensagem)}`;
