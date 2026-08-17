@@ -88,7 +88,7 @@ header {
 .nav-pill.active { display: block; animation: drawerIn 0.25s ease; }
 
 .nav-pill ul { display: flex; list-style: none; flex-direction: column; gap: 24px; align-items: flex-start; }
-.nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 1.3rem; white-space: nowrap; }
+.nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 1.3rem; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
 
 @keyframes drawerIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
 
@@ -470,9 +470,9 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .hero-content { align-items: flex-start; order: 0; }
     .hero-image { order: 0; }
     .hero-image img { max-width: 100%; }
-    .nav-pill { display: flex; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 35px; border-radius: 50px; box-shadow: none; z-index: 2100; }
+    .nav-pill { display: flex; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: auto; padding: 10px 35px; border-radius: 50px; box-shadow: none; z-index: 2100; }
     .nav-pill ul { flex-direction: row; gap: 20px; align-items: center; }
-    .nav-pill a { font-size: 0.8rem; }
+    .nav-pill a { font-size: 0.8rem; min-height: 0; display: block; }
     .menu-toggle { display: none; }
     .card { flex: 0 0 300px; }
     .onda svg { height: 80px; }

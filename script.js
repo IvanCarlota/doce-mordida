@@ -41,6 +41,8 @@ if (menuToggle) {
   document.addEventListener('click', e => {
     if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !menuToggle.contains(e.target)) toggleMenu(false);
   });
+  const mqDesktop = window.matchMedia('(min-width: 1024px)');
+  mqDesktop.addEventListener('change', e => { if (e.matches && navMenu.classList.contains('active')) toggleMenu(false); });
 }
 
 /**
