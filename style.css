@@ -496,7 +496,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 #modal-pedido .popup-content h3, #modal-pedido .popup-content > p { text-align: center; }
 #modal-pedido .popup-content .btn-enviar { width: 100%; }
 #lista-itens-pedido { width: 100%; flex: 1; }
-.item-price { margin-left: auto; font-weight: 600; color: var(--chocolate); font-size: 0.85rem; }
+.item-selecao .item-price { margin-left: auto; font-weight: 600; color: var(--chocolate); font-size: 0.85rem; }
 .resumo-pedido { width: 100%; margin-top: 8px; }
 .total-pedido { display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid var(--azul-claro); font-size: 1.1rem; }
 

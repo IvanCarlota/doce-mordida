@@ -27,10 +27,10 @@
 
 
 
-    <div id="modal-pedido" class="popup-overlay">
+    <div id="modal-pedido" class="popup-overlay" role="dialog" aria-labelledby="titulo-pedido">
         <div class="popup-content form-pedido">
-            <span class="close-popup" onclick="fecharModalPedido()">&times;</span>
-            <h3>Monte seu Pedido</h3>
+            <span class="close-popup" onclick="fecharModalPedido()" tabindex="0" aria-label="Fechar pedido">&times;</span>
+            <h3 id="titulo-pedido">Monte seu Pedido</h3>
             <p>Selecione os itens e a quantidade:</p>
             
             <div id="lista-itens-pedido">
@@ -300,7 +300,7 @@
 </footer>
 
     <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Visualização da imagem">
-        <span class="close-modal" aria-label="Fechar imagem">&times;</span>
+        <span class="close-modal" aria-label="Fechar imagem" tabindex="0">&times;</span>
         <img class="modal-content" id="img-expanded">
     </div>
 

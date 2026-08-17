@@ -69,6 +69,45 @@ if (menuToggle) {
 }
 
 /**
+ * Trap de foco para modais: Tab/Shift+Tab cíclico + restauração do foco ao fechar
+ */
+let modalAtivo = null;
+let elementoAnterior = null;
+const SELETOR_FOCUSAVEL = 'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])';
+
+function handleTrapKeydown(e) {
+  if (!modalAtivo || e.key !== 'Tab') return;
+  const focusaveis = modalAtivo.querySelectorAll(SELETOR_FOCUSAVEL);
+  if (focusaveis.length === 0) return;
+  const primeiro = focusaveis[0];
+  const ultimo = focusaveis[focusaveis.length - 1];
+  const ativo = document.activeElement;
+  if (!modalAtivo.contains(ativo)) {
+    e.preventDefault();
+    (e.shiftKey ? ultimo : primeiro).focus();
+  } else if (e.shiftKey && ativo === primeiro) {
+    e.preventDefault();
+    ultimo.focus();
+  } else if (!e.shiftKey && ativo === ultimo) {
+    e.preventDefault();
+    primeiro.focus();
+  }
+}
+
+function trapFocus(modal) {
+  modalAtivo = modal;
+  elementoAnterior = document.activeElement;
+  document.addEventListener('keydown', handleTrapKeydown);
+}
+
+function soltarFocus() {
+  document.removeEventListener('keydown', handleTrapKeydown);
+  if (elementoAnterior && typeof elementoAnterior.focus === 'function') elementoAnterior.focus();
+  modalAtivo = null;
+  elementoAnterior = null;
+}
+
+/**
  * Lógica da Expansão de Imagem (Lightbox)
  */
 const modal = document.getElementById("image-modal");
@@ -80,6 +119,8 @@ function abrirLightbox(img) {
         modal.style.display = "flex";
         modalImg.src = img.src;
         document.body.style.overflow = "hidden"; // Trava o scroll da página
+        trapFocus(modal);
+        if (spanClose) spanClose.focus();
     }
 }
 
@@ -87,6 +128,7 @@ function fecharLightbox() {
     if (modal) {
         modal.style.display = "none";
         document.body.style.overflow = "auto";
+        soltarFocus();
     }
 }
 
@@ -147,6 +189,7 @@ function abrirModalPedido(itemNome) {
     document.body.style.overflow = 'hidden';
     modalPedido.setAttribute('aria-modal', 'true');
     atualizarSubtotal();
+    trapFocus(modalPedido);
     const primeiroInput = modalPedido.querySelector('input, button');
     if (primeiroInput) primeiroInput.focus();
   }
@@ -157,6 +200,7 @@ function fecharModalPedido() {
   if (modalPedido) {
     modalPedido.style.display = 'none';
     document.body.style.overflow = 'auto';
+    soltarFocus();
     
     // Resetar a mensagem de erro ao fechar
     const erroVisual = document.getElementById('mensagem-erro-vazio');

@@ -29,3 +29,22 @@ test('lightbox: fecha com ESC e aceita Enter', async ({ page }) => {
   await page.keyboard.press('Escape');
   await expect(page.locator('#image-modal')).toBeHidden();
 });
+test('modal pedido: ESC fecha e restaura o scroll', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#modal-pedido')).toBeHidden();
+  await expect(page.locator('body')).toHaveCSS('overflow-y', 'auto');
+});
+test('price-tag preselect: botão do card abre modal com item marcado', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.price-tag[data-nome]').first().click();
+  await expect(page.locator('#modal-pedido')).toBeVisible();
+  await expect(page.locator('#modal-pedido input[data-nome="Ovo Brigadeiro"]')).toHaveValue('1');
+});
+test('modal pedido: clique fora fecha', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
+  await page.locator('#modal-pedido').click({ position: { x: 5, y: 5 } });
+  await expect(page.locator('#modal-pedido')).toBeHidden();
+});
