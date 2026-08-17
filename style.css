@@ -11,8 +11,17 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+:focus-visible { outline: 3px solid var(--chocolate); outline-offset: 2px; border-radius: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .hero-image img { animation: none; }
+}
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', system-ui, sans-serif;
     color: var(--chocolate);
     background-color: var(--branco);
     overflow-x: hidden;
@@ -45,7 +54,7 @@ header {
 
 /* --- Estilo da Logo --- */
 .brand-name { 
-    font-family: 'Anton', sans-serif; 
+    font-family: 'Anton', 'Arial Black', sans-serif; 
     font-weight: normal; 
     font-size: 1.6rem; 
     color: var(--chocolate); 
