@@ -56,7 +56,7 @@ header {
 .brand-name { 
     font-family: 'Anton', 'Arial Black', sans-serif; 
     font-weight: normal; 
-    font-size: 1.6rem; 
+    font-size: clamp(1.4rem, 5vw, 1.6rem); 
     color: var(--chocolate); 
     line-height: 1;
     text-transform: uppercase; 
@@ -141,10 +141,18 @@ header {
 
 .hero h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 4rem;
+    font-size: clamp(2.2rem, 9vw, 4rem);
     color: var(--chocolate);
     line-height: 1.1;
     margin: 15px 0 25px 0;
+}
+
+.hero-subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    letter-spacing: 3px;
+    font-weight: 600;
+    color: var(--chocolate);
+    text-transform: uppercase;
 }
 
 .hero-description {
@@ -183,7 +191,7 @@ section { padding: 40px 5%; text-align: center; }
 
 .info-section { background: var(--azul-claro); padding-bottom: 80px; }
 
-h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 40px; color: var(--chocolate); }
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8rem); margin-bottom: 40px; color: var(--chocolate); }
 #ovos h2, .info-section h2 { color: var(--chocolate); }
 
 /* --- Cards --- */
@@ -483,7 +491,6 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .hero { padding-top: 120px; }
     .hero-content { order: 1; align-items: center; }
     .hero-image { order: 2; }
-    .hero h1 { font-size: 2.5rem; }
     .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--azul-claro); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .nav-pill.active { display: block; }
     .nav-pill ul { flex-direction: column; gap: 15px; }
