@@ -6,6 +6,10 @@ test('sem overflow horizontal em mobile', async ({ page }) => {
 });
 test('hero-subtitle estilizado', async ({ page }) => {
   await page.goto('/');
-  const fs = await page.locator('.hero-subtitle').evaluate(el => getComputedStyle(el).fontSize);
-  expect(parseFloat(fs)).toBeGreaterThan(10);
+  const styles = await page.locator('.hero-subtitle').evaluate(el => {
+    const cs = getComputedStyle(el);
+    return { fontSize: cs.fontSize, letterSpacing: cs.letterSpacing };
+  });
+  expect(styles.fontSize).toBe('12.8px');
+  expect(styles.letterSpacing).toBe('3px');
 });
