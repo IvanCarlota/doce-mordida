@@ -1,6 +1,6 @@
 :root {
     --bg-ice: #ffffff; 
-    --pink-pill: #c4e8ff; /* Azul Claro */
+    --azul-claro: #c4e8ff; /* Azul Claro */
     --chocolate: #4e342e;
     --text-muted: #7a6a61;
     --branco: #ffffff;
@@ -56,13 +56,13 @@ header {
 .brand-sub { 
     font-family: 'Dancing Script', cursive; 
     font-size: 1.6rem; 
-    color: var(--pink-pill); 
+    color: var(--azul-claro); 
     display: block;
     margin-top: -5px; 
 }
 
 .nav-pill { 
-    background: var(--pink-pill); 
+    background: var(--azul-claro); 
     padding: 10px 35px; 
     border-radius: 50px; 
     position: absolute;
@@ -89,16 +89,16 @@ header {
 }
 
 .onda svg path {
-    fill: var(--pink-pill) !important;
+    fill: var(--azul-claro);
 }
 
 .onda.invertida { 
     transform: rotate(0deg); 
-    background-color: var(--pink-pill); 
+    background-color: var(--azul-claro); 
 }
 
 .onda.invertida svg path {
-    fill: var(--branco) !important;
+    fill: var(--branco);
 }
 
 /* --- Hero --- */
@@ -165,14 +165,14 @@ header {
 
 /* --- Seções --- */
 section { padding: 40px 5%; text-align: center; }
-#ovos { background: var(--pink-pill); }
+#ovos { background: var(--azul-claro); }
 
 /* Seção Presentes e Footer com a mesma cor de fundo do Hero */
 #presentes, footer { 
     background-color: var(--bg-cream); 
 }
 
-.info-section { background: var(--pink-pill); padding-bottom: 80px; }
+.info-section { background: var(--azul-claro); padding-bottom: 80px; }
 
 h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 40px; color: var(--chocolate); }
 #ovos h2, .info-section h2 { color: var(--chocolate); }
@@ -225,7 +225,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 4
 
 .card .price-tag { 
     display: inline-block;
-    background-color: var(--pink-pill); 
+    background-color: var(--azul-claro); 
     color: var(--chocolate); 
     padding: 10px 25px;
     border-radius: 50px;
@@ -329,7 +329,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     text-align: center;
     position: relative;
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border: 3px solid var(--pink-pill);
+    border: 3px solid var(--azul-claro);
     animation: popupFade 0.4s ease;
 }
 
@@ -352,25 +352,25 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     to { transform: scale(1); opacity: 1; }
 }
 
-.popup-icon { font-size: 3rem; color: var(--pink-pill); margin-bottom: 20px; }
+.popup-icon { font-size: 3rem; color: var(--azul-claro); margin-bottom: 20px; }
 
 /* Botão de fechar do Modal de Imagem (Ajustado) */
 .close-modal {
     position: absolute;
     top: 20px;
     right: 30px;
-    color: #ffffff !important; /* Força cor branca para contraste */
+    color: #ffffff; /* Força cor branca para contraste */
     font-size: 60px; /* Tamanho maior para visibilidade */
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
     line-height: 1;
     z-index: 10001; /* Fica acima da imagem expandida */
-    display: block !important;
+    display: block;
 }
 
 .close-modal:hover {
-    color: var(--pink-pill) !important;
+    color: var(--azul-claro);
 }
 
 /* Botão de fechar dos Pop-ups normais */
@@ -415,7 +415,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 .item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
-.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--pink-pill); text-align: center; }
+.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; }
 
 /* Mensagem de erro para pedido vazio */
 .erro-pedido {
@@ -439,7 +439,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .hero-content { order: 1; align-items: center; }
     .hero-image { order: 2; }
     .hero h1 { font-size: 2.5rem; }
-    .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--pink-pill); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--azul-claro); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .nav-pill.active { display: block; }
     .nav-pill ul { flex-direction: column; gap: 15px; }
     .card { flex: 0 0 280px; }
