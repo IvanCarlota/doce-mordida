@@ -19,30 +19,29 @@ function scrollCarousel(trackId, direction) {
  */
 const menuToggle = document.getElementById('menu-toggle');
 const navMenu = document.getElementById('nav-menu');
-const body = document.body;
 
-if (menuToggle) {
-    menuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        body.classList.toggle('menu-open');
-        const icon = menuToggle.querySelector('i');
-        icon.classList.toggle('fa-bars');
-        icon.classList.toggle('fa-times');
-    });
+function toggleMenu(open) {
+  const shouldOpen = open ?? !navMenu.classList.contains('active');
+  navMenu.classList.toggle('active', shouldOpen);
+  document.body.classList.toggle('menu-open', shouldOpen);
+  menuToggle.setAttribute('aria-expanded', String(shouldOpen));
+  const icon = menuToggle.querySelector('i');
+  icon.classList.toggle('fa-bars', !shouldOpen);
+  icon.classList.toggle('fa-times', shouldOpen);
+  if (shouldOpen) menuToggle.focus();
 }
-
-// Fecha o menu ao clicar em um link
-document.querySelectorAll('.nav-pill a').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        body.classList.remove('menu-open');
-        const icon = menuToggle.querySelector('i');
-        if (icon) {
-            icon.classList.add('fa-bars');
-            icon.classList.remove('fa-times');
-        }
-    });
-});
+if (menuToggle) {
+  menuToggle.addEventListener('click', () => toggleMenu());
+  navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    toggleMenu(false);
+    navMenu.querySelectorAll('a').forEach(a => a.removeAttribute('aria-current'));
+    link.setAttribute('aria-current', 'page');
+  }));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && navMenu.classList.contains('active')) toggleMenu(false); });
+  document.addEventListener('click', e => {
+    if (navMenu.classList.contains('active') && !navMenu.contains(e.target) && !menuToggle.contains(e.target)) toggleMenu(false);
+  });
+}
 
 /**
  * Lógica da Expansão de Imagem (Lightbox)
