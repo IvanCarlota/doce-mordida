@@ -1,18 +1,41 @@
 const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
 
 /**
- * Função para rolar os carrosséis de produtos
+ * Carrosséis: scroll pela largura real do card + dots sincronizados
  */
-function scrollCarousel(trackId, direction) {
-    const track = document.getElementById(trackId);
-    // Deslocamento: 300px do card + 20px de gap
-    const cardWidth = 320; 
-    
-    track.scrollBy({
-        left: direction * cardWidth,
-        behavior: 'smooth'
-    });
+function initCarousel(trackId) {
+  const track = document.getElementById(trackId);
+  const dots = document.getElementById(trackId.replace('-track', '-dots'));
+  const wrapper = track.closest('.carousel-wrapper');
+  const prev = wrapper.querySelector('.carousel-btn.prev');
+  const next = wrapper.querySelector('.carousel-btn.next');
+  const scrollAmount = () => track.firstElementChild ? track.firstElementChild.clientWidth + 20 : 320;
+
+  const update = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    const idx = Math.round(track.scrollLeft / scrollAmount());
+    prev.disabled = track.scrollLeft <= 0;
+    next.disabled = track.scrollLeft >= max - 1;
+    dots.querySelectorAll('.carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+  };
+
+  track.addEventListener('scroll', update, { passive: true });
+  prev.addEventListener('click', () => track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' }));
+  next.addEventListener('click', () => track.scrollBy({ left: scrollAmount(), behavior: 'smooth' }));
+
+  const n = track.children.length;
+  for (let i = 0; i < n; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'carousel-dot';
+    dot.setAttribute('aria-label', `Ir para o card ${i + 1}`);
+    dot.addEventListener('click', () => track.scrollTo({ left: i * scrollAmount(), behavior: 'smooth' }));
+    dots.appendChild(dot);
+  }
+  update();
+  window.addEventListener('resize', update);
 }
+initCarousel('ovos-track');
+initCarousel('presentes-track');
 
 /**
  * Lógica do Menu Mobile
