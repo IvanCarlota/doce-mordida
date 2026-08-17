@@ -1,3 +1,5 @@
+const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
+
 /**
  * Função para rolar os carrosséis de produtos
  */
@@ -131,7 +133,7 @@ function enviarPedidoWhatsApp() {
     mensagem += "\nRetirada em Colombo - PR.";
     
     // Codifica a mensagem para URL e redireciona para o WhatsApp
-    const url = `https://wa.me/5541996309958?text=${encodeURIComponent(mensagem)}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank');
     fecharModalPedido();
 }
