@@ -269,6 +269,8 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
     text-decoration: none;
     transition: 0.3s;
     border: none;
+    font-family: inherit;
+    cursor: pointer;
 }
 
 .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
@@ -480,7 +482,23 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 .item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
-.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; }
+.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; font-size: 16px; min-height: 44px; }
+
+/* --- Modal de Pedido: Bottom Sheet (base mobile) --- */
+#modal-pedido .popup-content {
+    max-width: 100%; width: 100%; height: auto; max-height: 90dvh;
+    border-radius: 24px 24px 0 0; padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+    display: flex; flex-direction: column; align-items: center;
+    position: fixed; bottom: 0; left: 0;
+    animation: sheetUp 0.3s ease;
+}
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+#modal-pedido .popup-content h3, #modal-pedido .popup-content > p { text-align: center; }
+#modal-pedido .popup-content .btn-enviar { width: 100%; }
+#lista-itens-pedido { width: 100%; flex: 1; }
+.item-price { margin-left: auto; font-weight: 600; color: var(--chocolate); font-size: 0.85rem; }
+.resumo-pedido { width: 100%; margin-top: 8px; }
+.total-pedido { display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid var(--azul-claro); font-size: 1.1rem; }
 
 /* Mensagem de erro para pedido vazio */
 .erro-pedido {
@@ -495,6 +513,10 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 /* --- Responsividade: Desktop --- */
+@media (min-width: 768px) {
+    #modal-pedido .popup-content { max-width: 450px; position: static; border-radius: 20px; margin: auto; animation: popupFade 0.4s ease; }
+}
+
 @media (min-width: 1024px) {
     .hero { min-height: 80vh; padding: 180px 10% 40px; }
     .hero-container { flex-direction: row; text-align: left; gap: 60px; }

@@ -36,48 +36,62 @@
             <div id="lista-itens-pedido">
                 <div class="item-selecao">
                     <span>Ovo Brigadeiro</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Brigadeiro">
+                    <span class="item-price">R$ 57,00</span>
+                    <input type="number" min="0" value="0" data-nome="Ovo Brigadeiro" aria-label="Quantidade de Ovo Brigadeiro">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Ninho com Nutella</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Ninho com Nutella">
+                    <span class="item-price">R$ 65,00</span>
+                    <input type="number" min="0" value="0" data-nome="Ovo Ninho com Nutella" aria-label="Quantidade de Ovo Ninho com Nutella">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Surpresinha de Uva</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Surpresinha de Uva">
+                    <span class="item-price">R$ 62,00</span>
+                    <input type="number" min="0" value="0" data-nome="Ovo Surpresinha de Uva" aria-label="Quantidade de Ovo Surpresinha de Uva">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Escondidinho de Brownie</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Escondidinho de Brownie">
+                    <span class="item-price">R$ 65,00</span>
+                    <input type="number" min="0" value="0" data-nome="Ovo Escondidinho de Brownie" aria-label="Quantidade de Ovo Escondidinho de Brownie">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo de Maracujá</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo de Maracujá">
+                    <span class="item-price">R$ 62,00</span>
+                    <input type="number" min="0" value="0" data-nome="Ovo de Maracujá" aria-label="Quantidade de Ovo de Maracujá">
                 </div>
                 
                 <div class="item-selecao">
                     <span>Dupla de Ovos</span>
-                    <input type="number" min="0" value="0" data-nome="Dupla de Ovos">
+                    <span class="item-price">R$ 79,00</span>
+                    <input type="number" min="0" value="0" data-nome="Dupla de Ovos" aria-label="Quantidade de Dupla de Ovos">
                 </div>
                 <div class="item-selecao">
                     <span>Kit Degustação</span>
-                    <input type="number" min="0" value="0" data-nome="Kit Degustação">
+                    <span class="item-price">R$ 48,00</span>
+                    <input type="number" min="0" value="0" data-nome="Kit Degustação" aria-label="Quantidade de Kit Degustação">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa com 6 Brigadeiros</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa com 6 Brigadeiros">
+                    <span class="item-price">R$ 25,00</span>
+                    <input type="number" min="0" value="0" data-nome="Caixa com 6 Brigadeiros" aria-label="Quantidade de Caixa com 6 Brigadeiros">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa Livro (4 un.)</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa Livro (4 un.)">
+                    <span class="item-price">R$ 17,00</span>
+                    <input type="number" min="0" value="0" data-nome="Caixa Livro (4 un.)" aria-label="Quantidade de Caixa Livro (4 un.)">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa com 2 un.</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa com 2 un.">
+                    <span class="item-price">R$ 8,00</span>
+                    <input type="number" min="0" value="0" data-nome="Caixa com 2 un." aria-label="Quantidade de Caixa com 2 un.">
                 </div>
             </div>
 
-            <div id="mensagem-erro-vazio" class="erro-pedido">Por favor, selecione pelo menos uma quantidade em algum item.</div>
+            <div class="resumo-pedido">
+                <div class="total-pedido"><span>Total:</span><strong id="valor-total">R$ 0,00</strong></div>
+            </div>
+
+            <div id="mensagem-erro-vazio" class="erro-pedido" role="alert">Por favor, selecione pelo menos uma quantidade em algum item.</div>
             
             <button class="btn-popup btn-enviar" onclick="enviarPedidoWhatsApp()">ENVIAR PEDIDO</button>
         </div>
@@ -150,35 +164,35 @@
                     <img src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro" loading="lazy" width="1024" height="896">
                     <h3>Brigadeiro</h3>
                     <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 57,00</div>
+                    <button class="price-tag" data-nome="Ovo Brigadeiro">Pedir · R$ 57,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella" loading="lazy" width="966" height="961">
                     <h3>Ninho com Nutella</h3>
                     <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 65,00</div>
+                    <button class="price-tag" data-nome="Ovo Ninho com Nutella">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva" loading="lazy" width="963" height="851">
                     <h3>Surpresinha de Uva</h3>
                     <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 62,00</div>
+                    <button class="price-tag" data-nome="Ovo Surpresinha de Uva">Pedir · R$ 62,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie" loading="lazy" width="925" height="881">
                     <h3>Escondidinho de Brownie</h3>
                     <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
-                    <div class="price-tag">R$ 65,00</div>
+                    <button class="price-tag" data-nome="Ovo Escondidinho de Brownie">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá" loading="lazy" width="731" height="576">
                     <h3>Maracujá</h3>
                     <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 62,00</div>
+                    <button class="price-tag" data-nome="Ovo de Maracujá">Pedir · R$ 62,00</button>
                 </div>
             </div>
 
@@ -209,35 +223,35 @@
                     <img src="images/dupla_ovos.jpg" alt="Dupla de Ovos" loading="lazy" width="883" height="906">
                     <h3>Dupla de Ovos</h3>
                     <p>Escolha 2 sabores do menu. (180g cada)</p>
-                    <div class="price-tag">R$ 79,00</div>
+                    <button class="price-tag" data-nome="Dupla de Ovos">Pedir · R$ 79,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/kit_degustacao.jpg" alt="Kit Degustação" loading="lazy" width="892" height="934">
                     <h3>Kit Degustação</h3>
                     <p>4 mini ovos de 50g cada com os sabores do menu.</p>
-                    <div class="price-tag">R$ 48,00</div>
+                    <button class="price-tag" data-nome="Kit Degustação">Pedir · R$ 48,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros" loading="lazy" width="848" height="722">
                     <h3>Caixa com 6 Brigadeiros</h3>
                     <p>3 tradicionais e 3 de ninho colorido temático.</p>
-                    <div class="price-tag">R$ 25,00</div>
+                    <button class="price-tag" data-nome="Caixa com 6 Brigadeiros">Pedir · R$ 25,00</button>
                 </div>
 
                 <div class="card">
                     <img src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades" loading="lazy" width="693" height="905">
                     <h3>Caixa Livro (4 un.)</h3>
                     <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
-                    <div class="price-tag">R$ 17,00</div>
+                    <button class="price-tag" data-nome="Caixa Livro (4 un.)">Pedir · R$ 17,00</button>
                 </div>
                 
                 <div class="card">
                     <img src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades" loading="lazy" width="622" height="813">
                     <h3>Caixa com 2 un.</h3>
                     <p>2 unidades de brigadeiro de 23g cada.</p>
-                    <div class="price-tag">R$ 8,00</div>
+                    <button class="price-tag" data-nome="Caixa com 2 un.">Pedir · R$ 8,00</button>
                 </div>
             </div>
 
@@ -285,8 +299,8 @@
     <p>© 2026 - Doce Mordida | Doces Artesanais de Páscoa</p>
 </footer>
 
-    <div id="image-modal" class="modal">
-        <span class="close-modal">&times;</span>
+    <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Visualização da imagem">
+        <span class="close-modal" aria-label="Fechar imagem">&times;</span>
         <img class="modal-content" id="img-expanded">
     </div>
 

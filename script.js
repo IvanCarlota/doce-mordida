@@ -75,30 +75,40 @@ const modal = document.getElementById("image-modal");
 const modalImg = document.getElementById("img-expanded");
 const spanClose = document.querySelector(".close-modal");
 
+function abrirLightbox(img) {
+    if (modal && modalImg) {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+        document.body.style.overflow = "hidden"; // Trava o scroll da página
+    }
+}
+
+function fecharLightbox() {
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+}
+
 if (modal && modalImg) {
     document.querySelectorAll('.card img').forEach(img => {
-        img.onclick = function() {
-            modal.style.display = "flex";
-            modalImg.src = this.src;
-            document.body.style.overflow = "hidden"; // Trava o scroll da página
-        }
+        img.setAttribute('tabindex', '0');
+        img.addEventListener('click', () => abrirLightbox(img));
+        img.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                abrirLightbox(img);
+            }
+        });
     });
 
     // Fecha ao clicar no X
-    if (spanClose) {
-        spanClose.onclick = function() {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        };
-    }
+    if (spanClose) spanClose.addEventListener('click', fecharLightbox);
 
     // Fecha ao clicar na área escura fora da imagem
-    modal.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-            document.body.style.overflow = "auto";
-        }
-    };
+    modal.addEventListener('click', event => {
+        if (event.target === modal) fecharLightbox();
+    });
 }
 
 
@@ -106,27 +116,61 @@ if (modal && modalImg) {
 /**
  * Lógica do Pop-up de Pedido Personalizado
  */
+const CATALOGO = {
+  'Ovo Brigadeiro': 57, 'Ovo Ninho com Nutella': 65, 'Ovo Surpresinha de Uva': 62,
+  'Ovo Escondidinho de Brownie': 65, 'Ovo de Maracujá': 62, 'Dupla de Ovos': 79,
+  'Kit Degustação': 48, 'Caixa com 6 Brigadeiros': 25, 'Caixa Livro (4 un.)': 17, 'Caixa com 2 un.': 8,
+};
+function atualizarSubtotal() {
+  const inputs = document.querySelectorAll('#lista-itens-pedido input');
+  let total = 0;
+  inputs.forEach(inp => {
+    const qtd = parseInt(inp.value) || 0;
+    total += qtd * (CATALOGO[inp.dataset.nome] || 0);
+  });
+  const el = document.getElementById('valor-total');
+  if (el) el.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  return total;
+}
+document.querySelectorAll('#lista-itens-pedido input').forEach(inp => inp.addEventListener('input', atualizarSubtotal));
+
 const modalPedido = document.getElementById('modal-pedido');
 
 // Função para abrir o modal de pedido
-function abrirModalPedido() {
-    if (modalPedido) {
-        modalPedido.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-    }
+function abrirModalPedido(itemNome) {
+  if (itemNome) {
+    const inp = document.querySelector(`#lista-itens-pedido input[data-nome="${itemNome}"]`);
+    if (inp) inp.value = '1';
+  }
+  if (modalPedido) {
+    modalPedido.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    modalPedido.setAttribute('aria-modal', 'true');
+    atualizarSubtotal();
+    const primeiroInput = modalPedido.querySelector('input, button');
+    if (primeiroInput) primeiroInput.focus();
+  }
 }
 
 // Função para fechar o modal de pedido
 function fecharModalPedido() {
-    if (modalPedido) {
-        modalPedido.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        
-        // Resetar a mensagem de erro ao fechar
-        const erroVisual = document.getElementById('mensagem-erro-vazio');
-        if (erroVisual) erroVisual.style.display = 'none';
-    }
+  if (modalPedido) {
+    modalPedido.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    
+    // Resetar a mensagem de erro ao fechar
+    const erroVisual = document.getElementById('mensagem-erro-vazio');
+    if (erroVisual) erroVisual.style.display = 'none';
+  }
 }
+
+// Preselect: botão de preço nos cards abre o modal com o item marcado
+document.querySelectorAll('.price-tag[data-nome]').forEach(b => b.addEventListener('click', () => abrirModalPedido(b.dataset.nome)));
+
+// Fecha modais com ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { fecharModalPedido(); fecharLightbox(); }
+});
 
 // Função para processar os itens e enviar para o WhatsApp
 function enviarPedidoWhatsApp() {
