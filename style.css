@@ -419,12 +419,24 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 8px;
     padding: 10px 0;
     border-bottom: 1px solid #f0f0f0;
 }
 
 .item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
-.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; }
+.item-selecao .item-price { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--chocolate); white-space: nowrap; }
+.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; font-size: 16px; }
+
+.resumo-pedido { margin-top: 12px; }
+.total-pedido {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-top: 2px solid var(--azul-claro);
+    font-size: 1.1rem;
+}
+.total-pedido strong { color: var(--chocolate); }
 
 /* Mensagem de erro para pedido vazio */
 .erro-pedido {

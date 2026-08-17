@@ -82,11 +82,40 @@ if (modal && modalImg) {
  */
 const modalPedido = document.getElementById('modal-pedido');
 
+/**
+ * Catálogo de produtos com preços (em reais)
+ */
+const CATALOGO = {
+    'Ovo Brigadeiro': 57, 'Ovo Ninho com Nutella': 65, 'Ovo Surpresinha de Uva': 62,
+    'Ovo Escondidinho de Brownie': 65, 'Ovo de Maracujá': 62, 'Dupla de Ovos': 79,
+    'Kit Degustação': 48, 'Caixa com 6 Brigadeiros': 25, 'Caixa Livro (4 un.)': 17, 'Caixa com 2 un.': 8,
+};
+
+/**
+ * Calcula e exibe o subtotal do pedido em tempo real
+ */
+function atualizarSubtotal() {
+    const inputs = document.querySelectorAll('#lista-itens-pedido input');
+    let total = 0;
+    inputs.forEach(inp => {
+        const qtd = parseInt(inp.value) || 0;
+        total += qtd * (CATALOGO[inp.getAttribute('data-nome')] || 0);
+    });
+    const el = document.getElementById('valor-total');
+    if (el) el.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    return total;
+}
+
+document.querySelectorAll('#lista-itens-pedido input').forEach(inp => {
+    inp.addEventListener('input', atualizarSubtotal);
+});
+
 // Função para abrir o modal de pedido
 function abrirModalPedido() {
     if (modalPedido) {
         modalPedido.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        atualizarSubtotal();
     }
 }
 
