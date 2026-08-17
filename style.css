@@ -1,21 +1,18 @@
 :root {
-    --azul-claro: #c4e8ff;
-    --rosa: #ffb7c5;
+    --bg-ice: #ffffff; 
+    --pink-pill: #c4e8ff; /* Azul Claro */
     --chocolate: #4e342e;
     --text-muted: #7a6a61;
     --branco: #ffffff;
     --whatsapp-green: #25d366;
     --whatsapp-dark: #128c7e;
+    --bg-cream: #ffffff;
 }
-
-html { scroll-behavior: smooth; scroll-padding-top: 90px; }
-
-:focus-visible { outline: 3px solid var(--chocolate); outline-offset: 2px; border-radius: 4px; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Poppins', system-ui, sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: var(--chocolate);
     background-color: var(--branco);
     overflow-x: hidden;
@@ -23,7 +20,7 @@ body {
 
 /* --- Header e Nav FIXOS --- */
 header {
-    padding: 10px 5%;
+    padding: 15px 5%;
     position: fixed; 
     top: 0;
     left: 0;
@@ -43,26 +40,12 @@ header {
     position: relative;
 }
 
-.menu-toggle { 
-    display: block; 
-    background: none; 
-    border: none; 
-    font-size: 1.8rem; 
-    color: var(--chocolate); 
-    z-index: 3200; 
-    cursor: pointer; 
-    margin-left: auto; 
-    padding: 5px;
-    min-width: 44px; 
-    min-height: 44px; 
-}
-
 .logo-wrapper { display: flex; align-items: center; gap: 10px; }
-.logo-wrapper img { height: 45px; width: auto; }
+.logo-wrapper img { height: 45px; }
 
 /* --- Estilo da Logo --- */
 .brand-name { 
-    font-family: 'Anton', 'Arial Black', sans-serif; 
+    font-family: 'Anton', sans-serif; 
     font-weight: normal; 
     font-size: 1.6rem; 
     color: var(--chocolate); 
@@ -73,26 +56,23 @@ header {
 .brand-sub { 
     font-family: 'Dancing Script', cursive; 
     font-size: 1.6rem; 
-    color: var(--azul-claro); 
+    color: var(--pink-pill); 
     display: block;
     margin-top: -5px; 
 }
 
 .nav-pill { 
-    position: fixed; top: 0; right: 0; width: 100%; height: 100dvh;
-    background: var(--azul-claro); padding: 90px 5% 40px;
-    border-radius: 0; display: none; z-index: 3100;
-    box-shadow: none;
+    background: var(--pink-pill); 
+    padding: 10px 35px; 
+    border-radius: 50px; 
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2100;
 }
 
-.nav-pill.active { display: block; animation: drawerIn 0.25s ease; }
-
-.nav-pill ul { display: flex; list-style: none; flex-direction: column; gap: 24px; align-items: flex-start; }
-.nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 1.3rem; white-space: nowrap; min-height: 44px; display: flex; align-items: center; }
-
-@keyframes drawerIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
-
-body.menu-open { overflow: hidden; }
+.nav-pill ul { display: flex; list-style: none; gap: 20px; }
+.nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
 
 /* --- Ondas --- */
 .onda { 
@@ -104,44 +84,42 @@ body.menu-open { overflow: hidden; }
 
 .onda svg { 
     width: 100%; 
-    height: clamp(40px, 8vw, 80px); 
+    height: 80px; 
     display: block; 
 }
 
 .onda svg path {
-    fill: var(--rosa);
+    fill: var(--pink-pill) !important;
 }
 
 .onda.invertida { 
     transform: rotate(0deg); 
-    background-color: var(--azul-claro); 
+    background-color: var(--pink-pill); 
 }
 
 .onda.invertida svg path {
-    fill: var(--branco);
+    fill: var(--branco) !important;
 }
 
 /* --- Hero --- */
 .hero {
     position: relative;
-    min-height: auto;
+    min-height: 80vh;
     display: flex;
     align-items: center;
-    padding: clamp(100px, 15vh, 180px) 5% 40px; 
+    padding: 180px 10% 40px 10%; 
     z-index: 1;
-    background-color: var(--branco); 
+    background-color: var(--bg-cream); 
 }
 
 .hero-container {
     display: flex;
-    flex-direction: column;
-    text-align: center;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 30px;
+    gap: 60px;
 }
 
 .hero-content {
@@ -149,25 +127,15 @@ body.menu-open { overflow: hidden; }
     text-align: left;
     display: flex;
     flex-direction: column;
-    align-items: center; 
-    order: 1;
+    align-items: flex-start; 
 }
 
 .hero h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.2rem, 9vw, 4rem);
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
     color: var(--chocolate);
     line-height: 1.1;
     margin: 15px 0 25px 0;
-}
-
-.hero-subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    letter-spacing: 3px;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
 }
 
 .hero-description {
@@ -181,11 +149,10 @@ body.menu-open { overflow: hidden; }
     flex: 1;
     display: flex;
     justify-content: center;
-    order: 2;
 }
 
 .hero-image img {
-    max-width: min(80%, 420px);
+    max-width: 100%;
     height: auto;
     filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1));
     animation: float 4s ease-in-out infinite;
@@ -198,16 +165,16 @@ body.menu-open { overflow: hidden; }
 
 /* --- Seções --- */
 section { padding: 40px 5%; text-align: center; }
-#ovos { background: var(--azul-claro); }
+#ovos { background: var(--pink-pill); }
 
 /* Seção Presentes e Footer com a mesma cor de fundo do Hero */
 #presentes, footer { 
-    background-color: var(--branco); 
+    background-color: var(--bg-cream); 
 }
 
-.info-section { background: var(--azul-claro); padding-bottom: 80px; }
+.info-section { background: var(--pink-pill); padding-bottom: 80px; }
 
-h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6vw, 2.8rem); margin-bottom: 40px; color: var(--chocolate); }
+h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 40px; color: var(--chocolate); }
 #ovos h2, .info-section h2 { color: var(--chocolate); }
 
 /* --- Cards --- */
@@ -222,7 +189,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
 .carousel-track::-webkit-scrollbar { display: none; }
 
 .card { 
-    flex: 0 0 280px; 
+    flex: 0 0 300px; 
     background: var(--branco); 
     border-radius: 20px; 
     overflow: hidden; 
@@ -236,8 +203,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
 
 .card img { 
     width: 100%; 
-    height: auto; 
-    aspect-ratio: 4/3; 
+    height: 350px; 
     object-fit: cover; 
     border-radius: 20px 20px 20px 20px; 
     margin-bottom: 20px;
@@ -245,7 +211,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
 }
 
 .card h3 { 
-    font-family: 'Playfair Display', Georgia, serif; 
+    font-family: 'Playfair Display', serif; 
     font-size: 1.2rem; 
     margin-bottom: 10px;
 }
@@ -259,7 +225,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
 
 .card .price-tag { 
     display: inline-block;
-    background-color: var(--azul-claro); 
+    background-color: var(--pink-pill); 
     color: var(--chocolate); 
     padding: 10px 25px;
     border-radius: 50px;
@@ -269,8 +235,6 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
     text-decoration: none;
     transition: 0.3s;
     border: none;
-    font-family: inherit;
-    cursor: pointer;
 }
 
 .card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); }
@@ -280,7 +244,7 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
     background: var(--chocolate);
     color: var(--branco);
     border: none;
-    width: 44px; height: 44px;
+    width: 45px; height: 45px;
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
@@ -294,36 +258,6 @@ h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(1.9rem, 6
 }
 .carousel-btn.prev { left: 5px; }
 .carousel-btn.next { right: 5px; }
-
-.carousel-btn:disabled {
-    opacity: .4;
-    cursor: default;
-}
-
-/* --- Dots do Carrossel --- */
-.carousel-dots {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-}
-
-.carousel-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: none;
-    padding: 0;
-    background: rgba(78, 52, 46, .3);
-    cursor: pointer;
-    transition: width 0.3s ease, background 0.3s ease;
-}
-
-.carousel-dot.active {
-    background: var(--chocolate);
-    width: 24px;
-}
 
 /* --- Botão Principal --- */
 .btn-cta {
@@ -395,12 +329,11 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     text-align: center;
     position: relative;
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border: 3px solid var(--azul-claro);
+    border: 3px solid var(--pink-pill);
     animation: popupFade 0.4s ease;
 }
 
 .modal-content {
-    width: 85%;
     max-width: 90%;
     max-height: 90%;
     border-radius: 15px;
@@ -419,25 +352,25 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     to { transform: scale(1); opacity: 1; }
 }
 
-.popup-icon { font-size: 3rem; color: var(--azul-claro); margin-bottom: 20px; }
+.popup-icon { font-size: 3rem; color: var(--pink-pill); margin-bottom: 20px; }
 
 /* Botão de fechar do Modal de Imagem (Ajustado) */
 .close-modal {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    color: #ffffff; /* Força cor branca para contraste */
-    font-size: 45px; /* Tamanho maior para visibilidade */
+    top: 20px;
+    right: 30px;
+    color: #ffffff !important; /* Força cor branca para contraste */
+    font-size: 60px; /* Tamanho maior para visibilidade */
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
     line-height: 1;
     z-index: 10001; /* Fica acima da imagem expandida */
-    display: block;
+    display: block !important;
 }
 
 .close-modal:hover {
-    color: var(--azul-claro);
+    color: var(--pink-pill) !important;
 }
 
 /* Botão de fechar dos Pop-ups normais */
@@ -482,23 +415,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 .item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
-.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; font-size: 16px; min-height: 44px; }
-
-/* --- Modal de Pedido: Bottom Sheet (base mobile) --- */
-#modal-pedido .popup-content {
-    max-width: 100%; width: 100%; height: auto; max-height: 90dvh;
-    border-radius: 24px 24px 0 0; padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
-    display: flex; flex-direction: column; align-items: center;
-    position: fixed; bottom: 0; left: 0;
-    animation: sheetUp 0.3s ease;
-}
-@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-#modal-pedido .popup-content h3, #modal-pedido .popup-content > p { text-align: center; }
-#modal-pedido .popup-content .btn-enviar { width: 100%; }
-#lista-itens-pedido { width: 100%; flex: 1; }
-.item-selecao .item-price { margin-left: auto; font-weight: 600; color: var(--chocolate); font-size: 0.85rem; }
-.resumo-pedido { width: 100%; margin-top: 8px; }
-.total-pedido { display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid var(--azul-claro); font-size: 1.1rem; }
+.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--pink-pill); text-align: center; }
 
 /* Mensagem de erro para pedido vazio */
 .erro-pedido {
@@ -512,39 +429,33 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     display: none; /* Escondido por padrão */
 }
 
-/* --- Responsividade: Desktop --- */
-@media (min-width: 768px) {
-    #modal-pedido .popup-content { max-width: 450px; position: static; border-radius: 20px; margin: auto; animation: popupFade 0.4s ease; }
+/* --- Responsividade --- */
+@media (max-width: 900px) {
+    header { padding: 10px 5%; }
+    .header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
+    .hero-container { flex-direction: column; text-align: center; gap: 30px; }
+    .hero { padding-top: 120px; }
+    .hero-content { order: 1; align-items: center; }
+    .hero-image { order: 2; }
+    .hero h1 { font-size: 2.5rem; }
+    .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--pink-pill); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .nav-pill.active { display: block; }
+    .nav-pill ul { flex-direction: column; gap: 15px; }
+    .card { flex: 0 0 280px; }
+    .carousel-btn { width: 35px; height: 35px; }
+    .onda svg { height: 50px; }
+    #presentes, .info-section, footer { margin-top: -1px; position: relative; z-index: 10; }
+    .onda.invertida svg { margin-top: -1px; }
+    
+    .modal-content { 
+        width: 85%; 
+        height: auto; 
+    }
+    
+    .close-modal { 
+        top: 15px; 
+        right: 20px; 
+        font-size: 45px; 
+    }
 }
-
-@media (min-width: 1024px) {
-    .hero { min-height: 80vh; padding: 180px 10% 40px; }
-    .hero-container { flex-direction: row; text-align: left; gap: 60px; }
-    .hero-content { align-items: flex-start; order: 0; }
-    .hero-image { order: 0; }
-    .hero-image img { max-width: 100%; }
-    .nav-pill { display: flex; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: auto; height: auto; padding: 10px 35px; border-radius: 50px; box-shadow: none; z-index: 2100; }
-    .nav-pill ul { flex-direction: row; gap: 20px; align-items: center; }
-    .nav-pill a { font-size: 0.8rem; min-height: 0; display: block; }
-    .menu-toggle { display: none; }
-    .card { flex: 0 0 300px; }
-    .onda svg { height: 80px; }
-    .modal-content { width: auto; max-width: 90%; }
-    .close-modal { top: 20px; right: 30px; font-size: 60px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-    .hero-image img { animation: none; }
-}
-/* --- Botão flutuante WhatsApp (FAB) --- */
-.fab-whatsapp {
-  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom));
-  width: 60px; height: 60px; border-radius: 50%;
-  background: var(--whatsapp-green); color: var(--branco);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2rem; box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-  z-index: 2000; transition: transform 0.2s;
-}
-.fab-whatsapp:active { transform: scale(0.92); }
-@media (min-width: 768px) { .fab-whatsapp { display: none; } }
