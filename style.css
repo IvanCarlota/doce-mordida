@@ -267,6 +267,30 @@ h2 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 4
 }
 .carousel-btn.prev { left: 5px; }
 .carousel-btn.next { right: 5px; }
+.carousel-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+    box-shadow: none;
+}
+
+/* --- Indicadores (dots) do Carrossel --- */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+}
+.carousel-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: #d9d9d9;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.carousel-dot.active { background: var(--chocolate); }
+.carousel-dot:focus-visible { outline: 2px solid var(--chocolate); outline-offset: 2px; }
 
 /* --- Botão Principal --- */
 .btn-cta {

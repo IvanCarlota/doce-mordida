@@ -1,15 +1,24 @@
 const { test, expect } = require('@playwright/test');
-test('carrossel navega e dots sincronizam', async ({ page }) => {
+
+test('carrossel: dots, scroll real e setas desabilitadas nas pontas', async ({ page }) => {
   await page.goto('/');
   const track = page.locator('#ovos-track');
   await expect(page.locator('#ovos-dots .carousel-dot')).toHaveCount(5);
-  const next = page.locator('#ovos-track').locator('..').locator('.carousel-btn.next');
+  const wrapper = track.locator('..');
+  const next = wrapper.locator('.carousel-btn.next');
+  const prev = wrapper.locator('.carousel-btn.prev');
+  await expect(prev).toBeDisabled();
   await next.click();
   await page.waitForTimeout(600);
   const x = await track.evaluate(el => el.scrollLeft);
   expect(x).toBeGreaterThan(0);
-  await page.keyboard.press('End'); // aproximação: rolar direto no fim via JS
   await track.evaluate(el => { el.scrollLeft = el.scrollWidth; el.dispatchEvent(new Event('scroll')); });
-  const disabled = await page.locator('#ovos-track').locator('..').locator('.carousel-btn.next').isDisabled();
-  expect(disabled).toBe(true);
+  await expect(next).toBeDisabled();
+  await expect(prev).toBeEnabled();
+  const dot2 = page.locator('#ovos-dots .carousel-dot').nth(1);
+  await dot2.click();
+  await page.waitForTimeout(600);
+  const y = await track.evaluate(el => el.scrollLeft);
+  expect(y).toBeGreaterThan(0);
+  await expect(page.locator('#ovos-dots .carousel-dot').nth(1)).toHaveClass(/active/);
 });

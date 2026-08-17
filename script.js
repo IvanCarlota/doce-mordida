@@ -1,16 +1,53 @@
 /**
- * Função para rolar os carrosséis de produtos
+ * Carrosséis de produtos: scroll real por card, dots e setas com estado
  */
-function scrollCarousel(trackId, direction) {
+function initCarousel(trackId) {
     const track = document.getElementById(trackId);
-    // Deslocamento: 300px do card + 20px de gap
-    const cardWidth = 320; 
-    
-    track.scrollBy({
-        left: direction * cardWidth,
-        behavior: 'smooth'
+    if (!track) return;
+    const dotsEl = document.getElementById(trackId.replace('-track', '-dots'));
+    const wrapper = track.closest('.carousel-wrapper');
+    const prev = wrapper.querySelector('.carousel-btn.prev');
+    const next = wrapper.querySelector('.carousel-btn.next');
+    const scrollAmount = () => track.firstElementChild ? track.firstElementChild.clientWidth + 20 : 320;
+
+    const renderDots = () => {
+        if (!dotsEl) return;
+        dotsEl.innerHTML = '';
+        Array.from(track.children).forEach((card, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot';
+            dot.setAttribute('aria-label', `Ir para o card ${i + 1}`);
+            dot.addEventListener('click', () => {
+                track.scrollTo({ left: i * scrollAmount(), behavior: 'smooth' });
+            });
+            dotsEl.appendChild(dot);
+        });
+    };
+
+    const update = () => {
+        const max = track.scrollWidth - track.clientWidth;
+        prev.disabled = track.scrollLeft <= 0;
+        next.disabled = track.scrollLeft >= max - 1;
+        if (dotsEl) {
+            const idx = Math.min(Math.round(track.scrollLeft / scrollAmount()), track.children.length - 1);
+            Array.from(dotsEl.children).forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        }
+    };
+
+    prev.addEventListener('click', () => {
+        track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
     });
+    next.addEventListener('click', () => {
+        track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+    });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', () => { renderDots(); update(); });
+    renderDots();
+    update();
 }
+
+initCarousel('ovos-track');
+initCarousel('presentes-track');
 
 /**
  * Lógica do Menu Mobile
