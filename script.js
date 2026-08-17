@@ -251,6 +251,11 @@ function enviarPedidoWhatsApp() {
 }
 
 /**
+ * Botão flutuante WhatsApp (FAB)
+ */
+document.getElementById('fab-whatsapp').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero fazer um pedido')}`;
+
+/**
  * Listener Global para Cliques Fora dos Modais
  */
 window.addEventListener('click', (event) => {
