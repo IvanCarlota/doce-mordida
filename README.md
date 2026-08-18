@@ -2,6 +2,8 @@
 
 Site institucional e de pedidos da **Doce Mordida**, confeitaria artesanal especializada em doces de Páscoa (ovos de chocolate, kits e presentáveis), localizada em Colombo - PR.
 
+**Publicado em:** [https://docemordidabrigadeiros.com.br/](https://docemordidabrigadeiros.com.br/)
+
 ## Sobre o projeto
 
 Página única (landing page) com:
