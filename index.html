@@ -17,66 +17,81 @@
 
     <link rel="icon" type="image/png" href="images/logo-1.png">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#c4e8ff">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
 
 
-    <div id="modal-pedido" class="popup-overlay">
+    <div id="modal-pedido" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-pedido">
         <div class="popup-content form-pedido">
-            <span class="close-popup" onclick="fecharModalPedido()">&times;</span>
-            <h3>Monte seu Pedido</h3>
+            <span class="close-popup" role="button" tabindex="0" aria-label="Fechar">&times;</span>
+            <h3 id="titulo-pedido">Monte seu Pedido</h3>
             <p>Selecione os itens e a quantidade:</p>
             
             <div id="lista-itens-pedido">
                 <div class="item-selecao">
                     <span>Ovo Brigadeiro</span>
+                    <span class="item-price">R$ 57,00</span>
                     <input type="number" min="0" value="0" data-nome="Ovo Brigadeiro">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Ninho com Nutella</span>
+                    <span class="item-price">R$ 65,00</span>
                     <input type="number" min="0" value="0" data-nome="Ovo Ninho com Nutella">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Surpresinha de Uva</span>
+                    <span class="item-price">R$ 62,00</span>
                     <input type="number" min="0" value="0" data-nome="Ovo Surpresinha de Uva">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo Escondidinho de Brownie</span>
+                    <span class="item-price">R$ 65,00</span>
                     <input type="number" min="0" value="0" data-nome="Ovo Escondidinho de Brownie">
                 </div>
                 <div class="item-selecao">
                     <span>Ovo de Maracujá</span>
+                    <span class="item-price">R$ 62,00</span>
                     <input type="number" min="0" value="0" data-nome="Ovo de Maracujá">
                 </div>
                 
                 <div class="item-selecao">
                     <span>Dupla de Ovos</span>
+                    <span class="item-price">R$ 79,00</span>
                     <input type="number" min="0" value="0" data-nome="Dupla de Ovos">
                 </div>
                 <div class="item-selecao">
                     <span>Kit Degustação</span>
+                    <span class="item-price">R$ 48,00</span>
                     <input type="number" min="0" value="0" data-nome="Kit Degustação">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa com 6 Brigadeiros</span>
+                    <span class="item-price">R$ 25,00</span>
                     <input type="number" min="0" value="0" data-nome="Caixa com 6 Brigadeiros">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa Livro (4 un.)</span>
+                    <span class="item-price">R$ 17,00</span>
                     <input type="number" min="0" value="0" data-nome="Caixa Livro (4 un.)">
                 </div>
                 <div class="item-selecao">
                     <span>Caixa com 2 un.</span>
+                    <span class="item-price">R$ 8,00</span>
                     <input type="number" min="0" value="0" data-nome="Caixa com 2 un.">
                 </div>
             </div>
 
-            <div id="mensagem-erro-vazio" class="erro-pedido">Por favor, selecione pelo menos uma quantidade em algum item.</div>
+            <div class="resumo-pedido">
+                <div class="total-pedido"><span>Total:</span><strong id="valor-total">R$ 0,00</strong></div>
+            </div>
+
+            <div id="mensagem-erro-vazio" class="erro-pedido" role="alert">Por favor, selecione pelo menos uma quantidade em algum item.</div>
             
             <button class="btn-popup btn-enviar" onclick="enviarPedidoWhatsApp()">ENVIAR PEDIDO</button>
         </div>
@@ -92,13 +107,13 @@
             </div>
         </div>
         
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
             <i class="fas fa-bars"></i>
         </button>
 
-        <nav class="nav-pill" id="nav-menu">
+        <nav class="nav-pill" id="nav-menu" aria-label="Menu principal">
             <ul>
-                <li><a href="#hero">HOME</a></li>
+                <li><a href="#home">HOME</a></li>
                 <li><a href="#ovos">OVOS</a></li>
                 <li><a href="#presentes">KITS</a></li>
                 <li><a href="#info">CONTATO</a></li>
@@ -109,7 +124,7 @@
     </div>
 </header>
 
-<section id="hero" class="hero">
+<section id="home" class="hero">
     <div class="hero-container">
         <div class="hero-content">
             <p class="hero-subtitle">SEU DOCE FAVORITO</p>
@@ -131,7 +146,7 @@
 
 <div class="onda">
     <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z" fill="#ffb7c5"></path>
+        <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z"></path>
     </svg>
 </div>
 
@@ -140,56 +155,58 @@
         <h2>Ovos de Colher (Aprox. 250g)</h2>
         
         <div class="carousel-wrapper">
-            <button class="carousel-btn prev" onclick="scrollCarousel('ovos-track', -1)" aria-label="Voltar">
+            <button class="carousel-btn prev" aria-label="Voltar">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
             <div class="carousel-track" id="ovos-track">
                 <div class="card">
-                    <img src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro">
+                    <img loading="lazy" src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro">
                     <h3>Brigadeiro</h3>
                     <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 57,00</div>
+                    <button class="price-tag" data-nome="Ovo Brigadeiro">Pedir · R$ 57,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella">
+                    <img loading="lazy" src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella">
                     <h3>Ninho com Nutella</h3>
                     <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 65,00</div>
+                    <button class="price-tag" data-nome="Ovo Ninho com Nutella">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva">
+                    <img loading="lazy" src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva">
                     <h3>Surpresinha de Uva</h3>
                     <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 62,00</div>
+                    <button class="price-tag" data-nome="Ovo Surpresinha de Uva">Pedir · R$ 62,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie">
+                    <img loading="lazy" src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie">
                     <h3>Escondidinho de Brownie</h3>
                     <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
-                    <div class="price-tag">R$ 65,00</div>
+                    <button class="price-tag" data-nome="Ovo Escondidinho de Brownie">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá">
+                    <img loading="lazy" src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá">
                     <h3>Maracujá</h3>
                     <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
-                    <div class="price-tag">R$ 62,00</div>
+                    <button class="price-tag" data-nome="Ovo de Maracujá">Pedir · R$ 62,00</button>
                 </div>
             </div>
 
-            <button class="carousel-btn next" onclick="scrollCarousel('ovos-track', 1)" aria-label="Avançar">
+            <button class="carousel-btn next" aria-label="Avançar">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
+
+        <div class="carousel-dots" id="ovos-dots"></div>
     </section>
 
     <div class="onda invertida">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z" fill="#ffffff"></path>
+            <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z"></path>
         </svg>
     </div>
 
@@ -197,56 +214,58 @@
         <h2>Kits & Presentáveis</h2>
         
         <div class="carousel-wrapper">
-            <button class="carousel-btn prev" onclick="scrollCarousel('presentes-track', -1)" aria-label="Voltar">
+            <button class="carousel-btn prev" aria-label="Voltar">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
             <div class="carousel-track" id="presentes-track">
                 <div class="card">
-                    <img src="images/dupla_ovos.jpg" alt="Dupla de Ovos">
+                    <img loading="lazy" src="images/dupla_ovos.jpg" alt="Dupla de Ovos">
                     <h3>Dupla de Ovos</h3>
                     <p>Escolha 2 sabores do menu. (180g cada)</p>
-                    <div class="price-tag">R$ 79,00</div>
+                    <button class="price-tag" data-nome="Dupla de Ovos">Pedir · R$ 79,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/kit_degustacao.jpg" alt="Kit Degustação">
+                    <img loading="lazy" src="images/kit_degustacao.jpg" alt="Kit Degustação">
                     <h3>Kit Degustação</h3>
                     <p>4 mini ovos de 50g cada com os sabores do menu.</p>
-                    <div class="price-tag">R$ 48,00</div>
+                    <button class="price-tag" data-nome="Kit Degustação">Pedir · R$ 48,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros">
+                    <img loading="lazy" src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros">
                     <h3>Caixa com 6 Brigadeiros</h3>
                     <p>3 tradicionais e 3 de ninho colorido temático.</p>
-                    <div class="price-tag">R$ 25,00</div>
+                    <button class="price-tag" data-nome="Caixa com 6 Brigadeiros">Pedir · R$ 25,00</button>
                 </div>
 
                 <div class="card">
-                    <img src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades">
+                    <img loading="lazy" src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades">
                     <h3>Caixa Livro (4 un.)</h3>
                     <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
-                    <div class="price-tag">R$ 17,00</div>
+                    <button class="price-tag" data-nome="Caixa Livro (4 un.)">Pedir · R$ 17,00</button>
                 </div>
                 
                 <div class="card">
-                    <img src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades">
+                    <img loading="lazy" src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades">
                     <h3>Caixa com 2 un.</h3>
                     <p>2 unidades de brigadeiro de 23g cada.</p>
-                    <div class="price-tag">R$ 8,00</div>
+                    <button class="price-tag" data-nome="Caixa com 2 un.">Pedir · R$ 8,00</button>
                 </div>
             </div>
 
-            <button class="carousel-btn next" onclick="scrollCarousel('presentes-track', 1)" aria-label="Avançar">
+            <button class="carousel-btn next" aria-label="Avançar">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
+
+        <div class="carousel-dots" id="presentes-dots"></div>
     </section>
 
     <div class="onda">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z" fill="#ffb7c5"></path>
+            <path d="M0,0 C240,120 480,120 720,60 C960,0 1200,0 1440,60 L1440,120 L0,120 Z"></path>
         </svg>
     </div>
 
@@ -280,8 +299,8 @@
     <p>© 2026 - Doce Mordida | Doces Artesanais de Páscoa</p>
 </footer>
 
-    <div id="image-modal" class="modal">
-        <span class="close-modal">&times;</span>
+    <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Visualização da imagem">
+        <span class="close-modal" role="button" tabindex="0" aria-label="Fechar imagem">&times;</span>
         <img class="modal-content" id="img-expanded">
     </div>
 

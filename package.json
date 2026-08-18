@@ -1,0 +1,26 @@
+{
+  "name": "doce-mordida",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:regression": "playwright test tests/regression-journey.spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvanCarlota/doce-mordida.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "CC0-1.0",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/IvanCarlota/doce-mordida/issues"
+  },
+  "homepage": "https://github.com/IvanCarlota/doce-mordida#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "lighthouse": "^13.4.1"
+  }
+}
