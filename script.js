@@ -8,7 +8,8 @@ function initCarousel(trackId) {
     const wrapper = track.closest('.carousel-wrapper');
     const prev = wrapper.querySelector('.carousel-btn.prev');
     const next = wrapper.querySelector('.carousel-btn.next');
-    const scrollAmount = () => track.firstElementChild ? track.firstElementChild.clientWidth + 20 : 320;
+    const gap = () => parseFloat(getComputedStyle(track).gap) || 0;
+    const scrollAmount = () => track.firstElementChild ? track.firstElementChild.clientWidth + gap() : 320;
 
     const renderDots = () => {
         if (!dotsEl) return;

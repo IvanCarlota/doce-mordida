@@ -16,6 +16,21 @@ test('mobile: card ocupa 100% do espaço entre os botões', async ({ page }) => 
   expect(Math.abs(cardLeft - btnPrevRight)).toBeLessThanOrEqual(1);
 });
 
+test('sem pedaço do próximo card entre 477px e 1023px', async ({ page }) => {
+  for (const width of [476, 600, 768, 1023]) {
+    await page.setViewportSize({ width, height: 1181 });
+    await page.goto('/');
+    const track = page.locator('#ovos-track');
+    const card = track.locator('.card').first();
+    const cw = await card.evaluate(el => el.getBoundingClientRect().width);
+    const tw = await track.evaluate(el => el.clientWidth);
+    expect(Math.abs(cw - tw), `largura ${width}px`).toBeLessThanOrEqual(1);
+    const scrollW = await track.evaluate(el => el.scrollWidth);
+    const cards = await track.locator('.card').count();
+    expect(Math.abs(scrollW - cards * cw), `scrollWidth ${width}px`).toBeLessThanOrEqual(2);
+  }
+});
+
 test('carrossel: dots, scroll real e setas desabilitadas nas pontas', async ({ page }) => {
   await page.goto('/');
   const track = page.locator('#ovos-track');
