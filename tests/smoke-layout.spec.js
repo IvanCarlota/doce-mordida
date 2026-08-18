@@ -10,11 +10,18 @@ test('hero mobile: min-height auto e padding adaptativo', async ({ page }) => {
   const hero = page.locator('.hero');
   const info = await hero.evaluate(el => {
     const cs = getComputedStyle(el);
-    return { pt: parseFloat(cs.paddingTop), pl: cs.paddingLeft, h: el.getBoundingClientRect().height, vh: window.innerHeight };
+    const content = el.querySelector('.hero-container').getBoundingClientRect().height;
+    return {
+      pt: parseFloat(cs.paddingTop),
+      pl: parseFloat(cs.paddingLeft),
+      pb: parseFloat(cs.paddingBottom),
+      h: el.getBoundingClientRect().height,
+      content,
+    };
   });
   expect(Math.abs(info.pt - 812 * 0.15)).toBeLessThanOrEqual(2);
-  expect(Math.abs(parseFloat(info.pl) - 375 * 0.05)).toBeLessThanOrEqual(1);
-  expect(info.h).toBeLessThan(info.vh);
+  expect(Math.abs(info.pl - 375 * 0.05)).toBeLessThanOrEqual(1);
+  expect(Math.abs(info.h - (info.content + info.pt + info.pb))).toBeLessThanOrEqual(2);
 });
 test('tipografia fluida: clamp nos títulos e hero-subtitle estilizado', async ({ page }) => {
   await page.goto('/');
