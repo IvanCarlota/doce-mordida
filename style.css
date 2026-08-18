@@ -123,10 +123,10 @@ header {
 /* --- Hero --- */
 .hero {
     position: relative;
-    min-height: 80vh;
+    min-height: auto;
     display: flex;
     align-items: center;
-    padding: 120px 10% 40px 10%; 
+    padding: clamp(100px, 15vh, 180px) 5% 40px;
     z-index: 1;
     background-color: var(--bg-cream); 
 }
