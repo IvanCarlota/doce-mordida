@@ -235,6 +235,13 @@ document.querySelectorAll('.price-tag[data-nome]').forEach(btn => {
     btn.addEventListener('click', () => abrirModalPedido(btn.dataset.nome));
 });
 
+// FAB do WhatsApp aponta para o número configurável
+const fabWhatsapp = document.getElementById('fab-whatsapp');
+if (fabWhatsapp) {
+    const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
+    fabWhatsapp.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Olá! Quero fazer um pedido 🐰')}`;
+}
+
 // Função para fechar o modal de pedido
 function fecharModalPedido() {
     if (modalPedido) {

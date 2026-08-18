@@ -95,13 +95,8 @@ test.describe('lightbox', () => {
 });
 
 test.describe('FAB', () => {
-  test('visível no mobile e oculto a partir de 768px', async ({ page }) => {
-    await page.goto('/');
-    const fab = page.locator('#fab-whatsapp');
-    if (page.viewportSize().width < 768) {
-      await expect(fab).toBeVisible();
-    } else {
-      await expect(fab).toBeHidden();
-    }
-  });
+test('visível em todos os tamanhos de tela', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#fab-whatsapp')).toBeVisible();
+});
 });

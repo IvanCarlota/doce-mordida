@@ -1,11 +1,7 @@
 const { test, expect } = require('@playwright/test');
-test('FAB visível no mobile e oculto no desktop', async ({ page }) => {
+test('FAB visível em todos os tamanhos de tela', async ({ page }) => {
   await page.goto('/');
-  if (page.viewportSize().width < 768) {
-    await expect(page.locator('#fab-whatsapp')).toBeVisible();
-  } else {
-    await expect(page.locator('#fab-whatsapp')).toBeHidden();
-  }
+  await expect(page.locator('#fab-whatsapp')).toBeVisible();
 });
 test('FAB aponta para wa.me com o número configurável', async ({ page }) => {
   await page.addInitScript(() => { window.WHATSAPP_NUMBER = '5541998026260'; });
