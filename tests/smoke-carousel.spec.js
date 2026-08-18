@@ -22,7 +22,9 @@ test('responsividade dos cards por faixa de pixel', async ({ page }) => {
     { width: 471, fator: (tw) => 316.7 - 0.095 * tw },
     { width: 699, fator: (tw) => 316.7 - 0.095 * tw },
     { width: 700, fator: (tw) => (tw - 60) / 2 },
-    { width: 1023, fator: (tw) => (tw - 60) / 2 },
+    { width: 828, fator: (tw) => (tw - 60) / 2 },
+    { width: 829, fator: (tw) => (tw - 60) / 3 },
+    { width: 1023, fator: (tw) => (tw - 60) / 3 },
   ];
   for (const c of casos) {
     await page.setViewportSize({ width: c.width, height: 1181 });

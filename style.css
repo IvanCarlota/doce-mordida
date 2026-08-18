@@ -503,8 +503,13 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .card { flex: 0 0 calc(316.7px - 9.5%); }
 }
 
-@media (min-width: 700px) and (max-width: 1023px) {
+@media (min-width: 700px) and (max-width: 828px) {
     .card { flex: 0 0 calc((100% - 60px) / 2); }
+    .carousel-track { gap: 20px; }
+}
+
+@media (min-width: 829px) and (max-width: 1023px) {
+    .card { flex: 0 0 calc((100% - 60px) / 3); }
     .carousel-track { gap: 20px; }
 }
 
