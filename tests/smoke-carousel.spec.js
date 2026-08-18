@@ -16,22 +16,22 @@ test('mobile: card ocupa 100% do espaço entre os botões', async ({ page }) => 
   expect(Math.abs(cardLeft - btnPrevRight)).toBeLessThanOrEqual(1);
 });
 
-test('card cheio até 476px e peek do próximo card de 477px a 1023px', async ({ page }) => {
-  await page.setViewportSize({ width: 476, height: 1181 });
-  await page.goto('/');
-  let card = page.locator('#ovos-track .card').first();
-  let track = page.locator('#ovos-track');
-  let cw = await card.evaluate(el => el.getBoundingClientRect().width);
-  let tw = await track.evaluate(el => el.clientWidth);
-  expect(Math.abs(cw - tw)).toBeLessThanOrEqual(1);
-  for (const width of [477, 623, 768, 1023]) {
-    await page.setViewportSize({ width, height: 1181 });
+test('responsividade dos cards por faixa de pixel', async ({ page }) => {
+  const casos = [
+    { width: 470, fator: (tw) => tw },
+    { width: 471, fator: (tw) => tw - 60 },
+    { width: 699, fator: (tw) => tw - 60 },
+    { width: 700, fator: (tw) => (tw - 60) / 2 },
+    { width: 1023, fator: (tw) => (tw - 60) / 2 },
+  ];
+  for (const c of casos) {
+    await page.setViewportSize({ width: c.width, height: 1181 });
     await page.goto('/');
-    card = page.locator('#ovos-track .card').first();
-    track = page.locator('#ovos-track');
-    cw = await card.evaluate(el => el.getBoundingClientRect().width);
-    tw = await track.evaluate(el => el.clientWidth);
-    expect(Math.abs(tw - cw - 60), `largura ${width}px`).toBeLessThanOrEqual(2);
+    const card = page.locator('#ovos-track .card').first();
+    const track = page.locator('#ovos-track');
+    const cw = await card.evaluate(el => el.getBoundingClientRect().width);
+    const tw = await track.evaluate(el => el.clientWidth);
+    expect(Math.abs(cw - c.fator(tw)), `largura ${c.width}px`).toBeLessThanOrEqual(2);
   }
 });
 

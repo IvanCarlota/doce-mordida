@@ -499,8 +499,13 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 /* --- Responsividade (mobile-first: base é mobile; desktop a partir de 1024px) --- */
-@media (min-width: 477px) and (max-width: 1023px) {
+@media (min-width: 471px) and (max-width: 699px) {
     .card { flex: 0 0 calc(100% - 60px); }
+}
+
+@media (min-width: 700px) and (max-width: 1023px) {
+    .card { flex: 0 0 calc((100% - 60px) / 2); }
+    .carousel-track { gap: 20px; }
 }
 
 @media (min-width: 1024px) {
