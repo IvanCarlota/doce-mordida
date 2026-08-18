@@ -100,7 +100,7 @@ header {
 
 .onda svg { 
     width: 100%; 
-    height: 50px; 
+    height: clamp(40px, 8vw, 80px); 
     display: block; 
 }
 
@@ -209,7 +209,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
 #ovos h2, .info-section h2 { color: var(--chocolate); }
 
 /* --- Cards --- */
-.carousel-wrapper { position: relative; max-width: 1300px; margin: 0 auto; padding: 0 40px; }
+.carousel-wrapper { position: relative; max-width: 1300px; margin: 0 auto; padding: 0 50px; }
 .carousel-track { 
     display: flex; 
     gap: 20px; 
@@ -275,7 +275,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     background: var(--chocolate);
     color: var(--branco);
     border: none;
-    width: 35px; height: 35px;
+    width: 45px; height: 45px;
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
@@ -500,7 +500,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 
 /* --- Responsividade (mobile-first: base é mobile; desktop a partir de 1024px) --- */
 @media (min-width: 471px) and (max-width: 699px) {
-    .card { flex: 0 0 calc(316.7px - 9.5%); }
+    .card { flex: 0 0 calc(278.7px - 4.56%); }
 }
 
 @media (min-width: 700px) and (max-width: 828px) {
@@ -524,8 +524,6 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .nav-pill ul { flex-direction: row; gap: 20px; }
     .card { flex: 0 0 300px; }
     .carousel-track { gap: 20px; }
-    .carousel-btn { width: 45px; height: 45px; }
-    .onda svg { height: 80px; }
     #presentes, .info-section, footer { margin-top: 0; position: static; z-index: auto; }
     .onda.invertida svg { margin-top: 0; }
     .modal-content { width: auto; max-width: 90%; }
