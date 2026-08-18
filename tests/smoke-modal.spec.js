@@ -100,3 +100,30 @@ test('modal pedido: inputs com 16px (sem zoom iOS) e espaçamento preço/quantid
   const inputLeft = await page.locator('.item-selecao input').first().evaluate(el => el.getBoundingClientRect().left);
   expect(inputLeft - priceRight).toBeGreaterThanOrEqual(8);
 });
+test('modal pedido: bottom sheet no mobile, centralizado no desktop', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
+  const sheet = page.locator('#modal-pedido .popup-content');
+  const info = await sheet.evaluate(el => {
+    const cs = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    return {
+      position: cs.position,
+      bottom: parseFloat(cs.bottom),
+      radius: cs.borderRadius,
+      maxW: cs.maxWidth,
+      desktop: window.innerWidth >= 1024,
+      height: r.height,
+      vh: window.innerHeight,
+    };
+  });
+  if (info.desktop) {
+    expect(info.position).toBe('static');
+    expect(parseFloat(info.maxW)).toBeLessThanOrEqual(450);
+  } else {
+    expect(info.position).toBe('fixed');
+    expect(info.bottom).toBeLessThanOrEqual(0);
+    expect(info.radius).toBe('24px 24px 0px 0px');
+    expect(info.height).toBeLessThanOrEqual(info.vh * 0.9 + 1);
+  }
+});

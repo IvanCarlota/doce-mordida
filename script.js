@@ -215,7 +215,11 @@ if (spanClosePopup) {
 if (modalPedido) armadilhaDeFoco(modalPedido, fecharModalPedido);
 
 // Função para abrir o modal de pedido
-function abrirModalPedido() {
+function abrirModalPedido(itemNome) {
+    if (itemNome) {
+        const inp = document.querySelector(`#lista-itens-pedido input[data-nome="${itemNome}"]`);
+        if (inp) inp.value = '1';
+    }
     if (modalPedido) {
         ultimoFoco = document.activeElement;
         modalPedido.style.display = 'flex';
@@ -225,6 +229,11 @@ function abrirModalPedido() {
         if (primeiroInput) primeiroInput.focus();
     }
 }
+
+// Botões "Pedir" dos cards abrem o modal com o item pré-selecionado
+document.querySelectorAll('.price-tag[data-nome]').forEach(btn => {
+    btn.addEventListener('click', () => abrirModalPedido(btn.dataset.nome));
+});
 
 // Função para fechar o modal de pedido
 function fecharModalPedido() {

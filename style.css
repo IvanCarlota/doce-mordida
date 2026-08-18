@@ -388,6 +388,33 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     animation: popupFade 0.4s ease;
 }
 
+#modal-pedido .popup-content {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: 90dvh;
+    border-radius: 24px 24px 0 0;
+    padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    animation: sheetUp 0.3s ease;
+}
+
+@keyframes sheetUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+
+#modal-pedido .popup-content h3, #modal-pedido .popup-content > p { text-align: center; }
+#modal-pedido .popup-content .btn-enviar { width: 100%; }
+#lista-itens-pedido { width: 100%; flex: 1; overflow-y: auto; }
+.resumo-pedido { width: 100%; margin-top: 8px; }
+.total-pedido { display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid var(--azul-claro); font-size: 1.1rem; }
+
 .modal-content {
     max-width: 90%;
     max-height: 90%;
@@ -528,4 +555,5 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .onda.invertida svg { margin-top: 0; }
     .modal-content { width: auto; max-width: 90%; }
     .close-modal { top: 20px; right: 30px; font-size: 60px; }
+    #modal-pedido .popup-content { max-width: 450px; position: static; border-radius: 20px; margin: auto; animation: popupFade 0.4s ease; }
 }
