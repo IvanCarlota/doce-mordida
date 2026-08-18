@@ -494,7 +494,7 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--azul-claro); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .nav-pill.active { display: block; }
     .nav-pill ul { flex-direction: column; gap: 15px; }
-    .card { flex: 0 0 280px; }
+    .card { flex: 0 0 300px; }
     .carousel-btn { width: 35px; height: 35px; }
     .onda svg { height: 50px; }
     #presentes, .info-section, footer { margin-top: -1px; position: relative; z-index: 10; }
