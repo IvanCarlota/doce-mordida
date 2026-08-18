@@ -19,8 +19,8 @@ test('mobile: card ocupa 100% do espaço entre os botões', async ({ page }) => 
 test('responsividade dos cards por faixa de pixel', async ({ page }) => {
   const casos = [
     { width: 470, fator: (tw) => tw },
-    { width: 471, fator: (tw) => tw - 60 },
-    { width: 699, fator: (tw) => tw - 60 },
+    { width: 471, fator: (tw) => 0.88 * tw - 20 },
+    { width: 699, fator: (tw) => 0.88 * tw - 20 },
     { width: 700, fator: (tw) => (tw - 60) / 2 },
     { width: 1023, fator: (tw) => (tw - 60) / 2 },
   ];
