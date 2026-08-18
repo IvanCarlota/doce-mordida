@@ -499,6 +499,10 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 }
 
 /* --- Responsividade (mobile-first: base é mobile; desktop a partir de 1024px) --- */
+@media (min-width: 477px) and (max-width: 1023px) {
+    .card { flex: 0 0 calc(100% - 60px); }
+}
+
 @media (min-width: 1024px) {
     header { padding: 15px 5%; }
     .menu-toggle { display: none; }

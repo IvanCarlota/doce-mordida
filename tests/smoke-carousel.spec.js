@@ -16,18 +16,22 @@ test('mobile: card ocupa 100% do espaço entre os botões', async ({ page }) => 
   expect(Math.abs(cardLeft - btnPrevRight)).toBeLessThanOrEqual(1);
 });
 
-test('sem pedaço do próximo card entre 477px e 1023px', async ({ page }) => {
-  for (const width of [476, 600, 768, 1023]) {
+test('card cheio até 476px e peek do próximo card de 477px a 1023px', async ({ page }) => {
+  await page.setViewportSize({ width: 476, height: 1181 });
+  await page.goto('/');
+  let card = page.locator('#ovos-track .card').first();
+  let track = page.locator('#ovos-track');
+  let cw = await card.evaluate(el => el.getBoundingClientRect().width);
+  let tw = await track.evaluate(el => el.clientWidth);
+  expect(Math.abs(cw - tw)).toBeLessThanOrEqual(1);
+  for (const width of [477, 623, 768, 1023]) {
     await page.setViewportSize({ width, height: 1181 });
     await page.goto('/');
-    const track = page.locator('#ovos-track');
-    const card = track.locator('.card').first();
-    const cw = await card.evaluate(el => el.getBoundingClientRect().width);
-    const tw = await track.evaluate(el => el.clientWidth);
-    expect(Math.abs(cw - tw), `largura ${width}px`).toBeLessThanOrEqual(1);
-    const scrollW = await track.evaluate(el => el.scrollWidth);
-    const cards = await track.locator('.card').count();
-    expect(Math.abs(scrollW - cards * cw), `scrollWidth ${width}px`).toBeLessThanOrEqual(2);
+    card = page.locator('#ovos-track .card').first();
+    track = page.locator('#ovos-track');
+    cw = await card.evaluate(el => el.getBoundingClientRect().width);
+    tw = await track.evaluate(el => el.clientWidth);
+    expect(Math.abs(tw - cw - 60), `largura ${width}px`).toBeLessThanOrEqual(2);
   }
 });
 
