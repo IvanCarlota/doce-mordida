@@ -29,7 +29,7 @@ body {
 
 /* --- Header e Nav FIXOS --- */
 header {
-    padding: 15px 5%;
+    padding: 10px 5%;
     position: fixed; 
     top: 0;
     left: 0;
@@ -52,6 +52,8 @@ header {
 .logo-wrapper { display: flex; align-items: center; gap: 10px; }
 .logo-wrapper img { height: 45px; }
 
+.menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
+
 /* --- Estilo da Logo --- */
 .brand-name { 
     font-family: 'Anton', 'Arial Black', sans-serif; 
@@ -71,16 +73,21 @@ header {
 }
 
 .nav-pill { 
+    display: none; 
     background: var(--azul-claro); 
-    padding: 10px 35px; 
-    border-radius: 50px; 
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2100;
+    padding: 20px; 
+    border-radius: 20px; 
+    position: fixed;
+    top: 65px;
+    left: 5%;
+    width: 90%;
+    transform: none;
+    z-index: 3100;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
+.nav-pill.active { display: block; }
 
-.nav-pill ul { display: flex; list-style: none; gap: 20px; }
+.nav-pill ul { display: flex; list-style: none; flex-direction: column; gap: 15px; }
 .nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
 
 /* --- Ondas --- */
@@ -93,7 +100,7 @@ header {
 
 .onda svg { 
     width: 100%; 
-    height: 80px; 
+    height: 50px; 
     display: block; 
 }
 
@@ -109,6 +116,9 @@ header {
 .onda.invertida svg path {
     fill: var(--branco);
 }
+.onda.invertida svg { margin-top: -1px; }
+
+#presentes, .info-section, footer { margin-top: -1px; position: relative; z-index: 10; }
 
 /* --- Hero --- */
 .hero {
@@ -116,7 +126,7 @@ header {
     min-height: 80vh;
     display: flex;
     align-items: center;
-    padding: 180px 10% 40px 10%; 
+    padding: 120px 10% 40px 10%; 
     z-index: 1;
     background-color: var(--bg-cream); 
 }
@@ -125,18 +135,21 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
+    text-align: center;
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    gap: 60px;
+    gap: 30px;
 }
 
 .hero-content {
     flex: 1;
-    text-align: left;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items: center;
+    order: 1;
 }
 
 .hero h1 {
@@ -166,6 +179,7 @@ header {
     flex: 1;
     display: flex;
     justify-content: center;
+    order: 2;
 }
 
 .hero-image img {
@@ -206,7 +220,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
 .carousel-track::-webkit-scrollbar { display: none; }
 
 .card { 
-    flex: 0 0 300px; 
+    flex: 0 0 100%; 
     background: var(--branco); 
     border-radius: 20px; 
     overflow: hidden; 
@@ -261,7 +275,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     background: var(--chocolate);
     color: var(--branco);
     border: none;
-    width: 45px; height: 45px;
+    width: 35px; height: 35px;
     border-radius: 50%;
     cursor: pointer;
     position: absolute;
@@ -377,6 +391,8 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 .modal-content {
     max-width: 90%;
     max-height: 90%;
+    width: 85%;
+    height: auto;
     border-radius: 15px;
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
     animation: zoomIn 0.3s ease;
@@ -398,10 +414,10 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 /* Botão de fechar do Modal de Imagem (Ajustado) */
 .close-modal {
     position: absolute;
-    top: 20px;
-    right: 30px;
+    top: 15px;
+    right: 20px;
     color: #ffffff; /* Força cor branca para contraste */
-    font-size: 60px; /* Tamanho maior para visibilidade */
+    font-size: 45px; /* Tamanho maior para visibilidade */
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
@@ -482,32 +498,21 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     display: none; /* Escondido por padrão */
 }
 
-/* --- Responsividade --- */
-@media (max-width: 900px) {
-    header { padding: 10px 5%; }
-    .header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-    .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
-    .hero-container { flex-direction: column; text-align: center; gap: 30px; }
-    .hero { padding-top: 120px; }
-    .hero-content { order: 1; align-items: center; }
-    .hero-image { order: 2; }
-    .nav-pill { display: none; position: fixed; top: 65px; left: 5%; width: 90%; transform: none; padding: 20px; background-color: var(--azul-claro); z-index: 3100; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-    .nav-pill.active { display: block; }
-    .nav-pill ul { flex-direction: column; gap: 15px; }
-    .card { flex: 0 0 100%; }
-    .carousel-btn { width: 35px; height: 35px; }
-    .onda svg { height: 50px; }
-    #presentes, .info-section, footer { margin-top: -1px; position: relative; z-index: 10; }
-    .onda.invertida svg { margin-top: -1px; }
-    
-    .modal-content { 
-        width: 85%; 
-        height: auto; 
-    }
-    
-    .close-modal { 
-        top: 15px; 
-        right: 20px; 
-        font-size: 45px; 
-    }
+/* --- Responsividade (mobile-first: base é mobile; desktop a partir de 1024px) --- */
+@media (min-width: 1024px) {
+    header { padding: 15px 5%; }
+    .menu-toggle { display: none; }
+    .hero { min-height: 80vh; padding: 180px 10% 40px 10%; }
+    .hero-container { flex-direction: row; text-align: left; gap: 60px; }
+    .hero-content { order: 0; align-items: flex-start; text-align: left; }
+    .hero-image { order: 0; }
+    .nav-pill { display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 10px 35px; border-radius: 50px; width: auto; z-index: 2100; box-shadow: none; }
+    .nav-pill ul { flex-direction: row; gap: 20px; }
+    .card { flex: 0 0 300px; }
+    .carousel-btn { width: 45px; height: 45px; }
+    .onda svg { height: 80px; }
+    #presentes, .info-section, footer { margin-top: 0; position: static; z-index: auto; }
+    .onda.invertida svg { margin-top: 0; }
+    .modal-content { width: auto; max-width: 90%; }
+    .close-modal { top: 20px; right: 30px; font-size: 60px; }
 }
