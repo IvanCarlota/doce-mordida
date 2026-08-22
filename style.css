@@ -557,3 +557,9 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .close-modal { top: 20px; right: 30px; font-size: 60px; }
     #modal-pedido .popup-content { max-width: 450px; position: static; border-radius: 20px; margin: auto; animation: popupFade 0.4s ease; }
 }
+
+/* --- Ícones SVG inline (substitui Font Awesome) --- */
+svg.icon { width: 1em; height: 1em; fill: currentColor; display: inline-block; vertical-align: -0.125em; }
+.menu-toggle .icon-close { display: none; }
+body.menu-open .menu-toggle .icon-close { display: block; }
+body.menu-open .menu-toggle .icon-bars { display: none; }

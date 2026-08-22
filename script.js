@@ -61,9 +61,6 @@ function toggleMenu(open) {
     navMenu.classList.toggle('active', shouldOpen);
     document.body.classList.toggle('menu-open', shouldOpen);
     menuToggle.setAttribute('aria-expanded', String(shouldOpen));
-    const icon = menuToggle.querySelector('i');
-    icon.classList.toggle('fa-bars', !shouldOpen);
-    icon.classList.toggle('fa-times', shouldOpen);
     if (shouldOpen) menuToggle.focus();
 }
 
