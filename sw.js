@@ -4,11 +4,10 @@
  * Estratégia: stale-while-revalidate para mesmos origem GET estáticos;
  * navegação (HTML) sempre pela rede. Bump da versão do CACHE ao mudar assets.
  */
-const CACHE = 'doce-mordida-v1';
+const CACHE = 'doce-mordida-v2';
 
 const ASSETS = [
     './index.html',
-    './style.css',
     './script.js',
     './images/logo-1.png',
     './images/coelho-borboleta.png',
