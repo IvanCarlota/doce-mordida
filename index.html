@@ -17,6 +17,7 @@
     <meta property="og:type" content="website">
 
     <link rel="icon" type="image/png" href="images/logo-1.png">
+    <link rel="preload" as="image" href="/images/coelho-borboleta.webp" fetchpriority="high">
     <style>
 :root {
     --bg-ice: #ffffff; 
@@ -70,7 +71,7 @@ header {
 }
 
 .logo-wrapper { display: flex; align-items: center; gap: 10px; }
-.logo-wrapper img { height: 45px; }
+.logo-wrapper img { height: 45px; width: auto; }
 
 .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
 
@@ -195,6 +196,7 @@ header {
     margin-bottom: 40px; 
 }
 
+.hero-image img { aspect-ratio: 508 / 491; height: auto; }
 .hero-image {
     flex: 1;
     display: flex;
@@ -590,14 +592,20 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
     <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
     <!-- Ícones: Font Awesome Free 6.0.0 inline (CC BY 4.0) — https://fontawesome.com/license/free -->
 </head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VJN40KZTK4"></script>
+<!-- Google tag (gtag.js) - carregamento diferido para reduzir TBT -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-VJN40KZTK4');
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VJN40KZTK4';
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VJN40KZTK4');
+    }, 2000);
+  });
 </script>
 <body>
 
@@ -676,7 +684,7 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
 <header>
     <div class="header-container">
         <div class="logo-wrapper">
-            <img src="images/logo-1.png" alt="Logo Doce Mordida">
+            <img src="images/logo-1.png" alt="Logo Doce Mordida" width="429" height="440">
             <div class="logo-text">
                 <span class="brand-name">Doce</span>
                 <span class="brand-sub">Mordida</span>
@@ -716,7 +724,7 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
         </div>
 
         <div class="hero-image">
-            <img src="images/coelho-borboleta.png" alt="Imgem de Coelho brincando com uma borboleta." fetchpriority="high">
+            <img src="images/coelho-borboleta.webp" alt="Imgem de Coelho brincando com uma borboleta." fetchpriority="high" loading="eager" width="508" height="491">
         </div>
     </div>
 </section>
@@ -738,35 +746,35 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
             
             <div class="carousel-track" id="ovos-track">
                 <div class="card">
-                    <img loading="lazy" src="images/ovo_brigadeiro.jpg" alt="Ovo Brigadeiro">
+                    <img loading="lazy" src="images/ovo_brigadeiro.webp" width="883" height="906" alt="Ovo Brigadeiro">
                     <h3>Brigadeiro</h3>
                     <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
                     <button class="price-tag" data-nome="Ovo Brigadeiro">Pedir · R$ 57,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/ovo_ninho_nutella.jpg" alt="Ovo Ninho com Nutella">
+                    <img loading="lazy" src="images/ovo_ninho_nutella.webp" width="693" height="905" alt="Ovo Ninho com Nutella">
                     <h3>Ninho com Nutella</h3>
                     <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
                     <button class="price-tag" data-nome="Ovo Ninho com Nutella">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/ovo_uva.jpg" alt="Ovo Surpresinha de Uva">
+                    <img loading="lazy" src="images/ovo_uva.webp" width="622" height="813" alt="Ovo Surpresinha de Uva">
                     <h3>Surpresinha de Uva</h3>
                     <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
                     <button class="price-tag" data-nome="Ovo Surpresinha de Uva">Pedir · R$ 62,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/ovo_brownie.jpg" alt="Ovo Escondidinho de Brownie">
+                    <img loading="lazy" src="images/ovo_brownie.webp" width="892" height="934" alt="Ovo Escondidinho de Brownie">
                     <h3>Escondidinho de Brownie</h3>
                     <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
                     <button class="price-tag" data-nome="Ovo Escondidinho de Brownie">Pedir · R$ 65,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/ovo_maracuja.jpg" alt="Ovo de Maracujá">
+                    <img loading="lazy" src="images/ovo_maracuja.webp" width="848" height="722" alt="Ovo de Maracujá">
                     <h3>Maracujá</h3>
                     <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
                     <button class="price-tag" data-nome="Ovo de Maracujá">Pedir · R$ 62,00</button>
@@ -797,35 +805,35 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
             
             <div class="carousel-track" id="presentes-track">
                 <div class="card">
-                    <img loading="lazy" src="images/dupla_ovos.jpg" alt="Dupla de Ovos">
+                    <img loading="lazy" src="images/dupla_ovos.webp" width="966" height="961" alt="Dupla de Ovos">
                     <h3>Dupla de Ovos</h3>
                     <p>Escolha 2 sabores do menu. (180g cada)</p>
                     <button class="price-tag" data-nome="Dupla de Ovos">Pedir · R$ 79,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/kit_degustacao.jpg" alt="Kit Degustação">
+                    <img loading="lazy" src="images/kit_degustacao.webp" width="963" height="851" alt="Kit Degustação">
                     <h3>Kit Degustação</h3>
                     <p>4 mini ovos de 50g cada com os sabores do menu.</p>
                     <button class="price-tag" data-nome="Kit Degustação">Pedir · R$ 48,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/caixa_6_brigadeiros.jpg" alt="Caixa com 6 Brigadeiros">
+                    <img loading="lazy" src="images/caixa_6_brigadeiros.webp" width="1000" height="875" alt="Caixa com 6 Brigadeiros">
                     <h3>Caixa com 6 Brigadeiros</h3>
                     <p>3 tradicionais e 3 de ninho colorido temático.</p>
                     <button class="price-tag" data-nome="Caixa com 6 Brigadeiros">Pedir · R$ 25,00</button>
                 </div>
 
                 <div class="card">
-                    <img loading="lazy" src="images/lembrancinha_4_unidades.jpg" alt="Lembrancinha 4 unidades">
+                    <img loading="lazy" src="images/lembrancinha_4_unidades.webp" width="731" height="576" alt="Lembrancinha 4 unidades">
                     <h3>Caixa Livro (4 un.)</h3>
                     <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
                     <button class="price-tag" data-nome="Caixa Livro (4 un.)">Pedir · R$ 17,00</button>
                 </div>
                 
                 <div class="card">
-                    <img loading="lazy" src="images/lembrancinha_2_unidades.jpg" alt="Lembrancinha 2 unidades">
+                    <img loading="lazy" src="images/lembrancinha_2_unidades.webp" width="925" height="881" alt="Lembrancinha 2 unidades">
                     <h3>Caixa com 2 un.</h3>
                     <p>2 unidades de brigadeiro de 23g cada.</p>
                     <button class="price-tag" data-nome="Caixa com 2 un.">Pedir · R$ 8,00</button>

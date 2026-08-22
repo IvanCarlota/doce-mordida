@@ -4,23 +4,23 @@
  * Estratégia: stale-while-revalidate para mesmos origem GET estáticos;
  * navegação (HTML) sempre pela rede. Bump da versão do CACHE ao mudar assets.
  */
-const CACHE = 'doce-mordida-v2';
+const CACHE = 'doce-mordida-v3';
 
 const ASSETS = [
     './index.html',
     './script.js',
     './images/logo-1.png',
-    './images/coelho-borboleta.png',
-    './images/ovo_brigadeiro.jpg',
-    './images/ovo_ninho_nutella.jpg',
-    './images/ovo_uva.jpg',
-    './images/ovo_brownie.jpg',
-    './images/ovo_maracuja.jpg',
-    './images/dupla_ovos.jpg',
-    './images/kit_degustacao.jpg',
-    './images/caixa_6_brigadeiros.jpg',
-    './images/lembrancinha_4_unidades.jpg',
-    './images/lembrancinha_2_unidades.jpg'
+    './images/coelho-borboleta.webp',
+    './images/ovo_brigadeiro.webp',
+    './images/ovo_ninho_nutella.webp',
+    './images/ovo_uva.webp',
+    './images/ovo_brownie.webp',
+    './images/ovo_maracuja.webp',
+    './images/dupla_ovos.webp',
+    './images/kit_degustacao.webp',
+    './images/caixa_6_brigadeiros.webp',
+    './images/lembrancinha_4_unidades.webp',
+    './images/lembrancinha_2_unidades.webp'
 ];
 
 self.addEventListener('install', evento => {

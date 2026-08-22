@@ -3,8 +3,7 @@ const { test, expect } = require('@playwright/test');
 // Regra de negócio 3.x: visitas repetidas devem ser servidas do cache local
 // (Service Worker) já que o host fixa Cache-Control: max-age=600.
 
-const TOTAL_PRECACHE = 15; // index.html + style.css + script.js + 12 imagens usadas pela página
-                           // (brigadeiro.png existe no repo mas não é referenciado)
+const TOTAL_PRECACHE = 14; // index.html + script.js + logo-1.png + 11 imagens .webp usadas pela página
 
 test('service worker registra e precacheia os assets estáticos', async ({ page }) => {
   await page.goto('/');
