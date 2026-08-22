@@ -304,3 +304,20 @@ if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js').catch(() => {});
     });
 }
+/**
+ * Ano do rodapé obtido da data do servidor (header HTTP Date)
+ */
+async function updateServerYear() {
+    const yearElement = document.getElementById('current-year');
+    if (!yearElement) return;
+    try {
+        const response = await fetch(window.location.href, { method: 'HEAD' });
+        const serverDateHeader = response.headers.get('date');
+        if (serverDateHeader) {
+            yearElement.textContent = new Date(serverDateHeader).getFullYear();
+            return;
+        }
+    } catch (e) {}
+    yearElement.textContent = new Date().getFullYear();
+}
+document.addEventListener('DOMContentLoaded', updateServerYear);
