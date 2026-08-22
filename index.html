@@ -21,11 +21,12 @@
     <style>
 :root {
     --bg-ice: #ffffff; 
-    --azul-claro: #c4e8ff; /* Azul Claro */
+    --azul-claro: #c4e8ff;
+    --azul-medio: #256d9c; /* Azul Claro */
     --chocolate: #4e342e;
     --text-muted: #7a6a61;
     --branco: #ffffff;
-    --whatsapp-green: #25d366;
+    --whatsapp-green: #0d8069;
     --whatsapp-dark: #128c7e;
     --bg-cream: #ffffff;
 }
@@ -88,7 +89,7 @@ header {
 .brand-sub { 
     font-family: 'Dancing Script', cursive; 
     font-size: 1.6rem; 
-    color: var(--azul-claro); 
+    color: var(--azul-medio); 
     display: block;
     margin-top: -5px; 
 }
@@ -109,7 +110,7 @@ header {
 .nav-pill.active { display: block; }
 
 .nav-pill ul { display: flex; list-style: none; flex-direction: column; gap: 15px; }
-.nav-pill a { text-decoration: none; color: var(--branco); font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
+.nav-pill a { text-decoration: none; color: var(--chocolate); font-weight: 600; font-size: 0.8rem; white-space: nowrap; }
 
 /* --- Ondas --- */
 .onda { 
@@ -198,6 +199,7 @@ header {
 
 .hero-image img { aspect-ratio: 508 / 491; height: auto; }
 .hero-image {
+    aspect-ratio: 508 / 491;
     flex: 1;
     display: flex;
     justify-content: center;
@@ -325,6 +327,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     margin-top: 15px;
 }
 .carousel-dot {
+    position: relative;
     width: 10px; height: 10px;
     border-radius: 50%;
     border: none;
@@ -332,6 +335,13 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     background: #d9d9d9;
     cursor: pointer;
     transition: background 0.3s;
+}
+.carousel-dot::before {
+    content: '';
+    position: absolute;
+    width: 48px; height: 48px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
 }
 .carousel-dot.active { background: var(--chocolate); }
 .carousel-dot:focus-visible { outline: 2px solid var(--chocolate); outline-offset: 2px; }
@@ -348,7 +358,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     text-decoration: none;
     font-weight: 700;
     margin-top: 60px;
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+    box-shadow: 0 6px 20px rgba(13, 128, 105, 0.35);
     transition: 0.3s;
     text-transform: uppercase;
     cursor: pointer;
@@ -372,7 +382,7 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
     text-align: center;
 }
 
-.info-item h4 {
+.info-item h3 {
     margin-bottom: 15px;
     color: var(--chocolate);
     text-transform: uppercase;
@@ -592,19 +602,23 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
     <noscript><link href="https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@700&family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"></noscript>
     <!-- Ícones: Font Awesome Free 6.0.0 inline (CC BY 4.0) — https://fontawesome.com/license/free -->
 </head>
-<!-- Google tag (gtag.js) - carregamento diferido para reduzir TBT -->
+<!-- Google tag (gtag.js) - injetado após a primeira interação do usuário -->
 <script>
-  window.addEventListener('load', function () {
-    setTimeout(function () {
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VJN40KZTK4';
-      document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-VJN40KZTK4');
-    }, 2000);
+  function injetaGtag() {
+    ['touchstart', 'scroll', 'click'].forEach(function (evt) {
+      window.removeEventListener(evt, injetaGtag);
+    });
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=G-VJN40KZTK4';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VJN40KZTK4');
+  }
+  ['touchstart', 'scroll', 'click'].forEach(function (evt) {
+    window.addEventListener(evt, injetaGtag, { once: true, passive: true });
   });
 </script>
 <body>
@@ -858,17 +872,17 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
         <h2>Como fazer seu pedido</h2>
         <div class="info-grid">
             <div class="info-item">
-                <h4>Pagamento</h4>
+                <h3>Pagamento</h3>
                 <p>Dinheiro, Pix ou Crédito (com taxa).</p>
                 <p><strong>Sinal de 50%</strong> para confirmar o pedido.</p>
             </div>
             <div class="info-item">
-                <h4>Retirada</h4>
+                <h3>Retirada</h3>
                 <p>Local: <strong>Colombo - PR</strong></p>
                 <p>Não fazemos entrega. Retirada com hora marcada ou via Uber Entregas.</p>
             </div>
             <div class="info-item">
-                <h4>Prazos</h4>
+                <h3>Prazos</h3>
                 <p>Pedidos até 30.03.</p>
                 <p>Produtos acompanham embalagem e tag.</p>
             </div>

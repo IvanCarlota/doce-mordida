@@ -13,8 +13,11 @@ function initCarousel(trackId) {
 
     const renderDots = () => {
         if (!dotsEl) return;
+        const visiveis = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 700 ? 2 : 1;
+        const total = track.children.length;
+        const qtdDots = Math.min(total, total - visiveis + 1);
         dotsEl.innerHTML = '';
-        Array.from(track.children).forEach((card, i) => {
+        for (let i = 0; i < qtdDots; i++) {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot';
             dot.setAttribute('aria-label', `Ir para o card ${i + 1}`);
@@ -22,15 +25,21 @@ function initCarousel(trackId) {
                 track.scrollTo({ left: i * scrollAmount(), behavior: 'smooth' });
             });
             dotsEl.appendChild(dot);
-        });
+        }
     };
 
     const update = () => {
         const max = track.scrollWidth - track.clientWidth;
         prev.disabled = track.scrollLeft <= 0;
         next.disabled = track.scrollLeft >= max - 1;
-        if (dotsEl) {
-            const idx = Math.min(Math.round(track.scrollLeft / scrollAmount()), track.children.length - 1);
+        if (dotsEl && dotsEl.children.length > 0) {
+            const ultimo = dotsEl.children.length - 1;
+            let idx;
+            if (max > 0 && track.scrollLeft >= max - 1) {
+                idx = ultimo;
+            } else {
+                idx = Math.min(Math.round(track.scrollLeft / scrollAmount()), ultimo);
+            }
             Array.from(dotsEl.children).forEach((dot, i) => dot.classList.toggle('active', i === idx));
         }
     };
