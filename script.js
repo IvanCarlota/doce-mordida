@@ -295,3 +295,12 @@ window.addEventListener('click', (event) => {
         fecharModalPedido();
     }
 });
+
+/**
+ * Service Worker: cache local para visitas repetidas
+ */
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+}
