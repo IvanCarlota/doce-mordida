@@ -1,7 +1,8 @@
 const { test, expect } = require('@playwright/test');
 
-// Contrato PWA/SEO base: manifest leve linkado e precacheado no SW v4,
-// robots.txt e sitemap.xml estáticos apontando para o domínio canônico.
+// Contrato PWA/SEO base: manifest leve linkado e precacheado no SW v5
+// (cache-first para estáticos), robots.txt e sitemap.xml estáticos
+// apontando para o domínio canônico.
 const CANONICA = 'https://docemordidabrigadeiros.com.br';
 
 test('manifest.json válido, linkado no head e com identidade visual do site', async ({ request }) => {
@@ -19,10 +20,11 @@ test('manifest.json válido, linkado no head e com identidade visual do site', a
   expect(icones).toContain('images/logo-1.png');
 });
 
-test('sw.js na versão v4 precacheia o manifest', async ({ request }) => {
+test('sw.js na versão v5 precacheia manifest e catálogo', async ({ request }) => {
   const sw = await (await request.get('/sw.js')).text();
-  expect(sw).toContain("'doce-mordida-v4'");
+  expect(sw).toContain("'doce-mordida-v5'");
   expect(sw).toContain("'./manifest.json'");
+  expect(sw).toContain("'./produtos.json'");
 });
 
 test('robots.txt libera crawlers e declara o sitemap canônico', async ({ request }) => {

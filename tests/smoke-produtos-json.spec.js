@@ -2,6 +2,8 @@ const { test, expect } = require('@playwright/test');
 
 // Contrato do catálogo externo: produtos.json na raiz alimenta preços via fetch;
 // o objeto interno permanece como fallback síncrono (subtotal e WhatsApp nunca quebram).
+// SW bloqueado: os testes de rota simulam a rede real sem interferência do cache-first.
+test.use({ serviceWorkers: 'block' });
 
 test('produtos.json existe e cobre todos os itens exibidos no modal', async ({ page }) => {
   const resposta = await page.request.get('/produtos.json');
