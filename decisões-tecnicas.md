@@ -1,8 +1,8 @@
 # Decisões Técnicas — Doce Mordida
 
-> Log vivo e LOCAL (gitignored): tudo que implementamos desde o início do
-> projeto, organizado por fase, com hash de commit. Atualizar a cada tarefa.
-> Fonte primária: histórico do git (`git log --reverse`).
+> Log vivo: tudo que implementamos desde o início do projeto, organizado por
+> fase, com hash de commit. Atualizar a cada tarefa. Fonte primária: histórico
+> do git (`git log --reverse`). Versionado desde `e48df9a`.
 
 ---
 
@@ -58,9 +58,9 @@
 
 ## Pendências / próximas
 
-- **Reflow carrossel** (`script.js` `update()` lê layout a cada evento de scroll): interrompido pelo incidente do logo; teste de caracterização existe não-commitado (`smoke-carousel-edge.spec.js`). Dots no desktop: comportamento atual é esperado segundo o dono (navegação por cliques).
-- **Imagens grandes (~1.750 KiB)** pós-revert do WebP: retomar preservando o logo, quando autorizado.
-- **Deploy:** merge `feat/mobile-first` → `main` + push ao remoto pendente de confirmação (publica produção via GitHub Pages).
+- **Reflow carrossel** (`script.js` `update()` lê layout a cada evento de scroll): segue em aberto por decisão do dono; caracterização commitada (`tests/smoke-carousel-edge.spec.js`). Dots no desktop: comportamento atual é esperado segundo o dono (navegação por cliques).
+- ~~Imagens grandes (~1.750 KiB)~~ **Resolvido** em `8903f32` (WebP q80, −68%).
+- ~~Deploy pendente~~ **Rotina ativa**: merge fast-forward `feat/mobile-first` → `main` a cada lote aprovado pelo dono.
 
 ## 2026-08-22 — WebP retomado com sucesso ✅ (`8903f32`, deploy em main)
 - Refeito o plano de imagens com a lição do incidente: logo-1.png intocada no HTML; causa raiz do estouro confirmada (.logo-wrapper img fixava só height → width do atributo vencia) e corrigida com `width:auto` no CSS, permitindo w/h em todas as imgs.
@@ -74,3 +74,27 @@
 - Contraste WCAG AA ≥4.5: nav chocolate 8.81:1 · brand-sub novo token --azul-medio #256d9c 5.61:1 · btn-cta #0d8069 4.87:1 (sombra atualizada junto).
 - h4→h3 ×3 na seção info (+seletor CSS). gtag injetado só após touchstart/scroll/click. .hero-image com aspect-ratio (container).
 - Suite: 124 passed / 3 skipped. smoke-final-a11y-perf.spec.js cobre tudo em runtime (contraste calculado no browser).
+
+## 2026-08-22 — FAQ acessível + catálogo externo + base PWA ✅ (`e48df9a`, deploy em main)
+- Seção info unificada: cards estáticos (`.info-grid`) → accordion FAQ com 3 P/R nativos (`button` + `aria-expanded`/`aria-controls`), fundo branco sobre o azul da seção, título "Dúvidas Frequentes" e `btn-cta` mantido abaixo; CSS morto `.info-grid`/`.info-item` removido; teste antigo de h3 semântico migrado para o novo contrato.
+- Catálogo externo: `produtos.json` na raiz alimenta os preços via fetch com fallback síncrono interno (subtotal/WhatsApp nunca quebram); JSON-LD `Product` ×10 no head.
+- Base PWA/SEO: `manifest.json` linkado, sw.js bump v4 precacheando manifest, `robots.txt` e `sitemap.xml` canônicos.
+- Novos testes: smoke-faq (ARIA/clique/teclado/contraste), smoke-produtos-json (fallback), smoke-pwa-seo, smoke-seo-jsonld, smoke-carousel-edge. Suite 174 passed / 3 skipped.
+- Deploys em main passaram a ser sincronizados por fast-forward a cada lote aprovado.
+
+## 2026-08-22 — X do modal dentro do cartão ✅ (`8daecd5`)
+- Causa raiz: no desktop `#modal-pedido .popup-content` era `position: static`, então o `.close-popup` absoluto ancorava no overlay (tela cheia) — X visualmente fora do modal. Fix: `position: relative`.
+- Contrato novo: bounding box do `.close-popup` contido no cartão nas 3 viewports.
+
+## 2026-08-22 — Âncora DÚVIDAS ✅ (`cbb94a0`)
+- Último link do menu: CONTATO → DÚVIDAS (href `#info`). `scroll-padding-top: 90px` já cobria o header fixo (~70–80px) — validado sem alteração.
+
+## 2026-08-22 — Pacote performance mobile ✅ (`44050c1`, `76509e6`)
+- Quebra da cadeia crítica: preload `produtos.json` (`as="fetch" crossorigin="anonymous"`); `script.js` com `defer`; `decoding="async"` nos 10 cards (hero já eager+fetchpriority).
+- sw.js **v5**: Cache-First estrito para estáticos (css/js/json/png/webp/svg) — `caches.match` primeiro, rede só em miss com `cache.put`; navegação segue sempre pela rede. ASSETS completos (+`produtos.json`).
+- Peso morto: `brigadeiro.webp` não referenciado removido do site e do precache; `images/img-old/` (12 originais) desversionado + gitignored (cópias locais preservadas).
+- Determinismo de testes: smoke-produtos-json bloqueia SW (`serviceWorkers: 'block'`) para as rotas simuladas; smoke-pwa-seo exige v5 e catálogo precacheado.
+
+## 2026-08-23 — Moeda padronizada + logo ✅ (`839d23e`)
+- `formatarMoeda()`: `toLocaleString('pt-BR', BRL)` com normalização NBSP→espaço (o contrato `toContain` da mensagem WhatsApp compara espaço simples). Aplicada em `atualizarSubtotal()` e em itens/total do WhatsApp; `toFixed(2).replace('.', ',')` eliminado.
+- Logo do header com dimensões de exibição reais (`width="45" height="46"`, antes atributos 429×440) — elimina warning de renderização do Lighthouse.
