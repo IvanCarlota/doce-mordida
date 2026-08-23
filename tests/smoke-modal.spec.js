@@ -118,7 +118,7 @@ test('modal pedido: bottom sheet no mobile, centralizado no desktop', async ({ p
     };
   });
   if (info.desktop) {
-    expect(info.position).toBe('static');
+    expect(info.position).toBe('relative');
     expect(parseFloat(info.maxW)).toBeLessThanOrEqual(450);
   } else {
     expect(info.position).toBe('fixed');
@@ -126,4 +126,18 @@ test('modal pedido: bottom sheet no mobile, centralizado no desktop', async ({ p
     expect(info.radius).toBe('24px 24px 0px 0px');
     expect(info.height).toBeLessThanOrEqual(info.vh * 0.9 + 1);
   }
+});
+
+test('modal pedido: X de fechar dentro do cartão (não no overlay)', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
+  const dentro = await page.evaluate(() => {
+    const card = document.querySelector('#modal-pedido .popup-content').getBoundingClientRect();
+    const x = document.querySelector('#modal-pedido .close-popup').getBoundingClientRect();
+    return (
+      x.left >= card.left && x.right <= card.right &&
+      x.top >= card.top && x.bottom <= card.bottom
+    );
+  });
+  expect(dentro).toBe(true);
 });
