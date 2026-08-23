@@ -98,3 +98,9 @@
 ## 2026-08-23 — Moeda padronizada + logo ✅ (`839d23e`)
 - `formatarMoeda()`: `toLocaleString('pt-BR', BRL)` com normalização NBSP→espaço (o contrato `toContain` da mensagem WhatsApp compara espaço simples). Aplicada em `atualizarSubtotal()` e em itens/total do WhatsApp; `toFixed(2).replace('.', ',')` eliminado.
 - Logo do header com dimensões de exibição reais (`width="45" height="46"`, antes atributos 429×440) — elimina warning de renderização do Lighthouse.
+
+## 2026-08-23 — Logo em WebP com salvaguarda social ✅ (este commit)
+- `logo-1.png` (258 KiB, 429×440 RGBA) → `logo-1.webp` q90 (**37 KiB, −86%**), assumindo o risco controlado: dimensões de exibição já corrigidas (`839d23e` + `width:auto` do incidente) e folga de resolução (render a ~135px @3x).
+- Todas as referências migradas: img do header, favicon (`type="image/webp"`), manifest.json (ícone PWA), sw.js ASSETS e contratos (smoke-pwa-seo, smoke-imagens-otimizadas).
+- Salvaguarda og:image: WebP não é confiável em preview de link (WhatsApp/Facebook) — criado `images/og-image.png` dedicado 320×328 quantizado (**25 KiB**); vendas ocorrem via WhatsApp, preview preservado.
+- `logo-1.png` original excluída; sw bump **v6** (regra: mudou asset, muda versão).

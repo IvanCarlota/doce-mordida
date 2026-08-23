@@ -9,9 +9,9 @@
     "lang": "pt-BR",
     "icons": [
         {
-            "src": "images/logo-1.png",
+            "src": "images/logo-1.webp",
             "sizes": "429x440",
-            "type": "image/png",
+            "type": "image/webp",
             "purpose": "any"
         }
     ]

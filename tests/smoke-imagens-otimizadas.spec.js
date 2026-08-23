@@ -1,7 +1,8 @@
 const { test, expect } = require('@playwright/test');
 
-// Contrato da otimização de imagens: WebP everywhere (logo preservada),
-// dimensões explícitas, hero prioritário com preload, demais lazy.
+// Contrato da otimização de imagens: WebP everywhere (incluindo a logo,
+// convertida com dimensões de exibição já corrigidas), hero prioritário
+// com preload, demais lazy.
 test.use({ serviceWorkers: 'block' });
 
 const PRODUTOS = [
@@ -30,7 +31,7 @@ test('imagens de conteúdo em .webp, com dimensões e lazy', async ({ page }) =>
   );
 
   const logo = imgs.find(i => i.src.includes('logo'));
-  expect(logo.src).toBe('images/logo-1.png'); // intocado desde o incidente
+  expect(logo.src).toBe('images/logo-1.webp'); // conversão aprovada após correção das dimensões de exibição
   expect(logo.w).toBeTruthy();
   expect(logo.h).toBeTruthy();
 

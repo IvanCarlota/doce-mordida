@@ -17,12 +17,12 @@ test('manifest.json válido, linkado no head e com identidade visual do site', a
   expect(manifest.background_color).toBe('#ffffff');
   expect(manifest.theme_color).toBe('#c4e8ff');
   const icones = JSON.stringify(manifest.icons);
-  expect(icones).toContain('images/logo-1.png');
+  expect(icones).toContain('images/logo-1.webp');
 });
 
-test('sw.js na versão v5 precacheia manifest e catálogo', async ({ request }) => {
+test('sw.js na versão v6 precacheia manifest e catálogo', async ({ request }) => {
   const sw = await (await request.get('/sw.js')).text();
-  expect(sw).toContain("'doce-mordida-v5'");
+  expect(sw).toContain("'doce-mordida-v6'");
   expect(sw).toContain("'./manifest.json'");
   expect(sw).toContain("'./produtos.json'");
 });

@@ -5,14 +5,14 @@
  * do cache e só busca na rede em caso de miss; navegação (HTML) sempre pela rede.
  * Bump da versão do CACHE ao mudar assets.
  */
-const CACHE = 'doce-mordida-v5';
+const CACHE = 'doce-mordida-v6';
 
 const ASSETS = [
     './index.html',
     './script.js',
     './manifest.json',
     './produtos.json',
-    './images/logo-1.png',
+    './images/logo-1.webp',
     './images/coelho-borboleta.webp',
     './images/ovo_brigadeiro.webp',
     './images/ovo_ninho_nutella.webp',
