@@ -69,9 +69,12 @@ test.describe('menu mobile', () => {
 });
 
 test.describe('carrossel', () => {
-  test('dots = 5, seta próxima rola e fica disabled no fim', async ({ page }) => {
+  test('dots por viewport, seta próxima rola e fica disabled no fim', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('#ovos-dots .carousel-dot')).toHaveCount(5);
+    // Dots inteligentes: total - visíveis + 1 (3 no desktop, 4 no tablet, 5 no mobile)
+    const largura = await page.evaluate(() => window.innerWidth);
+    const dotsEsperados = largura >= 1024 ? 3 : largura >= 700 ? 4 : 5;
+    await expect(page.locator('#ovos-dots .carousel-dot')).toHaveCount(dotsEsperados);
     const wrapper = page.locator('#ovos-track').locator('..');
     const track = page.locator('#ovos-track');
     const next = wrapper.locator('.carousel-btn.next');

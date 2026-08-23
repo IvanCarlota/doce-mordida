@@ -40,7 +40,10 @@ test('responsividade dos cards por faixa de pixel', async ({ page }) => {
 test('carrossel: dots, scroll real e setas desabilitadas nas pontas', async ({ page }) => {
   await page.goto('/');
   const track = page.locator('#ovos-track');
-  await expect(page.locator('#ovos-dots .carousel-dot')).toHaveCount(5);
+  // Dots inteligentes: total - visíveis + 1 (3 no desktop, 4 no tablet, 5 no mobile)
+  const largura = await page.evaluate(() => window.innerWidth);
+  const dotsEsperados = largura >= 1024 ? 3 : largura >= 700 ? 4 : 5;
+  await expect(page.locator('#ovos-dots .carousel-dot')).toHaveCount(dotsEsperados);
   const wrapper = track.locator('..');
   const next = wrapper.locator('.carousel-btn.next');
   const prev = wrapper.locator('.carousel-btn.prev');

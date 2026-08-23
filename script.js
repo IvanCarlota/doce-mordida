@@ -29,18 +29,20 @@ function initCarousel(trackId) {
     };
 
     const update = () => {
+        // Leituras de geometria agrupadas antes de qualquer escrita no DOM
+        // para zerar o layout thrashing (regra de performance 3.5).
+        const passo = scrollAmount();
         const max = track.scrollWidth - track.clientWidth;
-        prev.disabled = track.scrollLeft <= 0;
-        next.disabled = track.scrollLeft >= max - 1;
-        if (dotsEl && dotsEl.children.length > 0) {
-            const ultimo = dotsEl.children.length - 1;
-            let idx;
-            if (max > 0 && track.scrollLeft >= max - 1) {
-                idx = ultimo;
-            } else {
-                idx = Math.min(Math.round(track.scrollLeft / scrollAmount()), ultimo);
-            }
-            Array.from(dotsEl.children).forEach((dot, i) => dot.classList.toggle('active', i === idx));
+        const esquerda = track.scrollLeft;
+        const ultimoDot = dotsEl && dotsEl.children.length > 0 ? dotsEl.children.length - 1 : -1;
+        const ativo = ultimoDot < 0 ? -1
+            : (max > 0 && esquerda >= max - 1) ? ultimoDot
+            : Math.min(Math.round(esquerda / passo), ultimoDot);
+
+        prev.disabled = esquerda <= 0;
+        next.disabled = esquerda >= max - 1;
+        if (ultimoDot >= 0) {
+            Array.from(dotsEl.children).forEach((dot, i) => dot.classList.toggle('active', i === ativo));
         }
     };
 
@@ -147,12 +149,27 @@ const modalPedido = document.getElementById('modal-pedido');
 
 /**
  * Catálogo de produtos com preços (em reais)
+ * Mantido como fallback síncrono: se produtos.json não responder,
+ * subtotal e envio para o WhatsApp continuam funcionando.
  */
 const CATALOGO = {
     'Ovo Brigadeiro': 57, 'Ovo Ninho com Nutella': 65, 'Ovo Surpresinha de Uva': 62,
     'Ovo Escondidinho de Brownie': 65, 'Ovo de Maracujá': 62, 'Dupla de Ovos': 79,
     'Kit Degustação': 48, 'Caixa com 6 Brigadeiros': 25, 'Caixa Livro (4 un.)': 17, 'Caixa com 2 un.': 8,
 };
+
+/**
+ * Catálogo externo: mescla produtos.json sobre o fallback interno.
+ */
+function aplicarCatalogoRemoto(dados) {
+    if (!dados || typeof dados !== 'object') return;
+    Object.keys(dados).forEach(nome => { CATALOGO[nome] = dados[nome]; });
+}
+
+fetch('produtos.json')
+    .then(resposta => resposta.ok ? resposta.json() : Promise.reject(new Error(resposta.status)))
+    .then(aplicarCatalogoRemoto)
+    .catch(() => {});
 
 /**
  * Calcula e exibe o subtotal do pedido em tempo real
@@ -303,6 +320,25 @@ window.addEventListener('click', (event) => {
     if (event.target === modalPedido) {
         fecharModalPedido();
     }
+});
+
+/**
+ * FAQ sanfona: botões nativos com aria-expanded alternado.
+ * Enter/Espaço são tratados explicitamente (preventDefault evita o
+ * clique sintetizado duplicado e o scroll por Espaço).
+ */
+function alternarFaq(botao) {
+    const aberto = botao.getAttribute('aria-expanded') === 'true';
+    botao.setAttribute('aria-expanded', String(!aberto));
+}
+document.querySelectorAll('.faq-pergunta').forEach(botao => {
+    botao.addEventListener('click', () => alternarFaq(botao));
+    botao.addEventListener('keydown', evento => {
+        if (evento.key === 'Enter' || evento.key === ' ') {
+            evento.preventDefault();
+            alternarFaq(botao);
+        }
+    });
 });
 
 /**

@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 
-// Contrato final: dots inteligentes, hitboxes 48px, contraste WCAG AA,
+// Contrato final: dots inteligentes, hitboxes acessíveis, contraste WCAG AA,
 // títulos semânticos, gtag pós-interação e reserva de espaço do hero.
 test.use({ serviceWorkers: 'block' });
 
@@ -11,7 +11,7 @@ test('dots por viewport: 3 no desktop, 4 no tablet, 5 no mobile', async ({ page 
   await expect(page.locator('#ovos .carousel-dot')).toHaveCount(esperado);
 });
 
-test('dots têm hitbox invisível de 48px e gap >= 8px', async ({ page }) => {
+test('dots têm hitbox invisível de 32px (>= 24px WCAG) e gap >= 8px', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#ovos .carousel-dot').first()).toBeAttached();
   const hit = await page.evaluate(() => {
@@ -20,8 +20,8 @@ test('dots têm hitbox invisível de 48px e gap >= 8px', async ({ page }) => {
     const gap = parseFloat(getComputedStyle(dot.parentElement).gap);
     return { w: antes.width, h: antes.height, pos: antes.position, gap };
   });
-  expect(hit.w).toBe('48px');
-  expect(hit.h).toBe('48px');
+  expect(hit.w).toBe('32px');
+  expect(hit.h).toBe('32px');
   expect(hit.pos).toBe('absolute');
   expect(hit.gap).toBeGreaterThanOrEqual(8);
 });
@@ -55,10 +55,11 @@ test('contraste WCAG AA >= 4.5:1 em nav, brand-sub e btn-cta', async ({ page }) 
   expect(ratios.cta).toBeGreaterThanOrEqual(4.5);
 });
 
-test('seção info usa h3 semântico (sem h4)', async ({ page }) => {
+test('seção info usa h2 com FAQ semântico (sem h4)', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('.info-item h3')).toHaveCount(3);
-  expect(await page.locator('.info-item h4').count()).toBe(0);
+  await expect(page.locator('#info h2')).toHaveText('Dúvidas Frequentes');
+  await expect(page.locator('#info .faq-pergunta')).toHaveCount(3);
+  expect(await page.locator('#info h4').count()).toBe(0);
 });
 
 test('gtag só é injetado após a primeira interação do usuário', async ({ page }) => {

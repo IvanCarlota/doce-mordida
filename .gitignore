@@ -2,3 +2,9 @@ node_modules/
 test-results/
 playwright-report/
 .superpowers/
+decisões-tecnicas.md/
+melhorias-ux-ui.md/
+regas-de-negocio.md/
+.opencode/
+graphify-out/
+AGENTS.md

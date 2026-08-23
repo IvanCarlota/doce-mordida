@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://docemordidabrigadeiros.com.br/sitemap.xml
