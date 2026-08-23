@@ -174,6 +174,10 @@ fetch('produtos.json')
 /**
  * Calcula e exibe o subtotal do pedido em tempo real
  */
+function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace(/\u00A0/g, ' ');
+}
+
 function atualizarSubtotal() {
     const inputs = document.querySelectorAll('#lista-itens-pedido input');
     let total = 0;
@@ -182,7 +186,7 @@ function atualizarSubtotal() {
         total += qtd * (CATALOGO[inp.getAttribute('data-nome')] || 0);
     });
     const el = document.getElementById('valor-total');
-    if (el) el.textContent = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    if (el) el.textContent = formatarMoeda(total);
     return total;
 }
 
@@ -286,7 +290,7 @@ function enviarPedidoWhatsApp() {
             const nome = input.getAttribute('data-nome');
             const preco = CATALOGO[nome] || 0;
             total += qtd * preco;
-            mensagem += `*${qtd}x* ${nome} — R$ ${preco.toFixed(2).replace('.', ',')}\n`;
+            mensagem += `*${qtd}x* ${nome} — ${formatarMoeda(preco)}\n`;
             temItens = true;
         }
     });
@@ -302,7 +306,7 @@ function enviarPedidoWhatsApp() {
     // Esconde o erro se itens forem selecionados
     if (erroVisual) erroVisual.style.display = 'none';
 
-    mensagem += `\n*Total: R$ ${total.toFixed(2).replace('.', ',')}*\n\nRetirada em Colombo - PR.`;
+    mensagem += `\n*Total: ${formatarMoeda(total)}*\n\nRetirada em Colombo - PR.`;
     
     // Codifica a mensagem para URL e redireciona para o WhatsApp
     const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
