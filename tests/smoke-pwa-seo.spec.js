@@ -20,9 +20,9 @@ test('manifest.json válido, linkado no head e com identidade visual do site', a
   expect(icones).toContain('images/logo-1.webp');
 });
 
-test('sw.js na versão v6 precacheia manifest e catálogo', async ({ request }) => {
+test('sw.js na versão v7 precacheia manifest e catálogo', async ({ request }) => {
   const sw = await (await request.get('/sw.js')).text();
-  expect(sw).toContain("'doce-mordida-v6'");
+  expect(sw).toContain("'doce-mordida-v7'");
   expect(sw).toContain("'./manifest.json'");
   expect(sw).toContain("'./produtos.json'");
 });

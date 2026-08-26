@@ -143,11 +143,6 @@ if (modal && modalImg) {
 
 
 /**
- * Lógica do Pop-up de Pedido Personalizado
- */
-const modalPedido = document.getElementById('modal-pedido');
-
-/**
  * Catálogo de produtos com preços (em reais)
  * Mantido como fallback síncrono: se produtos.json não responder,
  * subtotal e envio para o WhatsApp continuam funcionando.
@@ -172,27 +167,11 @@ fetch('produtos.json')
     .catch(() => {});
 
 /**
- * Calcula e exibe o subtotal do pedido em tempo real
+ * Calcula o total da sacola (qtd * preço do catálogo)
  */
 function formatarMoeda(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }).replace(/\u00A0/g, ' ');
 }
-
-function atualizarSubtotal() {
-    const inputs = document.querySelectorAll('#lista-itens-pedido input');
-    let total = 0;
-    inputs.forEach(inp => {
-        const qtd = parseInt(inp.value) || 0;
-        total += qtd * (CATALOGO[inp.getAttribute('data-nome')] || 0);
-    });
-    const el = document.getElementById('valor-total');
-    if (el) el.textContent = formatarMoeda(total);
-    return total;
-}
-
-document.querySelectorAll('#lista-itens-pedido input').forEach(inp => {
-    inp.addEventListener('input', atualizarSubtotal);
-});
 
 /**
  * Acessibilidade dos modais: ESC fecha, Tab fica preso no diálogo
@@ -235,96 +214,260 @@ function fecharPorTeclado(fechar) {
 
 if (modal) armadilhaDeFoco(modal, fecharModalImagem);
 if (spanClose) spanClose.addEventListener('keydown', fecharPorTeclado(fecharModalImagem));
-if (spanClosePopup) {
-    spanClosePopup.addEventListener('click', fecharModalPedido);
-    spanClosePopup.addEventListener('keydown', fecharPorTeclado(fecharModalPedido));
-}
-if (modalPedido) armadilhaDeFoco(modalPedido, fecharModalPedido);
 
-// Função para abrir o modal de pedido
-function abrirModalPedido(itemNome) {
-    if (itemNome) {
-        const inp = document.querySelector(`#lista-itens-pedido input[data-nome="${itemNome}"]`);
-        if (inp) inp.value = '1';
-    }
-    if (modalPedido) {
-        ultimoFoco = document.activeElement;
-        modalPedido.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
-        atualizarSubtotal();
-        const primeiroInput = modalPedido.querySelector('#lista-itens-pedido input');
-        if (primeiroInput) primeiroInput.focus();
-    }
-}
+/**
+ * Sacola de compras: estado global persistente em localStorage.
+ * Itens no formato { nome, qtd }; preços sempre resolvidos via CATALOGO.
+ */
+const CARRINHO_KEY = 'docemordida-carrinho-v1';
+let carrinho = carregarCarrinho();
 
-// Botões "Pedir" dos cards abrem o modal com o item pré-selecionado
-document.querySelectorAll('.price-tag[data-nome]').forEach(btn => {
-    btn.addEventListener('click', () => abrirModalPedido(btn.dataset.nome));
-});
-
-// Função para fechar o modal de pedido
-function fecharModalPedido() {
-    if (modalPedido) {
-        modalPedido.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        
-        // Resetar a mensagem de erro ao fechar
-        const erroVisual = document.getElementById('mensagem-erro-vazio');
-        if (erroVisual) erroVisual.style.display = 'none';
-
-        if (ultimoFoco) ultimoFoco.focus();
+function carregarCarrinho() {
+    try {
+        const dados = JSON.parse(localStorage.getItem(CARRINHO_KEY));
+        if (!Array.isArray(dados)) return [];
+        return dados.filter(item =>
+            item && typeof item.nome === 'string' && item.nome.length > 0 &&
+            Number.isInteger(item.qtd) && item.qtd > 0
+        );
+    } catch (e) {
+        return [];
     }
 }
 
-// Função para processar os itens e enviar para o WhatsApp
-function enviarPedidoWhatsApp() {
-    const inputs = document.querySelectorAll('#lista-itens-pedido input');
-    const erroVisual = document.getElementById('mensagem-erro-vazio');
-    let mensagem = "Olá! Gostaria de fazer um pedido:\n\n";
-    let temItens = false;
-    let total = 0;
+function salvarCarrinho() {
+    try { localStorage.setItem(CARRINHO_KEY, JSON.stringify(carrinho)); } catch (e) {}
+}
 
-    inputs.forEach(input => {
-        const qtd = parseInt(input.value);
-        if (qtd > 0) {
-            const nome = input.getAttribute('data-nome');
-            const preco = CATALOGO[nome] || 0;
-            total += qtd * preco;
-            mensagem += `*${qtd}x* ${nome} — ${formatarMoeda(preco)}\n`;
-            temItens = true;
-        }
-    });
+function adicionarItem(nome) {
+    const item = carrinho.find(i => i.nome === nome);
+    if (item) item.qtd += 1;
+    else carrinho.push({ nome, qtd: 1 });
+    salvarCarrinho();
+    renderizarCarrinho();
+    pulsarBadge();
+}
 
-    if (!temItens) {
-        // Exibe o erro estilizado em vez do alert nativo
-        if (erroVisual) {
-            erroVisual.style.display = 'block';
-        }
-        return;
-    }
+function removerItem(nome) {
+    carrinho = carrinho.filter(item => item.nome !== nome);
+    salvarCarrinho();
+    renderizarCarrinho();
+}
 
-    // Esconde o erro se itens forem selecionados
-    if (erroVisual) erroVisual.style.display = 'none';
+function alterarQuantidade(nome, delta) {
+    const item = carrinho.find(i => i.nome === nome);
+    if (!item) return;
+    item.qtd = Math.max(1, Math.min(99, item.qtd + delta));
+    salvarCarrinho();
+    renderizarCarrinho();
+}
 
-    mensagem += `\n*Total: ${formatarMoeda(total)}*\n\nRetirada em Colombo - PR.`;
-    
-    // Codifica a mensagem para URL e redireciona para o WhatsApp
-    const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`;
-    window.open(url, '_blank');
-    fecharModalPedido();
+function limparCarrinho() {
+    carrinho = [];
+    salvarCarrinho();
+    renderizarCarrinho();
+}
+
+function totalCarrinho() {
+    return carrinho.reduce((soma, item) => soma + item.qtd * (CATALOGO[item.nome] || 0), 0);
 }
 
 /**
- * Listener Global para Cliques Fora dos Modais
+ * Renderiza badge, lista e subtotal do drawer a partir do estado.
+ * Nomes/preços entram via textContent (nunca innerHTML) — o estado
+ * pode vir do localStorage, logo é tratado como dado não confiável.
  */
-window.addEventListener('click', (event) => {
+function renderizarCarrinho() {
+    const lista = document.getElementById('lista-sacola');
+    if (!lista) return;
+    const badge = document.getElementById('sacola-badge');
+    const vazia = document.getElementById('sacola-vazia');
+    const subtotalEl = document.getElementById('sacola-subtotal');
+    const erro = document.getElementById('sacola-erro');
 
-    // Fecha o modal de pedido se clicar fora dele
-    if (event.target === modalPedido) {
-        fecharModalPedido();
+    if (badge) {
+        const contagem = carrinho.reduce((soma, item) => soma + item.qtd, 0);
+        badge.textContent = String(contagem);
+        badge.hidden = contagem === 0;
     }
+    if (vazia) vazia.hidden = carrinho.length > 0;
+
+    lista.innerHTML = '';
+    carrinho.forEach(item => {
+        const preco = CATALOGO[item.nome] || 0;
+        const li = document.createElement('li');
+        li.className = 'sacola-item';
+        li.dataset.nome = item.nome;
+
+        const info = document.createElement('div');
+        info.className = 'sacola-item-info';
+        const nomeEl = document.createElement('span');
+        nomeEl.className = 'sacola-item-nome';
+        nomeEl.textContent = item.nome;
+        const precoEl = document.createElement('span');
+        precoEl.className = 'sacola-item-preco';
+        precoEl.textContent = formatarMoeda(preco);
+        info.append(nomeEl, precoEl);
+
+        const grupo = document.createElement('div');
+        grupo.className = 'sacola-qtd';
+        grupo.setAttribute('role', 'group');
+        grupo.setAttribute('aria-label', `Quantidade de ${item.nome}`);
+        const menos = document.createElement('button');
+        menos.type = 'button';
+        menos.className = 'qtd-btn';
+        menos.dataset.acao = 'diminuir';
+        menos.dataset.nome = item.nome;
+        menos.setAttribute('aria-label', `Diminuir quantidade de ${item.nome}`);
+        menos.textContent = '−';
+        const qtdEl = document.createElement('span');
+        qtdEl.className = 'qtd-valor';
+        qtdEl.setAttribute('aria-live', 'polite');
+        qtdEl.textContent = String(item.qtd);
+        const mais = document.createElement('button');
+        mais.type = 'button';
+        mais.className = 'qtd-btn';
+        mais.dataset.acao = 'aumentar';
+        mais.dataset.nome = item.nome;
+        mais.setAttribute('aria-label', `Aumentar quantidade de ${item.nome}`);
+        mais.textContent = '+';
+        grupo.append(menos, qtdEl, mais);
+
+        const remover = document.createElement('button');
+        remover.type = 'button';
+        remover.className = 'sacola-remover';
+        remover.dataset.nome = item.nome;
+        remover.setAttribute('aria-label', `Remover ${item.nome} da sacola`);
+        const lixeira = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        lixeira.setAttribute('class', 'icon');
+        lixeira.setAttribute('viewBox', '0 0 448 512');
+        lixeira.setAttribute('aria-hidden', 'true');
+        lixeira.setAttribute('focusable', 'false');
+        const caminho = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        caminho.setAttribute('d', 'M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96V416c0 35.3 28.7 64 64 64H352c35.3 0 64-28.7 64-64V96c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128V416c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V128H416z');
+        lixeira.appendChild(caminho);
+        remover.appendChild(lixeira);
+
+        li.append(info, grupo, remover);
+        lista.appendChild(li);
+    });
+
+    if (subtotalEl) subtotalEl.textContent = formatarMoeda(totalCarrinho());
+    if (erro) erro.style.display = 'none';
+}
+
+function pulsarBadge() {
+    const badge = document.getElementById('sacola-badge');
+    if (!badge || badge.hidden) return;
+    badge.classList.remove('pulso');
+    void badge.offsetWidth; // reinicia a animação
+    badge.classList.add('pulso');
+}
+
+/**
+ * Drawer da sacola: abre/fecha com histórico de foco, scroll lock,
+ * backdrop, ESC e armadilha de foco (padrão dos modais existentes).
+ */
+const sacolaDrawer = document.getElementById('sacola-drawer');
+const sacolaOverlay = document.getElementById('sacola-overlay');
+const btnSacola = document.getElementById('btn-sacola');
+
+function abrirSacola() {
+    if (!sacolaDrawer) return;
+    ultimoFoco = document.activeElement;
+    renderizarCarrinho();
+    sacolaDrawer.classList.add('aberta');
+    sacolaOverlay.classList.add('aberta');
+    sacolaDrawer.setAttribute('aria-hidden', 'false');
+    btnSacola.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+    sacolaDrawer.querySelector('.sacola-fechar').focus();
+}
+
+function fecharSacola() {
+    if (!sacolaDrawer) return;
+    sacolaDrawer.classList.remove('aberta');
+    sacolaOverlay.classList.remove('aberta');
+    sacolaDrawer.setAttribute('aria-hidden', 'true');
+    btnSacola.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = 'auto';
+    if (ultimoFoco) ultimoFoco.focus();
+}
+
+if (btnSacola) btnSacola.addEventListener('click', abrirSacola);
+
+const sacolaFechar = sacolaDrawer ? sacolaDrawer.querySelector('.sacola-fechar') : null;
+if (sacolaFechar) {
+    sacolaFechar.addEventListener('click', fecharSacola);
+    sacolaFechar.addEventListener('keydown', fecharPorTeclado(fecharSacola));
+}
+if (sacolaOverlay) sacolaOverlay.addEventListener('click', fecharSacola);
+if (sacolaDrawer) {
+    armadilhaDeFoco(sacolaDrawer, fecharSacola);
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && sacolaDrawer.classList.contains('aberta')) fecharSacola();
+    });
+
+    const listaSacola = document.getElementById('lista-sacola');
+    listaSacola.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        if (btn.classList.contains('qtd-btn')) {
+            alterarQuantidade(btn.dataset.nome, btn.dataset.acao === 'aumentar' ? 1 : -1);
+        } else if (btn.classList.contains('sacola-remover')) {
+            removerItem(btn.dataset.nome);
+        }
+    });
+
+    const btnEnviar = document.getElementById('btn-enviar-sacola');
+    if (btnEnviar) btnEnviar.addEventListener('click', enviarCarrinhoWhatsApp);
+    const btnLimpar = document.getElementById('btn-limpar-sacola');
+    if (btnLimpar) btnLimpar.addEventListener('click', limparCarrinho);
+}
+
+/**
+ * Checkout: mensagem com itens, valores individuais e total acumulado.
+ * Sacola vazia não envia: exibe erro com role="alert". Após o envio,
+ * a sacola é esvaziada (pedido já registrado no WhatsApp).
+ */
+function enviarCarrinhoWhatsApp() {
+    const erro = document.getElementById('sacola-erro');
+    if (carrinho.length === 0) {
+        if (erro) erro.style.display = 'block';
+        return;
+    }
+    if (erro) erro.style.display = 'none';
+
+    let mensagem = 'Olá! Gostaria de fazer um pedido:\n\n';
+    carrinho.forEach(item => {
+        const preco = CATALOGO[item.nome] || 0;
+        mensagem += `*${item.qtd}x* ${item.nome} — ${formatarMoeda(preco)}\n`;
+    });
+    mensagem += `\n*Total: ${formatarMoeda(totalCarrinho())}*\n\nRetirada em Colombo - PR.`;
+
+    const WHATSAPP_NUMBER = window.WHATSAPP_NUMBER || '5541996309958';
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensagem)}`, '_blank');
+    limparCarrinho();
+}
+
+// Botões dos cards adicionam à sacola com feedback temporário no botão
+document.querySelectorAll('.price-tag[data-nome]').forEach(btn => {
+    const rotuloOriginal = btn.textContent;
+    let timer = null;
+    btn.addEventListener('click', () => {
+        adicionarItem(btn.dataset.nome);
+        btn.textContent = '✓ Adicionado';
+        btn.classList.add('price-tag-ok');
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            btn.textContent = rotuloOriginal;
+            btn.classList.remove('price-tag-ok');
+        }, 1200);
+    });
 });
+
+// Estado inicial: badge e drawer sincronizados com a sacola restaurada
+renderizarCarrinho();
 
 /**
  * FAQ sanfona: botões nativos com aria-expanded alternado.

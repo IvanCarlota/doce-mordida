@@ -76,7 +76,7 @@ header {
 .logo-wrapper { display: flex; align-items: center; gap: 10px; }
 .logo-wrapper img { height: 45px; width: auto; }
 
-.menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; margin-left: auto; padding: 5px; }
+.menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; color: var(--chocolate); z-index: 3200; cursor: pointer; padding: 5px; }
 
 /* --- Estilo da Logo --- */
 .brand-name { 
@@ -438,8 +438,8 @@ h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 6vw, 2.8re
 /* --- Footer --- */
 footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 0.8rem; }
 
-/* --- Modais e Pop-ups (Ajustados) --- */
-.popup-overlay, .modal {
+/* --- Lightbox de imagem --- */
+.modal {
     display: none; 
     position: fixed;
     top: 0;
@@ -453,45 +453,170 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     backdrop-filter: blur(5px);
 }
 
-.popup-content {
-    background: var(--branco);
-    padding: 40px;
-    border-radius: 20px;
-    max-width: 450px;
-    width: 90%;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    border: 3px solid var(--azul-claro);
-    animation: popupFade 0.4s ease;
+/* --- Sacola (drawer lateral, mobile-first: largura total no mobile) --- */
+.sacola-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(44, 24, 12, 0.55);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s;
+    z-index: 4000;
 }
-
-#modal-pedido .popup-content {
-    max-width: 100%;
+.sacola-overlay.aberta {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease;
+}
+.sacola {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
     width: 100%;
-    height: auto;
-    max-height: 90dvh;
-    border-radius: 24px 24px 0 0;
-    padding: 32px 20px calc(32px + env(safe-area-inset-bottom));
+    background: var(--branco);
+    z-index: 4100;
     display: flex;
     flex-direction: column;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.25);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0s 0.3s;
+}
+.sacola.aberta {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.3s ease;
+}
+@media (min-width: 480px) {
+    .sacola { width: 380px; }
+}
+.sacola-header {
+    display: flex;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    animation: sheetUp 0.3s ease;
+    justify-content: space-between;
+    padding: 12px 12px 12px 20px;
+    border-bottom: 2px solid var(--azul-claro);
 }
-
-@keyframes sheetUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+.sacola-header h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; }
+.sacola-fechar {
+    background: none;
+    border: none;
+    font-size: 30px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
 }
+.sacola-fechar:hover { color: var(--chocolate); }
+.sacola-vazia { text-align: center; color: var(--text-muted); padding: 40px 20px; font-size: 0.95rem; }
+.sacola-lista { list-style: none; flex: 1; overflow-y: auto; padding: 8px 20px; margin: 0; }
+.sacola-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.sacola-item-info { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.sacola-item-nome { font-weight: 600; font-size: 0.92rem; color: var(--chocolate); }
+.sacola-item-preco { font-size: 0.82rem; color: var(--text-muted); }
+.sacola-qtd { display: flex; align-items: center; gap: 4px; }
+.qtd-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--azul-claro);
+    background: var(--branco);
+    color: var(--chocolate);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+}
+.qtd-btn:hover { background: var(--azul-claro); }
+.qtd-valor { min-width: 24px; text-align: center; font-weight: 600; }
+.sacola-remover {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    width: 36px; height: 36px;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+}
+.sacola-remover:hover { color: #cc0000; }
+.sacola-rodape {
+    padding: 14px 20px calc(16px + env(safe-area-inset-bottom));
+    border-top: 2px solid var(--azul-claro);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sacola-erro {
+    background-color: #ffcccc;
+    color: #cc0000;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: none;
+}
+.sacola-total { display: flex; justify-content: space-between; font-size: 1.1rem; padding: 4px 0; }
+.sacola-total strong { color: var(--chocolate); }
+.btn-enviar-sacola { width: 100%; justify-content: center; padding: 15px 30px; margin-top: 0; }
+.sacola-limpar {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 8px;
+    align-self: center;
+}
+.sacola-limpar:hover { color: var(--chocolate); }
 
-#modal-pedido .popup-content h3, #modal-pedido .popup-content > p { text-align: center; }
-#modal-pedido .popup-content .btn-enviar { width: 100%; }
-#lista-itens-pedido { width: 100%; flex: 1; overflow-y: auto; }
-.resumo-pedido { width: 100%; margin-top: 8px; }
-.total-pedido { display: flex; justify-content: space-between; padding: 12px 0; border-top: 2px solid var(--azul-claro); font-size: 1.1rem; }
+/* Botão da sacola no header */
+.sacola-btn {
+    position: relative;
+    margin-left: auto;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--chocolate);
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0;
+}
+.sacola-badge {
+    position: absolute;
+    top: 1px;
+    right: -1px;
+    background: var(--whatsapp-green);
+    color: var(--branco);
+    font-size: 0.68rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+}
+.sacola-badge[hidden] { display: none; }
+.sacola-badge.pulso { animation: sacola-pulso 0.4s ease; }
+@keyframes sacola-pulso {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+.price-tag.price-tag-ok { background-color: var(--whatsapp-green); color: var(--branco); }
 
 .modal-content {
     max-width: 90%;
@@ -504,17 +629,10 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     z-index: 10000;
 }
 
-@keyframes popupFade {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
 @keyframes zoomIn {
     from { transform: scale(0.7); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
-
-.popup-icon { font-size: 3rem; color: var(--azul-claro); margin-bottom: 20px; }
 
 /* Botão de fechar do Modal de Imagem (Ajustado) */
 .close-modal {
@@ -533,74 +651,6 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
 
 .close-modal:hover {
     color: var(--azul-claro);
-}
-
-/* Botão de fechar dos Pop-ups normais */
-.close-popup { 
-    position: absolute; 
-    top: 15px; 
-    right: 20px; 
-    font-size: 25px; 
-    cursor: pointer; 
-    color: var(--text-muted); 
-}
-
-.btn-popup {
-    margin-top: 20px;
-    background: var(--chocolate);
-    color: var(--branco);
-    border: none;
-    padding: 12px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.btn-enviar { background-color: var(--whatsapp-green); width: 100%; }
-
-/* --- Lista de Pedido --- */
-#lista-itens-pedido {
-    margin: 20px 0;
-    max-height: 300px;
-    overflow-y: auto;
-    text-align: left;
-    padding-right: 10px;
-}
-
-.item-selecao {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.item-selecao span { font-size: 0.9rem; color: var(--chocolate); font-weight: 600; }
-.item-selecao .item-price { margin-left: auto; font-size: 0.85rem; font-weight: 600; color: var(--chocolate); white-space: nowrap; }
-.item-selecao input { width: 60px; padding: 5px; border-radius: 8px; border: 1px solid var(--azul-claro); text-align: center; font-size: 16px; }
-
-.resumo-pedido { margin-top: 12px; }
-.total-pedido {
-    display: flex;
-    justify-content: space-between;
-    padding: 12px 0;
-    border-top: 2px solid var(--azul-claro);
-    font-size: 1.1rem;
-}
-.total-pedido strong { color: var(--chocolate); }
-
-/* Mensagem de erro para pedido vazio */
-.erro-pedido {
-    background-color: #ffcccc; /* Vermelho claro */
-    color: #cc0000; /* Texto em vermelho escuro para contraste */
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: none; /* Escondido por padrão */
 }
 
 /* --- Responsividade (mobile-first: base é mobile; desktop a partir de 1024px) --- */
@@ -633,7 +683,6 @@ footer { padding: 40px; color: var(--chocolate); text-align: center; font-size: 
     .onda.invertida svg { margin-top: 0; }
     .modal-content { width: auto; max-width: 90%; }
     .close-modal { top: 20px; right: 30px; font-size: 60px; }
-    #modal-pedido .popup-content { max-width: 450px; position: relative; border-radius: 20px; margin: auto; animation: popupFade 0.4s ease; }
 }
 
 /* --- Ícones SVG inline (substitui Font Awesome) --- */
@@ -823,76 +872,6 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
 
 
 
-    <div id="modal-pedido" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="titulo-pedido">
-        <div class="popup-content form-pedido">
-            <span class="close-popup" role="button" tabindex="0" aria-label="Fechar">&times;</span>
-            <h3 id="titulo-pedido">Monte seu Pedido</h3>
-            <p>Selecione os itens e a quantidade:</p>
-            
-            <div id="lista-itens-pedido">
-                <div class="item-selecao">
-                    <span>Ovo Brigadeiro</span>
-                    <span class="item-price">R$ 57,00</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Brigadeiro">
-                </div>
-                <div class="item-selecao">
-                    <span>Ovo Ninho com Nutella</span>
-                    <span class="item-price">R$ 65,00</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Ninho com Nutella">
-                </div>
-                <div class="item-selecao">
-                    <span>Ovo Surpresinha de Uva</span>
-                    <span class="item-price">R$ 62,00</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Surpresinha de Uva">
-                </div>
-                <div class="item-selecao">
-                    <span>Ovo Escondidinho de Brownie</span>
-                    <span class="item-price">R$ 65,00</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo Escondidinho de Brownie">
-                </div>
-                <div class="item-selecao">
-                    <span>Ovo de Maracujá</span>
-                    <span class="item-price">R$ 62,00</span>
-                    <input type="number" min="0" value="0" data-nome="Ovo de Maracujá">
-                </div>
-                
-                <div class="item-selecao">
-                    <span>Dupla de Ovos</span>
-                    <span class="item-price">R$ 79,00</span>
-                    <input type="number" min="0" value="0" data-nome="Dupla de Ovos">
-                </div>
-                <div class="item-selecao">
-                    <span>Kit Degustação</span>
-                    <span class="item-price">R$ 48,00</span>
-                    <input type="number" min="0" value="0" data-nome="Kit Degustação">
-                </div>
-                <div class="item-selecao">
-                    <span>Caixa com 6 Brigadeiros</span>
-                    <span class="item-price">R$ 25,00</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa com 6 Brigadeiros">
-                </div>
-                <div class="item-selecao">
-                    <span>Caixa Livro (4 un.)</span>
-                    <span class="item-price">R$ 17,00</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa Livro (4 un.)">
-                </div>
-                <div class="item-selecao">
-                    <span>Caixa com 2 un.</span>
-                    <span class="item-price">R$ 8,00</span>
-                    <input type="number" min="0" value="0" data-nome="Caixa com 2 un.">
-                </div>
-            </div>
-
-            <div class="resumo-pedido">
-                <div class="total-pedido"><span>Total:</span><strong id="valor-total">R$ 0,00</strong></div>
-            </div>
-
-            <div id="mensagem-erro-vazio" class="erro-pedido" role="alert">Por favor, selecione pelo menos uma quantidade em algum item.</div>
-            
-            <button class="btn-popup btn-enviar" onclick="enviarPedidoWhatsApp()">ENVIAR PEDIDO</button>
-        </div>
-    </div>
-
 <header>
     <div class="header-container">
         <div class="logo-wrapper">
@@ -903,6 +882,11 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
             </div>
         </div>
         
+        <button type="button" class="sacola-btn" id="btn-sacola" aria-label="Abrir sacola" aria-expanded="false" aria-controls="sacola-drawer">
+            <svg class="icon icon-cart" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+            <span id="sacola-badge" class="sacola-badge" hidden>0</span>
+        </button>
+
         <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
             <svg class="icon icon-bars" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/></svg>
             <svg class="icon icon-close" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z"/></svg>
@@ -930,7 +914,7 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
                 Delícias artesanais feitas com chocolate de qualidade e recheios cremosos. 
                 Reserve sua doçura até o dia 30.03.2026 para garantir uma Páscoa inesquecível.
             </p>
-            <button onclick="abrirModalPedido()" class="btn-cta">
+            <button onclick="abrirSacola()" class="btn-cta">
                 <svg class="icon icon-whatsapp" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> FAZER MEU PEDIDO
             </button>
         </div>
@@ -961,35 +945,35 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
                     <img loading="lazy" decoding="async"src="images/ovo_brigadeiro.webp" width="883" height="906" alt="Ovo Brigadeiro">
                     <h3>Brigadeiro</h3>
                     <p>Casca ao leite com brigadeiro cremoso e chocolatudo. (Aprox. 250g)</p>
-                    <button class="price-tag" data-nome="Ovo Brigadeiro">Pedir · R$ 57,00</button>
+                    <button class="price-tag" data-nome="Ovo Brigadeiro">Adicionar à Sacola · R$ 57,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/ovo_ninho_nutella.webp" width="693" height="905" alt="Ovo Ninho com Nutella">
                     <h3>Ninho com Nutella</h3>
                     <p>Casca ao leite, brigadeiro de ninho e camada generosa de Nutella. (Aprox. 250g)</p>
-                    <button class="price-tag" data-nome="Ovo Ninho com Nutella">Pedir · R$ 65,00</button>
+                    <button class="price-tag" data-nome="Ovo Ninho com Nutella">Adicionar à Sacola · R$ 65,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/ovo_uva.webp" width="622" height="813" alt="Ovo Surpresinha de Uva">
                     <h3>Surpresinha de Uva</h3>
                     <p>Casca ao leite, brigadeiro branco leve e uvas frescas. (Aprox. 250g)</p>
-                    <button class="price-tag" data-nome="Ovo Surpresinha de Uva">Pedir · R$ 62,00</button>
+                    <button class="price-tag" data-nome="Ovo Surpresinha de Uva">Adicionar à Sacola · R$ 62,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/ovo_brownie.webp" width="892" height="934" alt="Ovo Escondidinho de Brownie">
                     <h3>Escondidinho de Brownie</h3>
                     <p>Brigadeiro tradicional, pedaços de brownie e morangos. (Aprox. 280g)</p>
-                    <button class="price-tag" data-nome="Ovo Escondidinho de Brownie">Pedir · R$ 65,00</button>
+                    <button class="price-tag" data-nome="Ovo Escondidinho de Brownie">Adicionar à Sacola · R$ 65,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/ovo_maracuja.webp" width="848" height="722" alt="Ovo de Maracujá">
                     <h3>Maracujá</h3>
                     <p>Casca branca ou ao leite, brigadeiro de maracujá feito com a fruta. (Aprox. 250g)</p>
-                    <button class="price-tag" data-nome="Ovo de Maracujá">Pedir · R$ 62,00</button>
+                    <button class="price-tag" data-nome="Ovo de Maracujá">Adicionar à Sacola · R$ 62,00</button>
                 </div>
             </div>
 
@@ -1020,35 +1004,35 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
                     <img loading="lazy" decoding="async"src="images/dupla_ovos.webp" width="966" height="961" alt="Dupla de Ovos">
                     <h3>Dupla de Ovos</h3>
                     <p>Escolha 2 sabores do menu. (180g cada)</p>
-                    <button class="price-tag" data-nome="Dupla de Ovos">Pedir · R$ 79,00</button>
+                    <button class="price-tag" data-nome="Dupla de Ovos">Adicionar à Sacola · R$ 79,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/kit_degustacao.webp" width="963" height="851" alt="Kit Degustação">
                     <h3>Kit Degustação</h3>
                     <p>4 mini ovos de 50g cada com os sabores do menu.</p>
-                    <button class="price-tag" data-nome="Kit Degustação">Pedir · R$ 48,00</button>
+                    <button class="price-tag" data-nome="Kit Degustação">Adicionar à Sacola · R$ 48,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/caixa_6_brigadeiros.webp" width="1000" height="875" alt="Caixa com 6 Brigadeiros">
                     <h3>Caixa com 6 Brigadeiros</h3>
                     <p>3 tradicionais e 3 de ninho colorido temático.</p>
-                    <button class="price-tag" data-nome="Caixa com 6 Brigadeiros">Pedir · R$ 25,00</button>
+                    <button class="price-tag" data-nome="Caixa com 6 Brigadeiros">Adicionar à Sacola · R$ 25,00</button>
                 </div>
 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/lembrancinha_4_unidades.webp" width="731" height="576" alt="Lembrancinha 4 unidades">
                     <h3>Caixa Livro (4 un.)</h3>
                     <p>Brigadeiros de 23g cada (Tradicional e Ninho).</p>
-                    <button class="price-tag" data-nome="Caixa Livro (4 un.)">Pedir · R$ 17,00</button>
+                    <button class="price-tag" data-nome="Caixa Livro (4 un.)">Adicionar à Sacola · R$ 17,00</button>
                 </div>
                 
                 <div class="card">
                     <img loading="lazy" decoding="async"src="images/lembrancinha_2_unidades.webp" width="925" height="881" alt="Lembrancinha 2 unidades">
                     <h3>Caixa com 2 un.</h3>
                     <p>2 unidades de brigadeiro de 23g cada.</p>
-                    <button class="price-tag" data-nome="Caixa com 2 un.">Pedir · R$ 8,00</button>
+                    <button class="price-tag" data-nome="Caixa com 2 un.">Adicionar à Sacola · R$ 8,00</button>
                 </div>
             </div>
 
@@ -1091,7 +1075,7 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
             </div>
         </div>
 
-        <button onclick="abrirModalPedido()" class="btn-cta">
+        <button onclick="abrirSacola()" class="btn-cta">
             <svg class="icon icon-whatsapp" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> FAZER MEU PEDIDO
         </button>
     </section>
@@ -1105,6 +1089,24 @@ body.menu-open .menu-toggle .icon-bars { display: none; }    </style>
         <span class="close-modal" role="button" tabindex="0" aria-label="Fechar imagem">&times;</span>
         <img class="modal-content" id="img-expanded">
     </div>
+
+    <div id="sacola-overlay" class="sacola-overlay"></div>
+    <aside id="sacola-drawer" class="sacola" role="dialog" aria-modal="true" aria-labelledby="titulo-sacola" aria-hidden="true">
+        <div class="sacola-header">
+            <h3 id="titulo-sacola">Sua Sacola</h3>
+            <button type="button" class="sacola-fechar" aria-label="Fechar sacola">&times;</button>
+        </div>
+        <p id="sacola-vazia" class="sacola-vazia" hidden>Sua sacola está vazia. Adicione itens pelo catálogo!</p>
+        <ul id="lista-sacola" class="sacola-lista"></ul>
+        <div class="sacola-rodape">
+            <div id="sacola-erro" class="sacola-erro" role="alert">Sua sacola está vazia — adicione pelo menos um item.</div>
+            <div class="sacola-total"><span>Total:</span><strong id="sacola-subtotal">R$ 0,00</strong></div>
+            <button type="button" id="btn-enviar-sacola" class="btn-cta btn-enviar-sacola">
+                <svg class="icon icon-whatsapp" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg> ENVIAR PEDIDO
+            </button>
+            <button type="button" id="btn-limpar-sacola" class="sacola-limpar">Limpar sacola</button>
+        </div>
+    </aside>
 
 <script src="script.js" defer></script>
 </body>

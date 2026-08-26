@@ -5,7 +5,7 @@
  * do cache e só busca na rede em caso de miss; navegação (HTML) sempre pela rede.
  * Bump da versão do CACHE ao mudar assets.
  */
-const CACHE = 'doce-mordida-v6';
+const CACHE = 'doce-mordida-v7';
 
 const ASSETS = [
     './index.html',

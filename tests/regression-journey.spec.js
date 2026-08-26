@@ -13,20 +13,22 @@ test.describe('jornada de pedido', () => {
     expect(overflow).toBeLessThanOrEqual(0);
   });
 
-  test('pedido 2x Brigadeiro + 1x Ninho: subtotal R$ 179,00 e wa.me interceptado', async ({ page }) => {
+  test('pedido 2x Brigadeiro + 1x Ninho via sacola: subtotal R$ 179,00 e wa.me interceptado', async ({ page }) => {
     let waUrl = '';
     await page.context().route('**/wa.me/**', route => {
       waUrl = route.request().url();
       route.fulfill({ status: 200, contentType: 'text/html', body: '<html></html>' });
     });
     await page.goto('/');
-    await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
-    const modal = page.locator('#modal-pedido');
-    await expect(modal).toHaveAttribute('aria-modal', 'true');
-    await modal.locator('.item-selecao').nth(0).locator('input').fill('2');
-    await modal.locator('.item-selecao').nth(1).locator('input').fill('1');
-    await expect(page.locator('#valor-total')).toHaveText('R$ 179,00');
-    await modal.getByRole('button', { name: /enviar pedido/i }).click();
+    const brigadeiro = page.locator('.price-tag[data-nome="Ovo Brigadeiro"]');
+    await brigadeiro.click();
+    await brigadeiro.click();
+    await page.locator('.price-tag[data-nome="Ovo Ninho com Nutella"]').click();
+    await expect(page.locator('#sacola-badge')).toHaveText('3');
+    await page.locator('#btn-sacola').click();
+    await expect(page.locator('#sacola-drawer')).toHaveAttribute('aria-modal', 'true');
+    await expect(page.locator('#sacola-subtotal')).toHaveText('R$ 179,00');
+    await page.locator('#btn-enviar-sacola').click();
     await expect.poll(() => waUrl).toContain('wa.me/5541998026260');
     const mensagem = decodeURIComponent(waUrl);
     expect(mensagem).toContain('2x');
@@ -34,20 +36,21 @@ test.describe('jornada de pedido', () => {
     expect(mensagem).toContain('Retirada em Colombo');
   });
 
-  test('pedido vazio: erro role=alert visível e modal permanece aberto', async ({ page }) => {
+  test('sacola vazia: erro role=alert visível e drawer permanece aberto', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: /fazer meu pedido/i }).first().click();
-    await page.locator('#modal-pedido').getByRole('button', { name: /enviar pedido/i }).click();
-    await expect(page.locator('.erro-pedido')).toHaveAttribute('role', 'alert');
-    await expect(page.locator('.erro-pedido')).toBeVisible();
-    await expect(page.locator('#modal-pedido')).toBeVisible();
+    await page.locator('#btn-sacola').click();
+    await page.locator('#btn-enviar-sacola').click();
+    await expect(page.locator('#sacola-erro')).toHaveAttribute('role', 'alert');
+    await expect(page.locator('#sacola-erro')).toBeVisible();
+    await expect(page.locator('#sacola-drawer')).toBeVisible();
   });
 
-  test('botão "Pedir" do card abre modal com item pré-selecionado (valor 1)', async ({ page }) => {
+  test('botão do card adiciona o item à sacola com quantidade 1', async ({ page }) => {
     await page.goto('/');
     await page.locator('.price-tag[data-nome]').first().click();
-    await expect(page.locator('#modal-pedido')).toBeVisible();
-    await expect(page.locator('#modal-pedido input[data-nome="Ovo Brigadeiro"]')).toHaveValue('1');
+    await expect(page.locator('#sacola-badge')).toHaveText('1');
+    const salvo = await page.evaluate(() => JSON.parse(localStorage.getItem('docemordida-carrinho-v1')));
+    expect(salvo).toEqual([{ nome: 'Ovo Brigadeiro', qtd: 1 }]);
   });
 });
 
