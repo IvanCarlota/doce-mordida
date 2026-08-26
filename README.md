@@ -62,15 +62,15 @@ Prints de página inteira nas três larguras dos projetos de teste (gerados com 
 
 ### Mobile — 375×812
 
-![Site no mobile (375px)](screenshots/site-mobile-375.png)
+![Site no mobile (375px)](screenshots/site-mobile.gif)
 
 ### Tablet — 768×1024
 
-![Site no tablet (768px)](screenshots/site-tablet-768.png)
+![Site no tablet (768px)](screenshots/site-tablet.gif)
 
 ### Desktop — 1440×900
 
-![Site no desktop (1440px)](screenshots/site-desktop-1440.png)
+![Site no desktop (1440px)](screenshots/site-desktop.gif)
 
 ### Testes
 
