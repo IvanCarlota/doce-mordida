@@ -10,7 +10,7 @@ Página única (landing page) com:
 
 - Hero com identidade visual da marca (logo, título e CTA de pedido);
 - Catálogo de produtos em carrosséis responsivos (Ovos de Páscoa e Kits & Presentáveis);
-- Modal de pedido com quantidades por item, subtotal em tempo real e envio do pedido via WhatsApp;
+- Sacola de compras (drawer lateral acessível) com badge contador no header, persistência em `localStorage`, subtotal em tempo real e envio do pedido via WhatsApp;
 - Lightbox para visualizar as imagens dos produtos;
 - Menu mobile acessível (drawer/pill com `aria-expanded`) e navegação âncora;
 - Layout **mobile-first**: os cards do carrossel se adaptam por faixa de largura — 1 card até 470px, 2 cards até 828px, 3 cards até 1023px e grade fixa no desktop (≥1024px).
@@ -37,11 +37,13 @@ Página única (landing page) com:
 - Pedidos são feitos **somente via WhatsApp**; o site não processa pagamento.
 - Número de produção: `5541996309958` — **não alterar**. Testes injetam um número de teste via `window.WHATSAPP_NUMBER`.
 - Tabela de preços fixa (catálogo em `script.js`, `CATALOGO`): Ovo Brigadeiro R$ 57, Ovo Ninho com Nutella R$ 65, Ovo Surpresinha de Uva R$ 62, Ovo Escondidinho de Brownie R$ 65, Ovo de Maracujá R$ 62, Dupla de Ovos R$ 79, Kit Degustação R$ 48, Caixa com 6 Brigadeiros R$ 25, Caixa Livro (4 un.) R$ 17, Caixa com 2 un. R$ 8.
-- Quantidade mínima por item: 0 (zero) — itens com quantidade 0 não entram no pedido.
-- Subtotal calculado em tempo real e exibido no modal (`#valor-total`).
-- Pedido vazio não é enviado: exibe mensagem de erro (`role="alert"`).
+- Quantidade por item na sacola entre 1 e 99 (clamp em `alterarQuantidade`); remoção é explícita (botão de lixeira). Itens inválidos no `localStorage` são descartados ao restaurar.
+- Subtotal calculado em tempo real e exibido no drawer (`#sacola-subtotal`).
+- Pedido vazio não é enviado: exibe mensagem de erro (`role="alert"`) no drawer.
 - Mensagem do WhatsApp inclui itens com preço unitário e total, e finaliza com **"Retirada em Colombo - PR."**.
-- Botão "Pedir" nos cards abre o modal com o item pré-selecionado (quantidade 1).
+- Botão "Adicionar à Sacola" nos cards adiciona o item com quantidade 1 (feedback temporário "✓ Adicionado").
+- Sacola persiste em `localStorage` (chave `docemordida-carrinho-v1`) e é esvaziada após o envio do pedido.
+- Drawer acessível: `role="dialog"`, foco preso, ESC/backdrop fecham, foco restaurado ao gatilho; largura total no mobile e 380px a partir de 480px.
 - Entrega/retirada: Colombo - PR (modalidade única, informada na mensagem do pedido).
 
 ### Implícitas
@@ -72,14 +74,14 @@ Prints de página inteira nas três larguras dos projetos de teste (gerados com 
 
 ### Testes
 
-Suíte Playwright (3 projetos): **124 passaram, 3 skipped** (menu drawer é mobile-only, skip no desktop), 0 falhas.
+Suíte Playwright (3 projetos): **186 passaram, 3 skipped** (menu drawer é mobile-only, skip no desktop), 0 falhas.
 
 | Arquivo | Cobre |
 | --- | --- |
 | `tests/smoke-foundation.spec.js` | tokens, fontes, reduzir-movimento |
 | `tests/smoke-layout.spec.js` | overflow horizontal, hero, tipografia fluida |
 | `tests/smoke-carousel.spec.js` | cards por faixa de largura, carrossel, dots e setas |
-| `tests/smoke-modal.spec.js` | a11y dos modais, bottom sheet, preços/subtotal, WhatsApp |
+| `tests/smoke-carrinho.spec.js` | sacola: estado + `localStorage`, drawer a11y (foco/ESC/larguras), badge, subtotal, checkout WhatsApp |
 | `tests/smoke-menu.spec.js` | menu mobile (aria-expanded, scroll lock) |
 | `tests/regression-journey.spec.js` | jornada completa do pedido |
 | `tests/perf-sem-css-externo.spec.js` | nenhum request ao CDN de ícones; SVGs inline presentes |
