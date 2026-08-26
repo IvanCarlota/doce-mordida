@@ -56,7 +56,7 @@ Página única (landing page) com:
 
 ## Estado atual do sistema
 
-Prints de página inteira nas três larguras dos projetos de teste (gerados com Playwright + Chrome):
+Prints de página inteira nas três larguras dos projetos de teste (gerados com Playwright + Chrome, capturas de 25/08/2026):
 
 ### Mobile — 375×812
 
@@ -91,7 +91,7 @@ Suíte Playwright (3 projetos): **124 passaram, 3 skipped** (menu drawer é mobi
 | `tests/smoke-footer-year.spec.js` | ano do rodapé obtido da data do servidor (header HTTP) |
 | `tests/smoke-final-a11y-perf.spec.js` | dots por viewport, hitbox 48px, contraste AA ≥ 4.5:1, h3 semântico, gtag pós-interação |
 
-> Observação: os originais PNG/JPG ficam preservados em `images/img-old/`; o site referencia apenas os `.webp` (e o logo `logo-1.png`).
+> Observação: os originais PNG/JPG ficam preservados em `images/img-old/`; o site referencia apenas os `.webp` (incluindo o logo `logo-1.webp`; o `og-image.png` dedicado existe só para preview de links).
 
 Para rodar: `npx playwright test` (servidor local em `http://localhost:8080`).
 
